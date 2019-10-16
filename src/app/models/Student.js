@@ -1,6 +1,6 @@
-import Sequelize from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 
-class Student extends module {
+class Student extends Model {
   static init(sequelize) {
     super.init(
       {
