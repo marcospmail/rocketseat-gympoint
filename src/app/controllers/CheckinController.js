@@ -9,7 +9,7 @@ class CheckinController {
     const { date } = req.query;
 
     if (!date) {
-      return res.status(400).json({ error: 'Missing date' });
+      return res.status(400).json({ error: 'missing date' });
     }
 
     const { student_id } = req.params;
@@ -17,7 +17,7 @@ class CheckinController {
     const student = await Student.findByPk(student_id);
 
     if (!student) {
-      return res.status(400).json({ error: 'invalid student' });
+      return res.status(400).json({ error: 'student not found' });
     }
 
     const searchDate = Number(date);
@@ -39,7 +39,7 @@ class CheckinController {
     const student = await Student.findByPk(student_id);
 
     if (!student) {
-      return res.status(400).json({ error: 'invalid student' });
+      return res.status(400).json({ error: 'student not found' });
     }
 
     const today = new Date();
@@ -75,7 +75,7 @@ class CheckinController {
       );
 
       return res.status(400).json({
-        error: `5 checkins per week limit reached, next available checkin is ${formattedNextAvailableCheckin}`,
+        error: `5 checkins per week limit reached, next available checkin is after ${formattedNextAvailableCheckin}`,
       });
     }
 

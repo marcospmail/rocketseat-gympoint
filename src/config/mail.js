@@ -7,6 +7,6 @@ export default {
     pass: 'a4ca8ab808575a',
   },
   default: {
-    from: 'Gympoint Team <norepy@gympoint.com',
+    from: 'Gympoint Team <norepy@gympoint.com>',
   },
 };

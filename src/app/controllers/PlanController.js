@@ -8,7 +8,7 @@ class SessionController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'Invalid user token' });
+      return res.status(400).json({ error: 'invalid admin token' });
     }
 
     const plans = await Plan.findAll();
@@ -39,7 +39,7 @@ class SessionController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'Invalid user token' });
+      return res.status(400).json({ error: 'invalid admin token' });
     }
 
     const { title, duration, price } = req.body;
@@ -75,12 +75,12 @@ class SessionController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'Invalid user token' });
+      return res.status(400).json({ error: 'invalid admin token' });
     }
 
     const plan = await Plan.findByPk(req.params.id);
     if (!plan) {
-      return res.status(400).json({ error: 'Invalid plan' });
+      return res.status(400).json({ error: 'plan not found' });
     }
 
     const updatedPlan = await plan.update(req.body);
@@ -92,15 +92,16 @@ class SessionController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'Invalid user token' });
+      return res.status(400).json({ error: 'invalid admin token' });
     }
 
     const plan = await Plan.findByPk(req.params.id);
+
     if (!plan) {
-      return res.status(400).json({ error: 'Invalid plan' });
+      return res.status(400).json({ error: 'plan not found' });
     }
 
-    plan.destroy();
+    await plan.destroy();
 
     return res.send();
   }

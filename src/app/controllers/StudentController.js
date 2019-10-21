@@ -66,7 +66,7 @@ class StudentController {
     const studentExists = await Student.findByPk(id);
 
     if (!studentExists) {
-      return res.status(400).json({ error: 'invalid id' });
+      return res.status(400).json({ error: 'student not found' });
     }
 
     const { email } = req.body;

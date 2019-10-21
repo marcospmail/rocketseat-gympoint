@@ -17,7 +17,7 @@ class GymHelpOrderController {
       const schema = Yup.object().shape({
         answear: Yup.string()
           .required()
-          .min(3),
+          .min(10),
       });
 
       return schema.isValid(requestBody);

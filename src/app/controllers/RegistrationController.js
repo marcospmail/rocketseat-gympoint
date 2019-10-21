@@ -32,7 +32,7 @@ class RegistrationController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid user token' });
+      return res.status(400).json({ error: 'invalid admin token' });
     }
 
     const { student_id, plan_id, date } = req.body;
@@ -40,13 +40,13 @@ class RegistrationController {
     const student = await Student.findByPk(student_id);
 
     if (!student) {
-      return res.status(400).json({ error: 'invalid student' });
+      return res.status(400).json({ error: 'student not found' });
     }
 
     const plan = await Plan.findByPk(plan_id);
 
     if (!plan) {
-      return res.status(400).json({ error: 'invalid plan' });
+      return res.status(400).json({ error: 'plan not found' });
     }
 
     const parsedDate = parseISO(date);
@@ -66,7 +66,7 @@ class RegistrationController {
     if (registrationAlreadyExists) {
       return res
         .status(400)
-        .json({ error: 'student already has a active registration' });
+        .json({ error: 'student already has an active registration' });
     }
 
     const { price, duration } = plan;
@@ -110,19 +110,15 @@ class RegistrationController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid user token' });
+      return res.status(400).json({ error: 'invalid admin token' });
     }
 
     const { registration_id } = req.params;
 
-    if (!registration_id) {
-      return res.status(400).json({ error: 'invalid registration' });
-    }
-
     const registration = await Registration.findByPk(registration_id);
 
     if (!registration) {
-      return res.status(400).json({ error: 'invalid registration' });
+      return res.status(400).json({ error: 'registration not found' });
     }
 
     const { student_id, plan_id, date } = req.body;
@@ -135,7 +131,7 @@ class RegistrationController {
       const student = await Student.findByPk(student_id);
 
       if (!student) {
-        return res.status(400).json({ error: 'invalid student' });
+        return res.status(400).json({ error: 'student not found' });
       }
 
       registration.student_id = student_id;
@@ -149,7 +145,7 @@ class RegistrationController {
       const plan = await Plan.findByPk(plan_id);
 
       if (!plan) {
-        return res.status(400).json({ error: 'invalid plan' });
+        return res.status(400).json({ error: 'plan not found' });
       }
 
       const { price, duration } = plan;
@@ -183,7 +179,7 @@ class RegistrationController {
       if (registrationAlreadyExists) {
         return res.status(400).json({
           error:
-            'student already has a active registration in the informed date',
+            'student already has an active registration on the informed date',
         });
       }
 
@@ -202,13 +198,6 @@ class RegistrationController {
 
     registration.save();
 
-    // TODO implement a different email when admin changes student plan?
-    // await Queue.add(WelcomeMail.key, {
-    //   registration,
-    //   student,
-    //   plan,
-    // });
-
     return res.json(registration);
   }
 
@@ -222,7 +211,7 @@ class RegistrationController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid user token' });
+      return res.status(400).json({ error: 'invalid admin token' });
     }
 
     const registrations = await Registration.findAll({
@@ -239,16 +228,16 @@ class RegistrationController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid user token' });
+      return res.status(400).json({ error: 'invalid admin token' });
     }
 
-    const registrationExists = await Registration.findByPk(registration_id);
+    const registration = await Registration.findByPk(registration_id);
 
-    if (!registrationExists) {
-      return res.status(400).json({ error: 'invalid registration' });
+    if (!registration) {
+      return res.status(400).json({ error: 'registration not found' });
     }
 
-    registration.destroy();
+    await registration.destroy();
 
     return res.send();
   }
