@@ -3,27 +3,6 @@ import * as Yup from 'yup';
 import Student from '../models/Student';
 
 class StudentController {
-  validateSchema(requestBody) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      email: Yup.string()
-        .required()
-        .email(),
-      age: Yup.number()
-        .required()
-        .positive()
-        .integer(),
-      weight: Yup.number()
-        .required()
-        .positive(),
-      height: Yup.number()
-        .required()
-        .positive(),
-    });
-
-    return schema.isValid(requestBody);
-  }
-
   async store(req, res) {
     const validateSchema = requestBody => {
       const schema = Yup.object().shape({
