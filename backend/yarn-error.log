@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/local/bin/node /usr/share/yarn/bin/yarn.js queue:debug
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add dotnev
 
 PATH: 
-  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/marcospmail/Android/Sdk/emulator:/home/marcospmail/Android/Sdk/tools:/home/marcospmail/Android/Sdk/tools/bin:/home/marcospmail/Android/Sdk/platform-tools:/home/marcospmail/Android/Sdk/emulator:/home/marcospmail/Android/Sdk/tools:/home/marcospmail/Android/Sdk/tools/bin:/home/marcospmail/Android/Sdk/platform-tools
+  C:\Users\Marcos\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\cmd;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\TortoiseSVN\bin;C:\Program Files\7-Zip;C:\pstools;C:\android\sdk\platform-tools;C:\Android;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\WINDOWS\System32\OpenSSH;C:\nircmd;C:\Gradle\gradle-4.9\bin;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Dev\flutter\bin;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs;C:\android\sdk\emulator;C:\Program Files (x86)\Yarn\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Skype\Phone;C:\Program Files\Git\cmd;C:\Users\Marcos\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Vim\vim80;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;C:\Users\Marcos\AppData\Local\Programs\Microsoft VS Code\bin;%JAVA_HOME%\bin;C:\Users\Marcos\AppData\Roaming\npm;C:\Users\Marcos\AppData\Local\Yarn\bin;C:\Users\Marcos\AppData\Local\hyper\app-3.0.2\resources\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
 
 Yarn version: 
   1.19.1
@@ -11,15 +11,20 @@ Node version:
   10.16.3
 
 Platform: 
-  linux x64
+  win32 x64
 
 Trace: 
-  SyntaxError: /home/marcospmail/Dev/rocketseat/gostack/gympoint/backend/package.json: Unexpected token } in JSON at position 982
-      at JSON.parse (<anonymous>)
-      at /usr/share/yarn/lib/cli.js:1625:59
-      at Generator.next (<anonymous>)
-      at step (/usr/share/yarn/lib/cli.js:304:30)
-      at /usr/share/yarn/lib/cli.js:315:13
+  Error: https://registry.yarnpkg.com/dotnev: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:66035:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140564:22)
+      at Request.emit (events.js:198:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141536:10)
+      at Request.emit (events.js:198:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141458:12)
+      at Object.onceWrapper (events.js:286:20)
+      at IncomingMessage.emit (events.js:203:15)
+      at endReadableNT (_stream_readable.js:1145:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
 
 npm manifest: 
   {
@@ -28,10 +33,12 @@ npm manifest:
     "main": "index.js",
     "license": "MIT",
     "dependencies": {
+      "@sentry/node": "5.7.1",
       "bcryptjs": "^2.4.3",
       "bee-queue": "^1.2.2",
       "date-fns": "^2.0.0-beta.5",
       "express": "^4.17.1",
+      "express-async-errors": "^3.1.1",
       "express-handlebars": "^3.1.0",
       "jsonwebtoken": "^8.5.1",
       "nodemailer": "^6.3.1",
@@ -39,6 +46,7 @@ npm manifest:
       "pg": "^7.12.1",
       "pg-hstore": "^2.3.3",
       "sequelize": "^5.19.6",
+      "youch": "^2.0.10",
       "yup": "^0.27.0"
     },
     "devDependencies": {
@@ -56,7 +64,7 @@ npm manifest:
       "dev": "nodemon src/server.js",
       "dev:debug": "nodemon --inspect src/server.js",
       "queue": "nodemon src/queue.js",
-      "queue:debug": "nodemon --inspect src/queue.js",
+      "queue:debug": "nodemon --inspect src/queue.js"
     }
   }
 
@@ -91,6 +99,62 @@ Lockfile:
     dependencies:
       regenerator-runtime "^0.13.2"
   
+  "@sentry/core@5.7.1":
+    version "5.7.1"
+    resolved "https://registry.yarnpkg.com/@sentry/core/-/core-5.7.1.tgz#3eb2b7662cac68245931ee939ec809bf7a639d0e"
+    integrity sha512-AOn3k3uVWh2VyajcHbV9Ta4ieDIeLckfo7UMLM+CTk2kt7C89SayDGayJMSsIrsZlL4qxBoLB9QY4W2FgAGJrg==
+    dependencies:
+      "@sentry/hub" "5.7.1"
+      "@sentry/minimal" "5.7.1"
+      "@sentry/types" "5.7.1"
+      "@sentry/utils" "5.7.1"
+      tslib "^1.9.3"
+  
+  "@sentry/hub@5.7.1":
+    version "5.7.1"
+    resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-5.7.1.tgz#a52acd9fead7f3779d96e9965c6978aecc8b9cad"
+    integrity sha512-evGh323WR073WSBCg/RkhlUmCQyzU0xzBzCZPscvcoy5hd4SsLE6t9Zin+WACHB9JFsRQIDwNDn+D+pj3yKsig==
+    dependencies:
+      "@sentry/types" "5.7.1"
+      "@sentry/utils" "5.7.1"
+      tslib "^1.9.3"
+  
+  "@sentry/minimal@5.7.1":
+    version "5.7.1"
+    resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-5.7.1.tgz#56afc537737586929e25349765e37a367958c1e1"
+    integrity sha512-nS/Dg+jWAZtcxQW8wKbkkw4dYvF6uyY/vDiz/jFCaux0LX0uhgXAC9gMOJmgJ/tYBLJ64l0ca5LzpZa7BMJQ0g==
+    dependencies:
+      "@sentry/hub" "5.7.1"
+      "@sentry/types" "5.7.1"
+      tslib "^1.9.3"
+  
+  "@sentry/node@5.7.1":
+    version "5.7.1"
+    resolved "https://registry.yarnpkg.com/@sentry/node/-/node-5.7.1.tgz#94e2fbac94f6cc061be3bc14b22813536c59698d"
+    integrity sha512-hVM10asFStrOhYZzMqFM7V1lrHkr1ydc2n/SFG0ZmIQxfTjCVElyXV/BJASIdqadM1fFIvvtD/EfgkTcZmub1g==
+    dependencies:
+      "@sentry/core" "5.7.1"
+      "@sentry/hub" "5.7.1"
+      "@sentry/types" "5.7.1"
+      "@sentry/utils" "5.7.1"
+      cookie "^0.3.1"
+      https-proxy-agent "^3.0.0"
+      lru_map "^0.3.3"
+      tslib "^1.9.3"
+  
+  "@sentry/types@5.7.1":
+    version "5.7.1"
+    resolved "https://registry.yarnpkg.com/@sentry/types/-/types-5.7.1.tgz#4c4c1d4d891b6b8c2c3c7b367d306a8b1350f090"
+    integrity sha512-tbUnTYlSliXvnou5D4C8Zr+7/wJrHLbpYX1YkLXuIJRU0NSi81bHMroAuHWILcQKWhVjaV/HZzr7Y/hhWtbXVQ==
+  
+  "@sentry/utils@5.7.1":
+    version "5.7.1"
+    resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-5.7.1.tgz#cf37ad55f78e317665cd8680f202d307fa77f1d0"
+    integrity sha512-nhirUKj/qFLsR1i9kJ5BRvNyzdx/E2vorIsukuDrbo8e3iZ11JMgCOVrmC8Eq9YkHBqgwX4UnrPumjFyvGMZ2Q==
+    dependencies:
+      "@sentry/types" "5.7.1"
+      tslib "^1.9.3"
+  
   "@types/node@*":
     version "12.11.0"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-12.11.0.tgz#7f893924970076b20ca0089df50ab9f171088909"
@@ -118,6 +182,13 @@ Lockfile:
     version "7.1.0"
     resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.1.0.tgz#949d36f2c292535da602283586c2477c57eb2d6c"
     integrity sha512-kL5CuoXA/dgxlBbVrflsflzQ3PAas7RYZB52NOm/6839iVYJgKMJ3cQJD+t2i5+qFa8h3MDpEOJiS64E8JLnSQ==
+  
+  agent-base@^4.3.0:
+    version "4.3.0"
+    resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-4.3.0.tgz#8165f01c436009bccad0b1d122f05ed770efc6ee"
+    integrity sha512-salcGninV0nPrwpGNn4VTXBb1SOuXQBiqbrNXoeizJsHrsL6ERFM2Ne3JUSBWRE6aeNJI2ROP/WEEIDUiDe3cg==
+    dependencies:
+      es6-promisify "^5.0.0"
   
   ajv@^6.10.0, ajv@^6.10.2:
     version "6.10.2"
@@ -602,6 +673,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.0.tgz#beb437e7022b3b6d49019d088665303ebe9c14ba"
     integrity sha512-+Hp8fLp57wnUSt0tY0tHEXh4voZRDnoIrZPqlo3DPiI4y9lwg/jqx+1Om94/W6ZaPDOUbnjOt/99w66zk+l1Xg==
   
+  cookie@^0.3.1:
+    version "0.3.1"
+    resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
+    integrity sha1-5+Ch+e9DtMi6klxcWpboBtFoc7s=
+  
   copy-descriptor@^0.1.0:
     version "0.1.1"
     resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
@@ -887,6 +963,18 @@ Lockfile:
       es5-ext "^0.10.35"
       es6-symbol "^3.1.1"
   
+  es6-promise@^4.0.3:
+    version "4.2.8"
+    resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
+    integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
+  
+  es6-promisify@^5.0.0:
+    version "5.0.0"
+    resolved "https://registry.yarnpkg.com/es6-promisify/-/es6-promisify-5.0.0.tgz#5109d62f3e56ea967c4b63505aef08291c8a5203"
+    integrity sha1-UQnWLz5W6pZ8S2NQWu8IKRyKUgM=
+    dependencies:
+      es6-promise "^4.0.3"
+  
   es6-symbol@^3.1.1, es6-symbol@~3.1.1:
     version "3.1.2"
     resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.2.tgz#859fdd34f32e905ff06d752e7171ddd4444a7ed1"
@@ -1110,6 +1198,11 @@ Lockfile:
       regex-not "^1.0.0"
       snapdragon "^0.8.1"
       to-regex "^3.0.1"
+  
+  express-async-errors@^3.1.1:
+    version "3.1.1"
+    resolved "https://registry.yarnpkg.com/express-async-errors/-/express-async-errors-3.1.1.tgz#6053236d61d21ddef4892d6bd1d736889fc9da41"
+    integrity sha512-h6aK1da4tpqWSbyCa3FxB/V6Ehd4EEB15zyQq9qe75OZBp0krinNKuH4rAY+S/U/2I36vdLAUFSjQJ+TFmODng==
   
   express-handlebars@^3.0.0, express-handlebars@^3.1.0:
     version "3.1.0"
@@ -1532,6 +1625,14 @@ Lockfile:
       setprototypeof "1.1.1"
       statuses ">= 1.5.0 < 2"
       toidentifier "1.0.0"
+  
+  https-proxy-agent@^3.0.0:
+    version "3.0.0"
+    resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-3.0.0.tgz#0106efa5d63d6d6f3ab87c999fa4877a3fd1ff97"
+    integrity sha512-y4jAxNEihqvBI5F3SaO2rtsjIOnnNA8sEbuiP+UhJZJHeM2NRm6c09ax2tgqme+SgUUvjao2fJXF4h3D6Cb2HQ==
+    dependencies:
+      agent-base "^4.3.0"
+      debug "^3.1.0"
   
   iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4:
     version "0.4.24"
@@ -2059,6 +2160,11 @@ Lockfile:
     dependencies:
       es5-ext "~0.10.2"
   
+  lru_map@^0.3.3:
+    version "0.3.3"
+    resolved "https://registry.yarnpkg.com/lru_map/-/lru_map-0.3.3.tgz#b5c8351b9464cbd750335a79650a0ec0e56118dd"
+    integrity sha1-tcg1G5Rky9dQM1p5ZQoOwOVhGN0=
+  
   make-dir@^1.0.0:
     version "1.3.0"
     resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
@@ -2226,6 +2332,11 @@ Lockfile:
     version "2.1.2"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
     integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
+  
+  mustache@^3.0.0:
+    version "3.1.0"
+    resolved "https://registry.yarnpkg.com/mustache/-/mustache-3.1.0.tgz#9fba26e7aefc5709f07ff585abb7e0abced6c372"
+    integrity sha512-3Bxq1R5LBZp7fbFPZzFe5WN4s0q3+gxZaZuZVY+QctYJiCiVgXHOTIC0/HgZuOPFt/6BQcx5u0H2CUOxT/RoGQ==
   
   mute-stream@0.0.7:
     version "0.0.7"
@@ -3351,6 +3462,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
     integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
   
+  stack-trace@0.0.10:
+    version "0.0.10"
+    resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
+    integrity sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=
+  
   static-extend@^0.1.1:
     version "0.1.2"
     resolved "https://registry.yarnpkg.com/static-extend/-/static-extend-0.1.2.tgz#60809c39cbff55337226fd5e0b520f341f1fb5c6"
@@ -3597,7 +3713,7 @@ Lockfile:
     dependencies:
       nopt "~1.0.10"
   
-  tslib@^1.9.0:
+  tslib@^1.9.0, tslib@^1.9.3:
     version "1.10.0"
     resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
     integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
@@ -3894,6 +4010,15 @@ Lockfile:
       which-module "^2.0.0"
       y18n "^4.0.0"
       yargs-parser "^13.1.1"
+  
+  youch@^2.0.10:
+    version "2.0.10"
+    resolved "https://registry.yarnpkg.com/youch/-/youch-2.0.10.tgz#e0f6312b12304fd330a0c4a0e0925b0123f7d495"
+    integrity sha512-qPLQW2TuwlcK9sm5i1Gbb9ezRZRZyzr6NsY5cqxsbh+2iEyKPxLlz0OSAc+pQ7mv1pYZLri1MXynggP6R2FcNQ==
+    dependencies:
+      cookie "^0.3.1"
+      mustache "^3.0.0"
+      stack-trace "0.0.10"
   
   yup@^0.27.0:
     version "0.27.0"
