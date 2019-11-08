@@ -1,5 +1,6 @@
 module.exports = {
   env: {
+    jest: true,
     browser: true,
     es6: true,
   },
@@ -18,13 +19,24 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: [
-    'react', 'prettier', 'import'
+    'react', 'jsx-a11y', 'prettier', 'import'
   ],
   rules: {
-    'prettier/prettier': 'error',
-    'import/prefer-default-export': 'off',
-    'no-console': ['error', { allow: ['tron'] }],
-    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+    "prettier/prettier": "error",
+    "react/jsx-filename-extension": ["error", { extensions: [".js", ".jsx"] }],
+    "import/prefer-default-export": "off",
+    "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "react/jsx-one-expression-per-line": "off",
+    "global-require": "off",
+    "react-native/no-raw-text": "off",
+    "no-param-reassign": "off",
+    "no-underscore-dangle": "off",
+    camelcase: "off",
+    "no-console": ["error", { allow: ["tron"] }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-props-no-spreading": 0,
+    "jsx-a11y/label-has-associated-control": 'off',
   },
   settings: {
     'import/resolver': {
