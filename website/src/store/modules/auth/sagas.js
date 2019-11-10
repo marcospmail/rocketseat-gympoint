@@ -21,10 +21,9 @@ export function* signIn({ payload }) {
     yield put(signInSuccess(token, user));
 
     history.push('/home');
-  } catch (err) {
-    console.tron.log(err);
-    toast.error('Falha na autentição, verifique seus dados');
 
+  } catch (err) {
+    toast.error('Falha na autentição, verifique seus dados');
     yield put(signFailure());
   }
 }
