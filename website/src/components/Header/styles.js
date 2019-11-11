@@ -38,21 +38,21 @@ export const Content = styled.div`
   }
 `;
 
-export const Navigation = styled.ul`
+export const Nav = styled.ul`
   flex: 1;
   display: flex;
   align-items: center;
 `;
 
-export const NavigationScreen = styled.li`
-    color: ${props => props.active ? '#444444' : '#999999'};
-    font-size: 15px;
-    display: inline;
-    font-weight: bold;
-    padding-right: 20px;
+export const NavItem = styled.li`
+  color: ${props => (props.active ? '#444444' : '#999999')};
+  font-size: 15px;
+  display: inline;
+  font-weight: bold;
+  padding-right: 20px;
 
-    & + li {
-      padding: 0 20px;
+  & + li {
+    padding: 0 20px;
   }
 `;
 
@@ -64,17 +64,17 @@ export const Profile = styled.div`
   padding-left: 20px;
   border-left: 1px solid #eee;
 
-    strong {
-      color: #666666;
-      font-weight: bold;
-    }
+  strong {
+    color: #666666;
+    font-weight: bold;
+  }
 
-    button {
-      line-height: 16px;
-      margin-top: 4px;
-      font-size: 14px;
-      color: #DE3B3B;
-      background: none;
-      border: 0;
-    }
+  button {
+    line-height: 16px;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #de3b3b;
+    background: none;
+    border: 0;
+  }
 `;

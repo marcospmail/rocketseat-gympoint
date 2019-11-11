@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
-import { signOut } from '~/store/modules/auth/actions'
+import { signOut } from '~/store/modules/auth/actions';
 
-import { Container, Content, Navigation, NavigationScreen, Profile } from './styles';
+import { Container, Content, Nav, NavItem, Profile } from './styles';
 
 import logo from '~/assets/logo-header.png';
 
@@ -17,33 +18,26 @@ export default function Header() {
   return (
     <Container>
       <Content>
-          <nav>
-            <img src={logo} alt="GoBarber" />
-          </nav>
+        <nav>
+          <img src={logo} alt="GoBarber" />
+        </nav>
 
-          <Navigation >
-            <NavigationScreen active={true}>
-              ALUNOS
-            </NavigationScreen>
+        <Nav>
+          <NavItem active>
+            <Link to="/users">ALUNOS</Link>
+          </NavItem>
 
-            <NavigationScreen>
-              PLANOS
-          </NavigationScreen>
-
-            <NavigationScreen>
-              MATRÍCULAS
-          </NavigationScreen>
-
-          <NavigationScreen>
-              PEDIDOS DE AUXÍLIO
-          </NavigationScreen>
-          
-          </Navigation>
+          <NavItem>PLANOS</NavItem>
+          <NavItem>MATRÍCULAS</NavItem>
+          <NavItem>PEDIDOS DE AUXÍLIO</NavItem>
+        </Nav>
 
         <aside>
           <Profile>
-              <strong>Diego Fernandes</strong>
-              <button onClick={handleSignOut}>sair do sistema</button>
+            <strong>Diego Fernandes</strong>
+            <button type="button" onClick={handleSignOut}>
+              sair do sistema
+            </button>
           </Profile>
         </aside>
       </Content>

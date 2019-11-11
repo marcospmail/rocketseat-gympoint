@@ -1,8 +1,29 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 
 import Student from '../models/Student';
 
 class StudentController {
+  async index(req, res) {
+    const { id, q } = req.query;
+
+    if (id) {
+      const student = await Student.findByPk(id);
+      return res.json(student);
+    }
+
+    if (q) {
+      const students = await Student.findAll({
+        where: { name: { [Op.iLike]: `%marcos%` } },
+      });
+
+      return res.json(students);
+    }
+
+    const students = await Student.findAll();
+    return res.json(students);
+  }
+
   async store(req, res) {
     const validateSchema = requestBody => {
       const schema = Yup.object().shape({
@@ -72,7 +93,14 @@ class StudentController {
     const { email } = req.body;
 
     if (email) {
-      const emailAlreadyExists = await Student.findOne({ where: { email } });
+      const emailAlreadyExists = await Student.findOne({
+        where: {
+          email,
+          id: {
+            [Op.not]: id,
+          },
+        },
+      });
 
       if (emailAlreadyExists) {
         return res.status(400).json({ error: 'email already exists' });
@@ -81,7 +109,7 @@ class StudentController {
 
     const student = await studentExists.update(req.body);
 
-    return res.json({ student });
+    return res.json(student);
   }
 }
 
