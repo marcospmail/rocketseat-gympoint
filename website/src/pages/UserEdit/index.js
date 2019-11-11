@@ -1,39 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import * as Yup from 'yup';
+// import * as Yup from 'yup';
 import PropTypes from 'prop-types';
-import { Input } from '@rocketseat/unform';
+import { Input, useField } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import NumberFormat from 'react-number-format';
 
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
 
 import history from '~/services/history';
 import api from '~/services/api';
 
-import CurrencyInput from '~/components/CurrencyInput';
-
 import { Container, PageTop, Data } from './styles';
 
-const schema = Yup.object().shape({
-  name: Yup.string().required('Campo obrigatório'),
-  email: Yup.string()
-    .email('Email inválido')
-    .required('Campo obrigatório'),
-  age: Yup.number()
-    .typeError('Número inválido')
-    .required('Campo obrigatório'),
-  weight: Yup.number()
-    .typeError('Número inválido')
-    .required('Campo obrigatório'),
-  // height: Yup.number()
-  //   .typeError('Número inválido')
-  //   .required('Campo obrigatório'),
-});
+// const schema = Yup.object().shape({
+//   name: Yup.string().required('Campo obrigatório'),
+//   email: Yup.string()
+//     .email('Email inválido')
+//     .required('Campo obrigatório'),
+//   age: Yup.number()
+//     .typeError('Número inválido')
+//     .required('Campo obrigatório'),
+//   weight: Yup.number()
+//     .typeError('Número inválido')
+//     .required('Campo obrigatório'),
+//   height: Yup.number()
+//     .typeError('Número inválido')
+//     .required('Campo obrigatório'),
+// });
 
 export default function UserEdit() {
+  const [height, setHeight] = useState();
+  const heightRef = useRef(null);
+  const [user, setUser] = useState({});
+
   const { id } = useParams();
 
-  const [user, setUser] = useState({});
+  const { fieldName, registerField, defaultValue } = useField('height');
 
   useEffect(() => {
     async function loadUser() {
@@ -49,11 +52,24 @@ export default function UserEdit() {
     }
 
     loadUser();
-  }, []);
+  }, []); //eslint-disable-line
+
+  useEffect(() => {
+    if (heightRef.current) {
+      registerField({
+        name: fieldName,
+        ref: heightRef.current,
+        path: 'state.value',
+        defaultValue,
+      });
+    }
+  }, [heightRef.current]); //eslint-disable-line
 
   async function handleFormSubmit(data) {
     try {
       console.tron.log(data);
+      console.tron.log(`height: ${height}`);
+      console.tron.log(`heightRef value: ${heightRef.current.state.value}`);
 
       const response = await api.put(`students/${user.id}`, data);
       setUser(response.data);
@@ -81,7 +97,7 @@ export default function UserEdit() {
 
       <Data
         id="Form"
-        schema={schema}
+        // schema={schema}
         initialData={user}
         onSubmit={handleFormSubmit}
       >
@@ -115,7 +131,17 @@ export default function UserEdit() {
               </td>
               <td>
                 {/* <Input name="height" /> */}
-                <CurrencyInput name="height" />
+                <NumberFormat
+                  name={fieldName}
+                  ref={heightRef}
+                  onChange={e => setHeight(e.target.value)}
+                  value={height}
+                />
+                {/* <CurrencyInput
+                  thousandSeparator=""
+                  value={height}
+                  onChange={e => handleHeightChange(e)}
+                /> */}
               </td>
             </tr>
           </tbody>

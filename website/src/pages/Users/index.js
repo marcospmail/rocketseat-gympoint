@@ -14,7 +14,7 @@ export default function Users() {
 
   useEffect(() => {
     handleSearchStudents();
-  }, []);
+  }, []); //eslint-disable-line
 
   async function handleSearchStudents() {
     try {
