@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { MdAdd, MdSearch } from 'react-icons/md';
+
+import { addStudentDetailRequest } from '~/store/modules/student/actions';
 
 import api from '~/services/api';
 
 import { Container, DataManager, Data } from './styles';
 
 export default function Users() {
+  const dispatch = useDispatch();
+
   const [studentName, setStudentName] = useState();
   const [students, setStudents] = useState([]);
 
@@ -30,6 +35,10 @@ export default function Users() {
 
   function handleStudentNameChange(e) {
     setStudentName(e.target.value);
+  }
+
+  function handleEditStudent(student) {
+    dispatch(addStudentDetailRequest(student));
   }
 
   return (
@@ -67,12 +76,12 @@ export default function Users() {
               <td>{student.email}</td>
               <td>{student.age}</td>
               <td>
-                <Link
-                  to={`/users/${student.id}/edit`}
-                  params={{ testvalue: 'hello' }}
+                <button
+                  type="button"
+                  onClick={() => handleEditStudent(student)}
                 >
                   editar
-                </Link>
+                </button>
                 <Link to="/">apagar</Link>
               </td>
             </tr>

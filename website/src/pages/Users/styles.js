@@ -98,7 +98,7 @@ export const Data = styled.table`
         text-align: right;
       }
 
-      a {
+      button {
         &:first-child {
           color: #4d85ee;
           margin-right: 23px;

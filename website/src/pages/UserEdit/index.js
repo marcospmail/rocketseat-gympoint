@@ -1,12 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 // import * as Yup from 'yup';
 import PropTypes from 'prop-types';
-import { Input, useField } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
-import NumberFormat from 'react-number-format';
+import { Input } from '@rocketseat/unform';
 
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
+import CurrencyInput from '~/components/CurrencyInput';
 
 import history from '~/services/history';
 import api from '~/services/api';
@@ -30,46 +31,77 @@ import { Container, PageTop, Data } from './styles';
 // });
 
 export default function UserEdit() {
-  const [height, setHeight] = useState();
-  const heightRef = useRef(null);
   const [user, setUser] = useState({});
 
   const { id } = useParams();
 
-  const { fieldName, registerField, defaultValue } = useField('height');
+  const activeStudent = useSelector(state => state.student.student);
 
-  useEffect(() => {
+  useMemo(() => {
     async function loadUser() {
       try {
         const response = await api.get('students', {
           params: { id },
         });
 
+        console.tron.log(response.data);
+
         setUser(response.data);
+        // if (id) {
+        //   setUser(activeStudent);
+        // }
       } catch (err) {
         toast.error('Ocorreu um erro ao carregar a página');
       }
     }
 
     loadUser();
-  }, []); //eslint-disable-line
+  }, [id]);
 
-  useEffect(() => {
-    if (heightRef.current) {
-      registerField({
-        name: fieldName,
-        ref: heightRef.current,
-        path: 'state.value',
-        defaultValue,
-      });
-    }
-  }, [heightRef.current]); //eslint-disable-line
+  //   loadUser();
+  // }, [activeStudent, id]);
+
+  // useMemo(() => {
+  //   async function loadUser() {
+  //     try {
+  //       const response = await api.get('students', {
+  //         params: { id },
+  //       });
+
+  //       console.tron.log(response.data);
+
+  //       setUser(response.data);
+  //     } catch (err) {
+  //       toast.error('Ocorreu um erro ao carregar a página');
+  //     }
+  //   }
+
+  //   loadUser();
+  // }, [id]);
+
+  // useEffect(() => {
+  //   async function loadUser() {
+  //     try {
+  //       // const response = await api.get('students', {
+  //       //   params: { id },
+  //       // });
+
+  //       // console.tron.log(response.data);
+
+  //       if (id) {
+  //         setUser(activeStudent);
+  //       }
+  //     } catch (err) {
+  //       toast.error('Ocorreu um erro ao carregar a página');
+  //     }
+  //   }
+
+  //   loadUser();
+  // }, []); //eslint-disable-line
 
   async function handleFormSubmit(data) {
     try {
       console.tron.log(data);
-      console.tron.log(`height: ${height}`);
-      console.tron.log(`heightRef value: ${heightRef.current.state.value}`);
 
       const response = await api.put(`students/${user.id}`, data);
       setUser(response.data);
@@ -127,21 +159,10 @@ export default function UserEdit() {
                 <Input name="age" type="number" />
               </td>
               <td>
-                <Input name="weight" type="number" />
+                <CurrencyInput name="weight" />
               </td>
               <td>
-                {/* <Input name="height" /> */}
-                <NumberFormat
-                  name={fieldName}
-                  ref={heightRef}
-                  onChange={e => setHeight(e.target.value)}
-                  value={height}
-                />
-                {/* <CurrencyInput
-                  thousandSeparator=""
-                  value={height}
-                  onChange={e => handleHeightChange(e)}
-                /> */}
+                <CurrencyInput name="height" />
               </td>
             </tr>
           </tbody>
