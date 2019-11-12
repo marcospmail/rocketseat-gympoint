@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { signOut } from '~/store/modules/auth/actions';
+
+import { setActiveNavItem } from '~/store/modules/navitem/actions';
+
+import { items } from './navigation';
 
 import { Container, Content, Nav, NavItem, Profile } from './styles';
 
 import logo from '~/assets/logo-header.png';
 
-const menuItems = [
-  { name: 'ALUNOS', route: '/students' },
-  { name: 'PLANOS', route: '/plans' },
-  { name: 'MATRICULAS', route: '/registrations' },
-  { name: 'PEDIDOS DE AUXÍLIO', route: '/help-orders' },
-];
-
 export default function Header() {
   const dispatch = useDispatch();
-  const [active, setActive] = useState(menuItems[0].name);
+  const activeNavItem = useSelector(state => state.navitem.navItem);
 
   function handleSignOut() {
     dispatch(signOut());
@@ -30,14 +27,14 @@ export default function Header() {
         </nav>
 
         <Nav>
-          {menuItems.map(menuItem => (
+          {items.map(navitem => (
             <NavItem
-              key={menuItem.name}
-              active={active === menuItem.name ? 'true' : 'false'}
-              to={menuItem.route}
-              onClick={() => setActive(menuItem.name)}
+              key={navitem.name}
+              active={activeNavItem === navitem.name ? 'true' : 'false'}
+              to={navitem.route}
+              onClick={() => dispatch(setActiveNavItem(navitem.name))}
             >
-              {menuItem.name}
+              {navitem.name}
             </NavItem>
           ))}
         </Nav>
