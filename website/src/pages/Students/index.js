@@ -8,7 +8,7 @@ import history from '~/services/history';
 
 import { Container, DataManager, Data } from './styles';
 
-export default function Users() {
+export default function Students() {
   const [studentName, setStudentName] = useState();
   const [students, setStudents] = useState([]);
 
@@ -69,7 +69,7 @@ export default function Users() {
             <th>NOME</th>
             <th>E-MAIL</th>
             <th>IDADE</th>
-            <th />
+            <th aria-label="Empty header column" />
           </tr>
         </thead>
         <tbody>
@@ -81,7 +81,7 @@ export default function Users() {
               <td>
                 <button
                   type="button"
-                  onClick={() => history.push(`/users/${student.id}/edit`)}
+                  onClick={() => history.push(`/students/${student.id}/edit`)}
                 >
                   editar
                 </button>

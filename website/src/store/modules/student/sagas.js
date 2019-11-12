@@ -1,4 +1,4 @@
-import { takeLatest, call, put, all } from 'redux-saga/effects';
+import { takeLatest, put, all } from 'redux-saga/effects';
 
 import history from '~/services/history';
 import { addStudentDetailSuccess } from './actions';
@@ -7,7 +7,7 @@ export function* addStudentDetail({ payload }) {
   const { student } = payload;
   yield put(addStudentDetailSuccess(student));
 
-  history.push(`/users/${student.id}/edit`);
+  history.push(`/students/${student.id}/edit`);
 }
 
 export default all([

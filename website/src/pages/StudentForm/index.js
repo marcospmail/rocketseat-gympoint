@@ -67,7 +67,7 @@ export default function UserEdit() {
       <PageTop>
         <strong>Edição de aluno</strong>
         <div>
-          <button type="button" onClick={() => history.push('/users')}>
+          <button type="button" onClick={() => history.push('/students')}>
             <MdKeyboardArrowLeft size={20} color="#fff" />
             <span>VOLTAR</span>
           </button>

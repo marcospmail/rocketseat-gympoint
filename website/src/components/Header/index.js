@@ -24,7 +24,7 @@ export default function Header() {
 
         <Nav>
           <NavItem active>
-            <Link to="/users">ALUNOS</Link>
+            <Link to="/students">ALUNOS</Link>
           </NavItem>
 
           <NavItem>PLANOS</NavItem>
