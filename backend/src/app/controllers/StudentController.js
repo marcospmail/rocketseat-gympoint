@@ -14,7 +14,7 @@ class StudentController {
 
     if (q) {
       const students = await Student.findAll({
-        where: { name: { [Op.iLike]: `%marcos%` } },
+        where: { name: { [Op.iLike]: `%${q}%` } },
       });
 
       return res.json(students);
@@ -110,6 +110,19 @@ class StudentController {
     const student = await studentExists.update(req.body);
 
     return res.json(student);
+  }
+
+  async delete(req, res) {
+    const { id } = req.params;
+
+    const studentExists = await Student.findByPk(id);
+
+    if (!studentExists) {
+      return res.status(400).json({ error: 'student not found' });
+    }
+
+    studentExists.destroy();
+    return res.send();
   }
 }
 
