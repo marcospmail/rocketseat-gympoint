@@ -35,7 +35,7 @@ export default function Students() {
   async function handleDeleteStudent({ id, name }) {
     if (window.confirm(`Tem certeza que deseja deletar o usuário ${name} ?`))  //eslint-disable-line
       try {
-        await api.delete(`/students/${id}1`);
+        await api.delete(`/students/${id}`);
         setStudents(students.filter(student => student.id !== id));
         toast.success('Aluno removido');
       } catch (err) {
@@ -48,7 +48,7 @@ export default function Students() {
     <Container>
       <DataManager>
         <strong>Gerenciando alunos</strong>
-        <button type="button">
+        <button type="button" onClick={() => history.push('/students/new')}>
           <MdAdd color="#fff" size={20} />
           <span>CADASTRAR</span>
         </button>

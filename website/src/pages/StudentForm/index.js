@@ -31,13 +31,13 @@ const schema = Yup.object().shape({
   height: Yup.number().required(validationMessages.required),
 });
 
-export default function UserEdit() {
+export default function UserForm() {
   const [user, setUser] = useState({});
 
   const { id } = useParams();
 
   useEffect(() => {
-    async function loadUser() {
+    async function loadStudent() {
       try {
         const { data } = await api.get('students', {
           params: { id },
@@ -49,14 +49,41 @@ export default function UserEdit() {
       }
     }
 
-    loadUser();
+    if (!isNewStudent()) {
+      loadStudent();
+    }
   }, []); //eslint-disable-line
 
+  function isNewStudent() {
+    return !id;
+  }
+
   async function handleFormSubmit(data) {
+    if (isNewStudent()) {
+      insertStudent(data);
+    } else {
+      updateStudent(data);
+    }
+  }
+
+  async function insertStudent(data) {
+    try {
+      console.tron.log('inserting student');
+
+      const response = await api.post('students/', data);
+      setUser(response.data);
+      toast.success('Cadastro realizado');
+      history.push('/students');
+    } catch (err) {
+      toast.error('Ocorreu um erro ao alterar as informações');
+    }
+  }
+
+  async function updateStudent(data) {
     try {
       const response = await api.put(`students/${user.id}`, data);
       setUser(response.data);
-      toast.success('Informações alteradas');
+      toast.success('Cadastro alterado');
     } catch (err) {
       toast.error('Ocorreu um erro ao alterar as informações');
     }
@@ -109,10 +136,10 @@ export default function UserEdit() {
   );
 }
 
-UserEdit.propTypes = {
+UserForm.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.string,
     }).isRequired,
   }).isRequired,
 };
