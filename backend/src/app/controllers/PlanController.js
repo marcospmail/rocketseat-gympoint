@@ -11,6 +11,13 @@ class SessionController {
       return res.status(400).json({ error: 'invalid admin token' });
     }
 
+    const { id } = req.query;
+
+    if (id) {
+      const plan = await Plan.findByPk(id);
+      return res.json(plan);
+    }
+
     const plans = await Plan.findAll();
 
     return res.json(plans);
