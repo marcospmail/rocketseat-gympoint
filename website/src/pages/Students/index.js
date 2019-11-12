@@ -69,7 +69,7 @@ export default function Students() {
             <th>NOME</th>
             <th>E-MAIL</th>
             <th>IDADE</th>
-            <th aria-label="Empty header column" />
+            <th aria-label="Título da coluna vazia" />
           </tr>
         </thead>
         <tbody>

@@ -1,4 +1,4 @@
-export const validationMessages = {
+export const validation = {
   required: 'campo obrigatório',
   positive: 'valor inválido',
   email: 'email inválido',

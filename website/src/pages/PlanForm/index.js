@@ -31,64 +31,82 @@ const schema = Yup.object().shape({
   height: Yup.number().required(validation.required),
 });
 
-export default function StudentForm() {
-  const [student, setStudent] = useState({});
+export default function PlanForm() {
+  const [plan, setPlan] = useState({});
 
   const { id } = useParams();
 
   useEffect(() => {
-    async function loadStudent() {
+    async function loadPlan() {
       try {
-        const { data } = await api.get('students', {
+        const { data } = await api.get('plans', {
           params: { id },
         });
 
-        setStudent(data);
+        setPlan({
+          ...data,
+          total: data.duration * data.price,
+        });
       } catch (err) {
+        console.tron.log(err);
         toast.error('Ocorreu um erro ao carregar a página');
       }
     }
 
-    if (!isNewStudent()) {
-      loadStudent();
+    if (!isNewPlan()) {
+      loadPlan();
     }
   }, []); //eslint-disable-line
 
-  function isNewStudent() {
+  function isNewPlan() {
     return !id;
   }
 
   async function handleFormSubmit(data) {
     try {
-      if (isNewStudent()) {
-        await insertStudent(data);
+      if (isNewPlan()) {
+        await insertPlan(data);
       } else {
-        await updateStudent(data);
+        await updatePlan(data);
       }
-      history.push('/students');
+      history.push('/plans');
     } catch (err) {
       toast.error('Ocorreu um erro ao alterar as informações');
     }
   }
 
-  async function insertStudent(data) {
-    await api.post('students', data);
+  async function insertPlan(data) {
+    await api.post('plans', data);
     toast.success('Cadastro realizado');
   }
 
-  async function updateStudent(data) {
-    await api.put(`students/${student.id}`, data);
+  async function updatePlan(data) {
+    await api.put(`plans/${plan.id}`, data);
     toast.success('Cadastro alterado');
+  }
+
+  function handleDurationChange(newDuration) {
+    setPlan({
+      ...plan,
+      duration: newDuration,
+      total: plan.price * newDuration,
+    });
+  }
+
+  function handlePriceChange(newPrice) {
+    setPlan({
+      ...plan,
+      price: newPrice,
+      total: plan.duration * newPrice,
+    });
   }
 
   return (
     <Container>
       <PageTop>
-        <strong>
-          {isNewStudent() ? 'Cadastro de aluno' : 'Edição de aluno'}
-        </strong>
+        <strong>{isNewPlan() ? 'Cadastro de plano' : 'Edição de plano'}</strong>
         <div>
-          <button type="button" onClick={() => history.push('/students')}>
+          <button type="button" onClick={() => history.push('/plans')}>
             <MdKeyboardArrowLeft size={20} color="#fff" />
             <span>VOLTAR</span>
           </button>
@@ -101,28 +119,33 @@ export default function StudentForm() {
 
       <Data
         id="Form"
-        schema={schema}
-        initialData={student}
+        // schema={schema}
+        initialData={plan}
         onSubmit={handleFormSubmit}
       >
-        <label>NOME COMPLETO</label>
-        <Input name="name" placeholder="John Doe" />
-
-        <label>ENDEREÇO DE E-MAIL</label>
-        <Input name="email" type="email" placeholder="exemplo@email.com" />
+        <label>TÍTULO DO PLANO</label>
+        <Input name="title" />
 
         <div>
           <div>
-            <label>IDADE</label>
-            <Input name="age" type="number" />
+            <label>DURAÇÃO (em meses)</label>
+            <Input
+              name="duration"
+              type="number"
+              onChange={e => handleDurationChange(e.target.value)}
+            />
           </div>
           <div>
-            <label>PESO (em kg) </label>
-            <CurrencyInput name="weight" />
+            <label>PREÇO MENSAL</label>
+            <CurrencyInput
+              name="price"
+              prefix="R$ "
+              onChange={handlePriceChange}
+            />
           </div>
           <div>
-            <label>ALTURA</label>
-            <CurrencyInput name="height" />
+            <label>PRECO TOTAL</label>
+            <CurrencyInput name="total" prefix="R$ " disabled />
           </div>
         </div>
       </Data>
@@ -130,7 +153,7 @@ export default function StudentForm() {
   );
 }
 
-StudentForm.propTypes = {
+PlanForm.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       id: PropTypes.string,

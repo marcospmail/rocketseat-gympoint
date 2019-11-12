@@ -8,10 +8,13 @@ export default function CurrencyInput({
   disabled,
   prefix,
   thousandSeparator,
+  onChange,
   ...rest
 }) {
   const ref = useRef();
-  const { fieldName, defaultValue, registerField, error } = useField(name);
+  const { fieldName, defaultValue, registerField, error } = useField(
+    name || ''
+  );
   const [value, setValue] = useState();
 
   useMemo(() => {
@@ -47,6 +50,7 @@ export default function CurrencyInput({
         value={value}
         onValueChange={values => {
           setValue(values.floatValue);
+          if (onChange) onChange(values.floatValue);
         }}
         disabled={!!disabled}
         {...rest}
@@ -60,11 +64,14 @@ CurrencyInput.defaultProps = {
   disabled: false,
   prefix: '',
   thousandSeparator: '',
+  name: null,
+  onChange: null,
 };
 
 CurrencyInput.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   disabled: PropTypes.bool,
   prefix: PropTypes.string,
   thousandSeparator: PropTypes.string,
+  onChange: PropTypes.func,
 };
