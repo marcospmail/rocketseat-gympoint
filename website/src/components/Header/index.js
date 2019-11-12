@@ -16,7 +16,7 @@ const menuItems = [
 
 export default function Header() {
   const dispatch = useDispatch();
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(menuItems[0].name);
 
   function handleSignOut() {
     dispatch(signOut());
