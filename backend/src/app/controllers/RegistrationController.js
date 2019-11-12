@@ -204,10 +204,6 @@ class RegistrationController {
   async index(req, res) {
     const { page } = req.query;
 
-    // if (!page) {
-    //   return res.status(400).json({ error: 'missing page' });
-    // }
-
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
