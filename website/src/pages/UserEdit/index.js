@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-// import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
 
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
 import CurrencyInput from '~/components/CurrencyInput';
@@ -12,97 +11,49 @@ import CurrencyInput from '~/components/CurrencyInput';
 import history from '~/services/history';
 import api from '~/services/api';
 
+import { validationMessages } from '~/util/ValidationMessages';
+
 import { Container, PageTop, Data } from './styles';
 
-// const schema = Yup.object().shape({
-//   name: Yup.string().required('Campo obrigatório'),
-//   email: Yup.string()
-//     .email('Email inválido')
-//     .required('Campo obrigatório'),
-//   age: Yup.number()
-//     .typeError('Número inválido')
-//     .required('Campo obrigatório'),
-//   weight: Yup.number()
-//     .typeError('Número inválido')
-//     .required('Campo obrigatório'),
-//   height: Yup.number()
-//     .typeError('Número inválido')
-//     .required('Campo obrigatório'),
-// });
+const schema = Yup.object().shape({
+  name: Yup.string().required(validationMessages.required),
+  email: Yup.string()
+    .email(validationMessages.email)
+    .required(validationMessages.required),
+  age: Yup.number()
+    .positive(validationMessages.positive)
+    .typeError(validationMessages.typeError)
+    .required(validationMessages.required),
+  weight: Yup.number()
+    .positive(validationMessages.positive)
+    .typeError(validationMessages.typeError)
+    .required(validationMessages.required),
+  height: Yup.number().required(validationMessages.required),
+});
 
 export default function UserEdit() {
   const [user, setUser] = useState({});
 
   const { id } = useParams();
 
-  const activeStudent = useSelector(state => state.student.student);
-
-  useMemo(() => {
+  useEffect(() => {
     async function loadUser() {
       try {
-        const response = await api.get('students', {
+        const { data } = await api.get('students', {
           params: { id },
         });
 
-        console.tron.log(response.data);
-
-        setUser(response.data);
-        // if (id) {
-        //   setUser(activeStudent);
-        // }
+        setUser(data);
       } catch (err) {
         toast.error('Ocorreu um erro ao carregar a página');
       }
     }
 
     loadUser();
-  }, [id]);
-
-  //   loadUser();
-  // }, [activeStudent, id]);
-
-  // useMemo(() => {
-  //   async function loadUser() {
-  //     try {
-  //       const response = await api.get('students', {
-  //         params: { id },
-  //       });
-
-  //       console.tron.log(response.data);
-
-  //       setUser(response.data);
-  //     } catch (err) {
-  //       toast.error('Ocorreu um erro ao carregar a página');
-  //     }
-  //   }
-
-  //   loadUser();
-  // }, [id]);
-
-  // useEffect(() => {
-  //   async function loadUser() {
-  //     try {
-  //       // const response = await api.get('students', {
-  //       //   params: { id },
-  //       // });
-
-  //       // console.tron.log(response.data);
-
-  //       if (id) {
-  //         setUser(activeStudent);
-  //       }
-  //     } catch (err) {
-  //       toast.error('Ocorreu um erro ao carregar a página');
-  //     }
-  //   }
-
-  //   loadUser();
-  // }, []); //eslint-disable-line
+  }, []); //eslint-disable-line
 
   async function handleFormSubmit(data) {
     try {
-      console.tron.log(data);
-
       const response = await api.put(`students/${user.id}`, data);
       setUser(response.data);
       toast.success('Informações alteradas');
@@ -129,7 +80,7 @@ export default function UserEdit() {
 
       <Data
         id="Form"
-        // schema={schema}
+        schema={schema}
         initialData={user}
         onSubmit={handleFormSubmit}
       >
@@ -139,34 +90,20 @@ export default function UserEdit() {
         <label>ENDEREÇO DE E-MAIL</label>
         <Input name="email" type="email" placeholder="exemplo@email.com" />
 
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <label>IDADE</label>
-              </th>
-              <th>
-                <label>PESO (em kg)</label>
-              </th>
-              <th>
-                <label>ALTURA</label>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <Input name="age" type="number" />
-              </td>
-              <td>
-                <CurrencyInput name="weight" />
-              </td>
-              <td>
-                <CurrencyInput name="height" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div>
+          <div>
+            <label>IDADE</label>
+            <Input name="age" type="number" />
+          </div>
+          <div>
+            <label>PESO (em kg) </label>
+            <CurrencyInput name="weight" />
+          </div>
+          <div>
+            <label>ALTURA</label>
+            <CurrencyInput name="height" />
+          </div>
+        </div>
       </Data>
     </Container>
   );

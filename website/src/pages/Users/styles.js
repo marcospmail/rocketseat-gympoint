@@ -99,6 +99,9 @@ export const Data = styled.table`
       }
 
       button {
+        background: none;
+        border: 0;
+
         &:first-child {
           color: #4d85ee;
           margin-right: 23px;

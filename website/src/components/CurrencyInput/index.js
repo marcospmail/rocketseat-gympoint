@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import NumberFormat from 'react-number-format';
 import { useField } from '@rocketseat/unform';
 import PropTypes from 'prop-types';
@@ -8,15 +8,18 @@ export default function CurrencyInput({
   disabled,
   prefix,
   thousandSeparator,
+  ...rest
 }) {
   const ref = useRef();
-  const { fieldName, defaultValue, registerField } = useField(name);
-  const [value, setValue] = useState(defaultValue);
+  const { fieldName, defaultValue, registerField, error } = useField(name);
+  const [value, setValue] = useState();
+
+  useMemo(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
 
   useEffect(() => {
-    console.tron.log(`default value ${defaultValue}`);
-
-    if (ref.current && defaultValue) {
+    if (ref.current) {
       registerField({
         name: fieldName,
         ref: ref.current,
@@ -27,11 +30,12 @@ export default function CurrencyInput({
         },
       });
     }
-  }, [ref.current, fieldName, defaultValue]); //eslint-disable-line
+  }, [ref.current, fieldName]); //eslint-disable-line
 
   return (
     <>
       <NumberFormat
+        id={fieldName}
         thousandSeparator={thousandSeparator}
         isNumericString
         decimalSeparator=","
@@ -45,7 +49,9 @@ export default function CurrencyInput({
           setValue(values.floatValue);
         }}
         disabled={!!disabled}
+        {...rest}
       />
+      {error && <span>{error}</span>}
     </>
   );
 }

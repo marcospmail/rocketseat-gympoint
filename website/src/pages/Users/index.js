@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { MdAdd, MdSearch } from 'react-icons/md';
 
-import { addStudentDetailRequest } from '~/store/modules/student/actions';
-
 import api from '~/services/api';
+import history from '~/services/history';
 
 import { Container, DataManager, Data } from './styles';
 
 export default function Users() {
-  const dispatch = useDispatch();
-
   const [studentName, setStudentName] = useState();
   const [students, setStudents] = useState([]);
 
@@ -37,8 +32,16 @@ export default function Users() {
     setStudentName(e.target.value);
   }
 
-  function handleEditStudent(student) {
-    dispatch(addStudentDetailRequest(student));
+  async function handleDeleteStudent({ id, name }) {
+    if (window.confirm(`Tem certeza que deseja deletar o usuário ${name} ?`))  //eslint-disable-line
+      try {
+        await api.delete(`/students/${id}1`);
+        setStudents(students.filter(student => student.id !== id));
+        toast.success('Aluno removido');
+      } catch (err) {
+        const { error } = err.response.data;
+        toast.error(error);
+      }
   }
 
   return (
@@ -78,11 +81,16 @@ export default function Users() {
               <td>
                 <button
                   type="button"
-                  onClick={() => handleEditStudent(student)}
+                  onClick={() => history.push(`/users/${student.id}/edit`)}
                 >
                   editar
                 </button>
-                <Link to="/">apagar</Link>
+                <button
+                  type="button"
+                  onClick={() => handleDeleteStudent(student)}
+                >
+                  apagar
+                </button>
               </td>
             </tr>
           ))}

@@ -82,22 +82,18 @@ export const Data = styled(Form)`
     }
   }
 
-  table {
+  & > div {
     margin-top: 20px;
+    display: flex;
 
-    th {
-      text-align: left;
-    }
-
-    td {
-      padding-right: 15px;
+    & > div {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin-right: 15px;
 
       &:last-child {
-        padding-right: 0;
-      }
-
-      input {
-        width: 100%;
+        margin-right: 0;
       }
     }
   }
