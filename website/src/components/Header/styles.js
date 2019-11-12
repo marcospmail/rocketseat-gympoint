@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   background: #fff;
@@ -24,11 +25,6 @@ export const Content = styled.div`
     img {
       width: 110px;
     }
-
-    a {
-      font-weight: bold;
-      color: #7159c1;
-    }
   }
 
   aside {
@@ -38,14 +34,16 @@ export const Content = styled.div`
   }
 `;
 
-export const Nav = styled.ul`
+export const Nav = styled.nav`
   flex: 1;
   display: flex;
   align-items: center;
 `;
 
-export const NavItem = styled.li`
-  color: ${props => (props.active ? '#444444' : '#999999')};
+export const NavItem = styled(Link)`
+  text-decoration: none;
+  color: ${props =>
+    props.active === 'true' ? '#444444 !important' : '#999999 !important'};
   font-size: 15px;
   display: inline;
   font-weight: bold;
