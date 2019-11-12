@@ -48,7 +48,6 @@ export default function PlanForm() {
           total: data.duration * data.price,
         });
       } catch (err) {
-        console.tron.log(err);
         toast.error('Ocorreu um erro ao carregar a página');
       }
     }

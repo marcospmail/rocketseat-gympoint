@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 1200px;
+  max-width: 1380px;
   margin: 0 auto;
 `;
 
@@ -29,7 +29,6 @@ export const DataManager = styled.div`
     border: 0;
     font-weight: bold;
     color: #fff;
-    margin-right: 16px;
 
     span {
       margin-left: 5px;
@@ -70,7 +69,19 @@ export const Data = styled.table`
     font-weight: bold;
     line-height: 19px;
 
+    &:nth-child(2) {
+      text-align: center;
+    }
+
     &:nth-child(3) {
+      text-align: center;
+    }
+
+    &:nth-child(4) {
+      text-align: center;
+    }
+
+    &:nth-child(5) {
       text-align: center;
     }
   }
@@ -82,19 +93,31 @@ export const Data = styled.table`
       border-bottom: 1px solid #eeeeee;
 
       &:nth-child(1) {
-        width: 470px;
+        width: 30%;
       }
 
       &:nth-child(2) {
-        width: 380px;
+        text-align: center;
+        width: 20%;
       }
 
       &:nth-child(3) {
         text-align: center;
+        width: 15%;
+      }
+
+      &:nth-child(4) {
+        text-align: center;
+        width: 15%;
+      }
+
+      &:nth-child(5) {
+        text-align: center;
+        width: 10%;
       }
 
       &:last-child {
-        width: 230px;
+        width: 10%;
         text-align: right;
       }
 
