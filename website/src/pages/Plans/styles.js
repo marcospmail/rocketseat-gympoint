@@ -29,7 +29,6 @@ export const DataManager = styled.div`
     border: 0;
     font-weight: bold;
     color: #fff;
-    margin-right: 16px;
 
     span {
       margin-left: 5px;
