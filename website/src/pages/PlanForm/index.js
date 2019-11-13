@@ -118,7 +118,7 @@ export default function PlanForm() {
 
       <Data
         id="Form"
-        // schema={schema}
+        schema={schema}
         initialData={plan}
         onSubmit={handleFormSubmit}
       >

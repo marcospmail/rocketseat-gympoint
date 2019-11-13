@@ -8,6 +8,7 @@ import StudentForm from '~/pages/StudentForm';
 import Plans from '~/pages/Plans';
 import PlanForm from '~/pages/PlanForm';
 import Registrations from '~/pages/Registrations';
+import RegistrationsForm from '~/pages/RegistrationForm';
 
 export default function Routes() {
   return (
@@ -22,7 +23,17 @@ export default function Routes() {
       <Route path="/plans/new" component={PlanForm} isPrivate />
       <Route path="/plans/:id/edit" component={PlanForm} isPrivate />
 
-      <Route path="/registrations" component={Registrations} isPrivate />
+      <Route path="/registrations" component={Registrations} isPrivate exact />
+      <Route
+        path="/registrations/new"
+        component={RegistrationsForm}
+        isPrivate
+      />
+      <Route
+        path="/registrations/:id/edit"
+        component={RegistrationsForm}
+        isPrivate
+      />
     </Switch>
   );
 }
