@@ -202,12 +202,30 @@ class RegistrationController {
   }
 
   async index(req, res) {
-    const { page } = req.query;
+    const { id, page } = req.query;
 
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
       return res.status(400).json({ error: 'invalid admin token' });
+    }
+
+    const include = [
+      {
+        model: Student,
+        as: 'student',
+        attributes: ['id', 'name'],
+      },
+      {
+        model: Plan,
+        as: 'plan',
+        attributes: ['id', 'title', 'duration'],
+      },
+    ];
+
+    if (id) {
+      const registration = await Registration.findByPk(id, { include });
+      return res.json(registration);
     }
 
     const pageCondition = {};
@@ -218,21 +236,9 @@ class RegistrationController {
     }
 
     const registrations = await Registration.findAll({
-      include: [
-        {
-          model: Student,
-          as: 'student',
-          attributes: ['id', 'name'],
-        },
-        {
-          model: Plan,
-          as: 'plan',
-          attributes: ['id', 'title'],
-        },
-      ],
+      include,
       ...pageCondition,
     });
-
     return res.json(registrations);
   }
 
