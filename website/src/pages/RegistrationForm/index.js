@@ -98,12 +98,7 @@ export default function RegistrationForm() {
     }
   }
 
-  async function insertRegistration(data) {
-    await api.post('registrations', data);
-    toast.success('Cadastro realizado');
-  }
-
-  async function updateRegistration(data) {
+  function fixHttpData(data) {
     data = {
       ...data,
       student_id: data.student.id,
@@ -113,17 +108,24 @@ export default function RegistrationForm() {
     delete data.student;
     delete data.plan;
     delete data.start_date;
+    delete data.price;
+    delete data.end_date;
+
+    return data;
+  }
+
+  async function insertRegistration(data) {
+    data = fixHttpData(data);
+
+    await api.post('registrations', data);
+    toast.success('Cadastro realizado');
+  }
+
+  async function updateRegistration(data) {
+    data = fixHttpData(data);
 
     await api.put(`registrations/${registration.id}`, data);
     toast.success('Cadastro alterado');
-  }
-
-  function handleStartDateChange(newDate) {
-    setRegistration({
-      ...registration,
-      start_date: newDate,
-      end_date: addMonths(newDate, registration.plan.duration),
-    });
   }
 
   const filterColors = (data, inputValue) => {
@@ -143,6 +145,24 @@ export default function RegistrationForm() {
       resolve(filterColors(data, inputValue));
     });
   };
+
+  function handleStartDateChange(newDate) {
+    setRegistration({
+      ...registration,
+      start_date: newDate,
+      end_date: addMonths(newDate, registration.plan.duration),
+    });
+  }
+
+  function handlePlanChange(newPlan) {
+    setRegistration({
+      ...registration,
+      plan: newPlan,
+      end_date: registration.start_date
+        ? addMonths(registration.start_date, newPlan.duration)
+        : null,
+    });
+  }
 
   return (
     <Container>
@@ -176,7 +196,11 @@ export default function RegistrationForm() {
         <SecondRowForm>
           <div>
             <label>PLANO</label>
-            <PlanPicker name="plan" options={plans} />
+            <PlanPicker
+              name="plan"
+              options={plans}
+              onChange={handlePlanChange}
+            />
           </div>
           <div>
             <label>DATA DE INÍCIO</label>

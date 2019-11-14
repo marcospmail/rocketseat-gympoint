@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from '@rocketseat/unform';
 import DatePicker from 'react-datepicker';
+import MaskedTextInput from 'react-text-mask';
 
 export default function MyDatePicker({
   name,
@@ -48,6 +49,12 @@ export default function MyDatePicker({
         }}
         dateFormat="dd/MM/yyyy"
         disabled={!!disabled}
+        customInput={
+          <MaskedTextInput
+            type="text"
+            mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
+          />
+        }
         {...rest}
       />
       {error && <span>{error}</span>}

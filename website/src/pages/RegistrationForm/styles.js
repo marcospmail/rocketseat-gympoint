@@ -90,26 +90,36 @@ export const SecondRowForm = styled.div`
     flex-direction: column;
     margin-right: 15px;
 
-    &:first {
-      & + div {
-        height: 20px;
-      }
-    }
-
     &:last-child {
       margin-right: 0;
     }
 
-    input {
+    /* input {
       width: 100%;
-    }
+    } */
   }
 `;
 
 export const StudentPicker = styled(MyAsyncSelect)`
   margin-top: 8px;
+
+  .react-asyncselect__control {
+    border: 1px solid #dddddd;
+
+    .react-asyncselect__value-container {
+      height: 40px;
+    }
+  }
 `;
 
 export const PlanPicker = styled(MySelect)`
   margin-top: 8px;
+
+  .react-select__control {
+    border: 1px solid #dddddd;
+
+    .react-select__value-container {
+      height: 40px;
+    }
+  }
 `;

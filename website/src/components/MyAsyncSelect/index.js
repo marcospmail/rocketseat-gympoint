@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { useField } from '@rocketseat/unform';
 
-export default function MyAsyncSelector({ name, loadOptions }) {
+export default function MyAsyncSelector({ name, loadOptions, ...rest }) {
   const ref = useRef();
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [value, setValue] = useState(defaultValue);
@@ -33,6 +33,9 @@ export default function MyAsyncSelector({ name, loadOptions }) {
         onChange={handleChange}
         getOptionValue={option => option.id}
         getOptionLabel={option => option.name}
+        className="react-asyncselect-container"
+        classNamePrefix="react-asyncselect"
+        {...rest}
       />
 
       {error && <span>{error}</span>}
