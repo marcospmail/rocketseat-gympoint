@@ -3,7 +3,7 @@ import NumberFormat from 'react-number-format';
 import { useField } from '@rocketseat/unform';
 import PropTypes from 'prop-types';
 
-export default function CurrencyInput({
+export default function MyCurrencyInput({
   name,
   disabled,
   prefix,
@@ -60,7 +60,7 @@ export default function CurrencyInput({
   );
 }
 
-CurrencyInput.defaultProps = {
+MyCurrencyInput.defaultProps = {
   disabled: false,
   prefix: '',
   thousandSeparator: '',
@@ -68,7 +68,7 @@ CurrencyInput.defaultProps = {
   onChange: null,
 };
 
-CurrencyInput.propTypes = {
+MyCurrencyInput.propTypes = {
   name: PropTypes.string,
   disabled: PropTypes.bool,
   prefix: PropTypes.string,
