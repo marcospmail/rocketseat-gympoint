@@ -8,7 +8,16 @@ import Queue from '../../lib/Queue';
 
 class GymHelpOrderController {
   async index(req, res) {
-    const helpOrders = await HelpOrder.findAll({ where: { answear: null } });
+    const helpOrders = await HelpOrder.findAll({
+      where: { answear: null },
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
     return res.json(helpOrders);
   }
 
@@ -57,6 +66,18 @@ class GymHelpOrderController {
     });
 
     return res.json(helpOrder);
+  }
+
+  async delete(req, res) {
+    const helpOrder = await HelpOrder.findByPk(req.params.help_order_id);
+
+    if (!helpOrder) {
+      return res.status(400).json({ error: 'help order not found' });
+    }
+
+    helpOrder.destroy();
+
+    return res.send();
   }
 }
 
