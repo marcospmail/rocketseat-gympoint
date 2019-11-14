@@ -124,10 +124,6 @@ class RegistrationController {
     const { student_id, plan_id, date } = req.body;
 
     if (student_id) {
-      if (student_id === registration.student_id) {
-        return res.status(400).json({ error: 'cant change to same student' });
-      }
-
       const student = await Student.findByPk(student_id);
 
       if (!student) {
@@ -138,10 +134,6 @@ class RegistrationController {
     }
 
     if (plan_id) {
-      if (plan_id === registration.plan_id) {
-        return res.status(400).json({ error: 'cant change to same plan' });
-      }
-
       const plan = await Plan.findByPk(plan_id);
 
       if (!plan) {
