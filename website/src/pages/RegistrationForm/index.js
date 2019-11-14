@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { format, parseISO, addMonths } from 'date-fns';
+import { parseISO, addMonths } from 'date-fns';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import { Input } from '@rocketseat/unform';
 
 // import * as Yup from 'yup';
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
 
-import MyDatePicker from '~/components/DatePicker';
-
-import CurrencyInput from '~/components/CurrencyInput';
+import MyDatePicker from '~/components/MyDatePicker';
+import MyCurrencyInput from '~/components/MyCurrencyInput';
 
 import history from '~/services/history';
 import api from '~/services/api';
@@ -23,6 +21,7 @@ import {
   Data,
   SecondRowForm,
   StudentPicker,
+  PlanPicker,
 } from './styles';
 
 // const schema = Yup.object().shape({
@@ -39,50 +38,48 @@ import {
 
 export default function RegistrationForm() {
   const [registration, setRegistration] = useState({});
-  const [students, setStudents] = useState({});
+  const [plans, setPlans] = useState([]);
 
   const { id } = useParams();
 
   useEffect(() => {
-    function fetchStudents() {
-      return api.get('students');
-    }
-
-    function fetchRegistration() {
-      return api.get('registrations', {
-        params: { id },
-      });
-    }
-    // +
-
-    // setValue(parseISO(data.start_date));
-    //   } catch (err) {
-    //     toast.error('Ocorreu um erro ao carregar a página');
-    //   }
-    // }
-
     async function pageLoad() {
       if (!isNewRegistration()) {
-        const fetchStudentsPromise = fetchStudents();
+        const fetchPlansPromise = fetchPlans();
         const fetchRegistrationPromise = fetchRegistration();
 
-        const studentsData = (await fetchStudentsPromise).data;
+        const plansData = (await fetchPlansPromise).data;
         const registrationData = (await fetchRegistrationPromise).data;
 
-        setStudents(studentsData);
+        setPlans(plansData);
+
         setRegistration({
           ...registrationData,
           start_date: parseISO(registrationData.start_date),
           end_date: parseISO(registrationData.end_date),
         });
       } else {
-        const { data } = await fetchStudents();
-        setStudents(data);
+        const { data } = await fetchPlans();
+        setPlans(data);
       }
     }
 
     pageLoad();
   }, []); //eslint-disable-line
+
+  function fetchStudents() {
+    return api.get('students');
+  }
+
+  function fetchPlans() {
+    return api.get('plans');
+  }
+
+  function fetchRegistration() {
+    return api.get('registrations', {
+      params: { id },
+    });
+  }
 
   function isNewRegistration() {
     return !id;
@@ -95,7 +92,7 @@ export default function RegistrationForm() {
       } else {
         await updateRegistration(data);
       }
-      // history.push('/registrations');
+      history.push('/registrations');
     } catch (err) {
       toast.error('Ocorreu um erro ao alterar as informações');
     }
@@ -107,7 +104,15 @@ export default function RegistrationForm() {
   }
 
   async function updateRegistration(data) {
-    console.tron.log(data);
+    data = {
+      ...data,
+      student_id: data.student.id,
+      plan_id: data.plan.id,
+      date: data.start_date,
+    };
+    delete data.student;
+    delete data.plan;
+    delete data.start_date;
 
     await api.put(`registrations/${registration.id}`, data);
     toast.success('Cadastro alterado');
@@ -120,6 +125,24 @@ export default function RegistrationForm() {
       end_date: addMonths(newDate, registration.plan.duration),
     });
   }
+
+  const filterColors = (data, inputValue) => {
+    return data.filter(i =>
+      i.name.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  };
+
+  const loadStudentOptions = async inputValue => {
+    async function loadStudents() {
+      const { data } = await fetchStudents();
+      return data;
+    }
+    const data = await loadStudents();
+
+    return new Promise(resolve => {
+      resolve(filterColors(data, inputValue));
+    });
+  };
 
   return (
     <Container>
@@ -148,17 +171,12 @@ export default function RegistrationForm() {
         onSubmit={handleFormSubmit}
       >
         <label>ALUNO</label>
-        <StudentPicker
-          options={students}
-          getOptionLabel={std => std.name}
-          getOptionValue={std => std.id}
-        />
-        {/* <Input name="student.name" /> */}
+        <StudentPicker name="student" loadOptions={loadStudentOptions} />
 
         <SecondRowForm>
           <div>
             <label>PLANO</label>
-            <Input name="plan.title" />
+            <PlanPicker name="plan" options={plans} />
           </div>
           <div>
             <label>DATA DE INÍCIO</label>
@@ -170,7 +188,7 @@ export default function RegistrationForm() {
           </div>
           <div>
             <label>PRECO TOTAL</label>
-            <CurrencyInput name="price" prefix="R$ " disabled />
+            <MyCurrencyInput name="price" prefix="R$ " disabled />
           </div>
         </SecondRowForm>
       </Data>

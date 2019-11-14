@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Form } from '@rocketseat/unform';
-import Select from 'react-select';
+import MyAsyncSelect from '~/components/MyAsyncSelect';
+import MySelect from '~/components/MySelect';
 
 export const Container = styled.div`
   max-width: 900px;
@@ -79,10 +80,6 @@ export const Data = styled(Form)`
   }
 `;
 
-export const StudentPicker = styled(Select)`
-  margin-top: 8px;
-`;
-
 export const SecondRowForm = styled.div`
   margin-top: 20px;
   display: flex;
@@ -93,6 +90,12 @@ export const SecondRowForm = styled.div`
     flex-direction: column;
     margin-right: 15px;
 
+    &:first {
+      & + div {
+        height: 20px;
+      }
+    }
+
     &:last-child {
       margin-right: 0;
     }
@@ -101,4 +104,12 @@ export const SecondRowForm = styled.div`
       width: 100%;
     }
   }
+`;
+
+export const StudentPicker = styled(MyAsyncSelect)`
+  margin-top: 8px;
+`;
+
+export const PlanPicker = styled(MySelect)`
+  margin-top: 8px;
 `;
