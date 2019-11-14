@@ -9,6 +9,7 @@ import Plans from '~/pages/Plans';
 import PlanForm from '~/pages/PlanForm';
 import Registrations from '~/pages/Registrations';
 import RegistrationsForm from '~/pages/RegistrationForm';
+import HelpOrders from '~/pages/Help-orders';
 
 export default function Routes() {
   return (
@@ -34,6 +35,8 @@ export default function Routes() {
         component={RegistrationsForm}
         isPrivate
       />
+
+      <Route path="/help-orders" component={HelpOrders} isPrivate exact />
     </Switch>
   );
 }
