@@ -6,7 +6,7 @@ import { Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
-import CurrencyInput from '~/components/CurrencyInput';
+import CurrencyInput from '~/components/MyCurrencyInput';
 
 import history from '~/services/history';
 import api from '~/services/api';
