@@ -26,12 +26,12 @@ export default function Plans() {
           ...plan,
           durationFormatted: `${plan.duration} ${
             plan.duration > 1 ? 'Meses' : 'Mês'
-          }`,
+            }`,
           priceFormatted: formatPrice(plan.price),
         }))
       );
     } catch (err) {
-      toast.error('Ocorreu um erro ao buscar os estudantes');
+      toast.error('Ocorreu um erro ao buscar as matrículas');
     }
   }
 
