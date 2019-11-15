@@ -5,23 +5,32 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const { id, q } = req.query;
+    const { id, q, page } = req.query;
 
     if (id) {
       const student = await Student.findByPk(id);
       return res.json(student);
     }
 
-    if (q) {
-      const students = await Student.findAll({
-        where: { name: { [Op.iLike]: `%${q}%` } },
-      });
+    const limit = 5;
 
-      return res.json(students);
-    }
+    const where = q ? { name: { [Op.iLike]: `%${q}%` } } : {};
 
-    const students = await Student.findAll();
-    return res.json(students);
+    const studentsCount = await Student.count({ where });
+
+    const lastPage = page * limit >= studentsCount;
+
+    const queryLimitOffset = {
+      limit,
+      offset: (page - 1) * limit,
+    };
+
+    const students = await Student.findAll({
+      where,
+      ...queryLimitOffset,
+    });
+
+    return res.json({ lastPage, content: students });
   }
 
   async store(req, res) {
