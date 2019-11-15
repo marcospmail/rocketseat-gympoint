@@ -51,24 +51,6 @@ class RegistrationController {
 
     const parsedDate = parseISO(date);
 
-    const registrationAlreadyExists = await Registration.findOne({
-      where: {
-        student_id,
-        start_date: {
-          [Op.lte]: parsedDate,
-        },
-        end_date: {
-          [Op.gte]: parsedDate,
-        },
-      },
-    });
-
-    if (registrationAlreadyExists) {
-      return res
-        .status(400)
-        .json({ error: 'student already has an active registration' });
-    }
-
     const { price, duration } = plan;
     const startDate = startOfHour(parsedDate);
 
