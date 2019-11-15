@@ -6,23 +6,27 @@ import { MdAdd, MdSearch } from 'react-icons/md';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { Container, DataHeader, Data, NoData } from './styles';
+import { Container, DataHeader, Data, NoData, Paginator } from './styles';
 
 export default function Students() {
   const [studentName, setStudentName] = useState();
   const [students, setStudents] = useState([]);
+  const [lastPage, setLastPage] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fecthStudents();
+    fecthStudents(1);
   }, []); //eslint-disable-line
 
-  async function fecthStudents() {
+  async function fecthStudents(currentPage) {
     try {
-      const response = await api.get('students', {
-        params: { q: studentName },
+      const { data } = await api.get('students', {
+        params: { q: studentName, page: currentPage },
       });
 
-      setStudents(response.data);
+      setPage(currentPage);
+      setLastPage(data.lastPage);
+      setStudents(data.content);
     } catch (err) {
       toast.error(err.response.data.error);
     }
@@ -44,6 +48,16 @@ export default function Students() {
       }
   }
 
+  function handlePreviousPageChange() {
+    const currentPage = page - 1;
+    fecthStudents(currentPage);
+  }
+
+  function handleNextPageChange() {
+    const currentPage = page + 1;
+    fecthStudents(currentPage);
+  }
+
   return (
     <Container>
       <DataHeader>
@@ -57,51 +71,76 @@ export default function Students() {
           <input
             name="studentName"
             placeholder="Buscar aluno"
-            onKeyDown={event => event.key === 'Enter' && fecthStudents()}
+            onKeyDown={event => event.key === 'Enter' && fecthStudents(1)}
             onChange={handleStudentNameChange}
           />
         </span>
       </DataHeader>
 
       {students.length ? (
-        <Data>
-          <thead>
-            <tr>
-              <th>NOME</th>
-              <th>E-MAIL</th>
-              <th>IDADE</th>
-              <th aria-label="Título da coluna vazia" />
-            </tr>
-          </thead>
-          <tbody>
-            {students.map(student => (
-              <tr key={student.id}>
-                <td>{student.name}</td>
-                <td>{student.email}</td>
-                <td>{student.age}</td>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() => history.push(`/students/${student.id}/edit`)}
-                  >
-                    editar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteStudent(student)}
-                  >
-                    apagar
-                  </button>
-                </td>
+        <>
+          <Data>
+            <thead>
+              <tr>
+                <th>NOME</th>
+                <th>E-MAIL</th>
+                <th>IDADE</th>
+                <th aria-label="Título da coluna vazia" />
               </tr>
-            ))}
-          </tbody>
-        </Data>
+            </thead>
+            <tbody>
+              {students.map(student => (
+                <tr key={student.id}>
+                  <td>{student.name}</td>
+                  <td>{student.email}</td>
+                  <td>{student.age}</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        history.push(`/students/${student.id}/edit`)
+                      }
+                    >
+                      editar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteStudent(student)}
+                    >
+                      apagar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Data>
+
+          <Paginator>
+            <button
+              type="button"
+              disabled={page === 1}
+              onClick={() => {
+                handlePreviousPageChange();
+              }}
+            >
+              Anterior
+            </button>
+            <button
+              disabled={lastPage}
+              type="button"
+              onClick={() => {
+                handleNextPageChange();
+              }}
+            >
+              Próxima
+            </button>
+          </Paginator>
+        </>
       ) : (
-        <NoData>
-          <span>Nenhum aluno encontrado</span>
-        </NoData>
-      )}
+          <NoData>
+            <span>Nenhum aluno encontrado</span>
+          </NoData>
+        )}
     </Container>
   );
 }
