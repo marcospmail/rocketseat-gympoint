@@ -13,12 +13,11 @@ export default function Students() {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    handleSearchStudents();
+    fecthStudents();
   }, []); //eslint-disable-line
 
-  async function handleSearchStudents() {
+  async function fecthStudents() {
     try {
-      // TODO
       const response = await api.get('students', {
         params: { q: studentName },
       });
@@ -58,7 +57,7 @@ export default function Students() {
           <input
             name="studentName"
             placeholder="Buscar aluno"
-            onKeyDown={event => event.key === 'Enter' && handleSearchStudents()}
+            onKeyDown={event => event.key === 'Enter' && fecthStudents()}
             onChange={handleStudentNameChange}
           />
         </span>

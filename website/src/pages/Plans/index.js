@@ -14,10 +14,10 @@ export default function Plans() {
   const [plans, setPlans] = useState([]);
 
   useEffect(() => {
-    searchPlans();
+    fetchPlans();
   }, []);
 
-  async function searchPlans() {
+  async function fetchPlans() {
     try {
       const { data } = await api.get('plans');
 

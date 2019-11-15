@@ -19,10 +19,10 @@ export default function HelpOrders() {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    loadHelpOrders();
+    fetchHelpOrders();
   }, []);
 
-  async function loadHelpOrders() {
+  async function fetchHelpOrders() {
     try {
       const { data } = await api.get('help-orders');
       setHelpOrders(data);
@@ -45,7 +45,7 @@ export default function HelpOrders() {
       await api.put(`help-orders/${selectedHelpOrder.id}/answear`, data);
 
       toast.success('Resposta salva');
-      loadHelpOrders();
+      fetchHelpOrders();
 
       setModalVisible(false);
     } catch (err) {
