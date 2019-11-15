@@ -26,7 +26,7 @@ export default function Signin() {
   return (
     <Wrapper>
       <Content>
-        <img src={logo} alt="GoBarber" />
+        <img src={logo} alt="GYMPoint" />
 
         <Form schema={schema} onSubmit={handleSubmit}>
           <strong>SEU E-MAIL</strong>

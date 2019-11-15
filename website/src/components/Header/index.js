@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { signOut } from '~/store/modules/auth/actions';
 
-import { setActiveNavItem } from '~/store/modules/navitem/actions';
-
 import { items } from './navigation';
 
 import { Container, Content, Nav, NavItem, Profile } from './styles';
@@ -23,20 +21,23 @@ export default function Header() {
     <Container>
       <Content>
         <nav>
-          <img src={logo} alt="GoBarber" />
+          <img src={logo} alt="GYMPoint" />
         </nav>
 
         <Nav>
-          {items.map(navitem => (
-            <NavItem
-              key={navitem.name}
-              active={activeNavItem === navitem.name ? 'true' : 'false'}
-              to={navitem.route}
-              onClick={() => dispatch(setActiveNavItem(navitem.name))}
-            >
-              {navitem.name}
-            </NavItem>
-          ))}
+          {Object.keys(items).map(key => {
+            const item = items[key];
+
+            return (
+              <NavItem
+                key={item.name}
+                active={activeNavItem === item.name ? 'true' : 'false'}
+                to={item.route}
+              >
+                {item.name}
+              </NavItem>
+            );
+          })}
         </Nav>
 
         <aside>

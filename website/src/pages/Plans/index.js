@@ -26,7 +26,7 @@ export default function Plans() {
           ...plan,
           durationFormatted: `${plan.duration} ${
             plan.duration > 1 ? 'Meses' : 'Mês'
-            }`,
+          }`,
           priceFormatted: formatPrice(plan.price),
         }))
       );

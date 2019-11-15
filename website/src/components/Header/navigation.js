@@ -1,6 +1,6 @@
-export const items = [
-  { name: 'ALUNOS', route: '/students' },
-  { name: 'PLANOS', route: '/plans' },
-  { name: 'MATRICULAS', route: '/registrations' },
-  { name: 'PEDIDOS DE AUXÍLIO', route: '/help-orders' },
-];
+export const items = {
+  students: { name: 'ALUNOS', route: '/students' },
+  plans: { name: 'PLANOS', route: '/plans' },
+  registrations: { name: 'MATRÍCULAS', route: '/registrations' },
+  helpOrders: { name: 'PEDIDOS DE AUXÍLIO', route: '/help-orders' },
+};

@@ -11,32 +11,80 @@ import Registrations from '~/pages/Registrations';
 import RegistrationsForm from '~/pages/RegistrationForm';
 import HelpOrders from '~/pages/HelpOrders';
 
+import { items } from '~/components/Header/navigation';
+
 export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
 
-      <Route path="/students" component={Students} isPrivate exact />
-      <Route path="/students/new" component={StudentForm} isPrivate />
-      <Route path="/students/:id/edit" component={StudentForm} isPrivate />
-
-      <Route path="/plans" component={Plans} isPrivate exact />
-      <Route path="/plans/new" component={PlanForm} isPrivate />
-      <Route path="/plans/:id/edit" component={PlanForm} isPrivate />
-
-      <Route path="/registrations" component={Registrations} isPrivate exact />
       <Route
-        path="/registrations/new"
-        component={RegistrationsForm}
+        path={items.students.route}
+        component={Students}
+        navItem={items.students.name}
+        isPrivate
+        exact
+      />
+      <Route
+        path={`${items.students.route}/new`}
+        component={StudentForm}
+        navItem={items.students.name}
         isPrivate
       />
       <Route
-        path="/registrations/:id/edit"
-        component={RegistrationsForm}
+        path={`${items.students.route}/:id/edit`}
+        component={StudentForm}
+        navItem={items.students.name}
         isPrivate
       />
 
-      <Route path="/help-orders" component={HelpOrders} isPrivate exact />
+      <Route
+        path={items.plans.route}
+        component={Plans}
+        navItem={items.plans.name}
+        isPrivate
+        exact
+      />
+      <Route
+        path={`${items.plans.route}/new`}
+        component={PlanForm}
+        navItem={items.plans.name}
+        isPrivate
+      />
+      <Route
+        path={`${items.plans.route}/:id/edit`}
+        component={PlanForm}
+        navItem={items.plans.name}
+        isPrivate
+      />
+
+      <Route
+        path={items.registrations.route}
+        component={Registrations}
+        navItem={items.registrations.name}
+        isPrivate
+        exact
+      />
+      <Route
+        path={`${items.registrations.route}/new`}
+        component={RegistrationsForm}
+        navItem={items.registrations.name}
+        isPrivate
+      />
+      <Route
+        path={`${items.registrations.route}/:id/edit`}
+        component={RegistrationsForm}
+        navItem={items.registrations.name}
+        isPrivate
+      />
+
+      <Route
+        path={items.helpOrders.route}
+        component={HelpOrders}
+        navItem={items.helpOrders.name}
+        isPrivate
+        exact
+      />
     </Switch>
   );
 }

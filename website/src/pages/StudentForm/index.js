@@ -12,6 +12,7 @@ import history from '~/services/history';
 import api from '~/services/api';
 
 import { validation } from '~/util/messages';
+import { items } from '~/components/Header/navigation';
 
 import { Container, PageTop, Data } from './styles';
 
@@ -65,7 +66,7 @@ export default function StudentForm() {
       } else {
         await updateStudent(data);
       }
-      history.push('/students');
+      history.push(items.students.route);
     } catch (err) {
       toast.error('Ocorreu um erro ao alterar as informações');
     }
@@ -88,7 +89,10 @@ export default function StudentForm() {
           {isNewStudent() ? 'Cadastro de aluno' : 'Edição de aluno'}
         </strong>
         <div>
-          <button type="button" onClick={() => history.push('/students')}>
+          <button
+            type="button"
+            onClick={() => history.push(items.students.route)}
+          >
             <MdKeyboardArrowLeft size={20} color="#fff" />
             <span>VOLTAR</span>
           </button>
