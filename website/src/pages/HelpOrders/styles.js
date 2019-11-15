@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
 
+import { validationErrorSpan } from '~/styles/util';
+
 export const Container = styled.div`
   max-width: 700px;
   margin: 0 auto;
@@ -141,11 +143,7 @@ export const AnswearModal = styled(Modal).attrs({
       border-radius: 4px;
 
       & + span {
-        color: #ee4d64;
-        align-self: flex-start;
-        margin: 0 0 10px;
-        font-weight: bold;
-        margin-top: 3px;
+        ${validationErrorSpan}
       }
     }
 

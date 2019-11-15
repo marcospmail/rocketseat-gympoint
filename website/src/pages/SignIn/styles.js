@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
+import { validationErrorSpan } from '~/styles/util';
+
 export const Wrapper = styled.div`
   height: 100%;
   background: #ee4d64;
@@ -53,10 +55,7 @@ export const Content = styled.div`
     }
 
     span {
-      color: #ee4d64;
-      align-self: flex-start;
-      margin: 0 0 10px;
-      font-weight: bold;
+      ${validationErrorSpan}
     }
 
     button {

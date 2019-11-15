@@ -1,4 +1,4 @@
-export const validationFormErrorStyle = {
+export const validationErrorSpan = {
   color: '#ee4d64',
   alignSelf: 'flex-start',
   margin: '0 0 10px',

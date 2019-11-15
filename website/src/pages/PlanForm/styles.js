@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Form } from '@rocketseat/unform';
 
+import { validationErrorSpan } from '~/styles/util';
+
 export const Container = styled.div`
   max-width: 900px;
   margin: 0 auto;
@@ -74,11 +76,7 @@ export const Data = styled(Form)`
     padding: 20px;
 
     & + span {
-      color: #ee4d64;
-      align-self: flex-start;
-      margin: 0 0 10px;
-      font-weight: bold;
-      margin-top: 3px;
+      ${validationErrorSpan}
     }
   }
 

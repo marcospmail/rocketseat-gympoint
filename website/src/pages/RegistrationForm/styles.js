@@ -3,7 +3,7 @@ import { Form } from '@rocketseat/unform';
 import MyAsyncSelect from '~/components/MyAsyncSelect';
 import MySelect from '~/components/MySelect';
 
-import { validationFormErrorStyle } from '~/styles/util';
+import { validationErrorSpan } from '~/styles/util';
 
 export const Container = styled.div`
   max-width: 900px;
@@ -73,11 +73,7 @@ export const Data = styled(Form)`
     padding: 20px;
   }
   div + span {
-    color: #ee4d64;
-    align-self: flex-start;
-    margin: 0 0 10px;
-    font-weight: bold;
-    margin-top: 3px;
+    ${validationErrorSpan}
   }
 `;
 
