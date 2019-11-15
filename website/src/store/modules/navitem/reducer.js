@@ -3,7 +3,7 @@ import produce from 'immer';
 import { items } from '~/components/Header/navigation';
 
 const INITIAL_STATE = {
-  navItem: items[0].name,
+  navItem: items.students.name,
 };
 
 export default function navitem(state = INITIAL_STATE, action) {

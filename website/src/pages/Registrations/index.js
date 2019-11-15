@@ -35,7 +35,7 @@ export default function Registrations() {
 
       setRegistrations(newData);
     } catch (err) {
-      toast.error('Ocorreu um erro ao buscar as matrículas');
+      toast.error(err.response.data.error);
     }
   }
 

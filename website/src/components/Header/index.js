@@ -12,6 +12,7 @@ import logo from '~/assets/logo-header.png';
 export default function Header() {
   const dispatch = useDispatch();
   const activeNavItem = useSelector(state => state.navitem.navItem);
+  const { profile } = useSelector(state => state.user);
 
   function handleSignOut() {
     dispatch(signOut());
@@ -42,7 +43,7 @@ export default function Header() {
 
         <aside>
           <Profile>
-            <strong>Diego Fernandes</strong>
+            <strong>{profile.name}</strong>
             <button type="button" onClick={handleSignOut}>
               sair do sistema
             </button>

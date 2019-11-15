@@ -90,7 +90,7 @@ export default function RegistrationForm() {
       }
       history.push('/registrations');
     } catch (err) {
-      toast.error('Ocorreu um erro ao alterar as informações');
+      toast.error(err.response.data.error);
     }
   }
 

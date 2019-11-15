@@ -27,7 +27,7 @@ export default function HelpOrders() {
       const { data } = await api.get('help-orders');
       setHelpOrders(data);
     } catch (err) {
-      toast.error('Ocorreu um erro ao buscar os pedidos de auxílio');
+      toast.error(err.response.data.error);
     }
   }
 
@@ -49,7 +49,7 @@ export default function HelpOrders() {
 
       setModalVisible(false);
     } catch (err) {
-      toast.error('Ocorreu um erro ao salvar as informações');
+      toast.error(err.response.data.error);
     }
   }
 

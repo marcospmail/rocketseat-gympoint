@@ -18,13 +18,14 @@ export default function Students() {
 
   async function handleSearchStudents() {
     try {
+      // TODO
       const response = await api.get('students', {
         params: { q: studentName },
       });
 
       setStudents(response.data);
     } catch (err) {
-      toast.error('Ocorreu um erro ao buscar os estudantes');
+      toast.error(err.response.data.error);
     }
   }
 

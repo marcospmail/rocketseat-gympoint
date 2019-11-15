@@ -48,7 +48,7 @@ export default function PlanForm() {
           total: data.duration * data.price,
         });
       } catch (err) {
-        toast.error('Ocorreu um erro ao carregar a página');
+        toast.error(err.response.data.error);
       }
     }
 
@@ -70,7 +70,7 @@ export default function PlanForm() {
       }
       history.push('/plans');
     } catch (err) {
-      toast.error('Ocorreu um erro ao alterar as informações');
+      toast.error(err.response.data.error);
     }
   }
 
