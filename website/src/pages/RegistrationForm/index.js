@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import { parseISO, addMonths } from 'date-fns';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
-// import * as Yup from 'yup';
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
 
 import MyDatePicker from '~/components/MyDatePicker';
@@ -13,7 +13,7 @@ import MyCurrencyInput from '~/components/MyCurrencyInput';
 import history from '~/services/history';
 import api from '~/services/api';
 
-// import { validation } from '~/util/messages';
+import { validation } from '~/util/messages';
 
 import {
   Container,
@@ -24,17 +24,13 @@ import {
   PlanPicker,
 } from './styles';
 
-// const schema = Yup.object().shape({
-//   studentName: Yup.string().required(validation.required),
-//   planTitle: Yup.string().required(validation.required),
-//   startDate: Yup.date()
-//     .typeError(validation.typeError)
-//     .required(validation.required),
-// });
-
-// const schema = Yup.object().shape({
-//   start_date: Yup.string().required(validation.required),
-// });
+const schema = Yup.object().shape({
+  student: Yup.mixed().required(validation.required),
+  plan: Yup.mixed().required(validation.required),
+  start_date: Yup.date()
+    .typeError(validation.typeError)
+    .required(validation.required),
+});
 
 export default function RegistrationForm() {
   const [registration, setRegistration] = useState({});
@@ -186,7 +182,7 @@ export default function RegistrationForm() {
 
       <Data
         id="Form"
-        // schema={schema}
+        schema={schema}
         initialData={registration}
         onSubmit={handleFormSubmit}
       >
