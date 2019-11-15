@@ -47,7 +47,7 @@ class StudentController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const { email } = req.body;
@@ -55,7 +55,7 @@ class StudentController {
     const student = await Student.findOne({ where: { email } });
 
     if (student) {
-      return res.status(400).json({ error: 'email already exists' });
+      return res.status(400).json({ error: 'O email já existe' });
     }
 
     const createdStudent = await Student.create(req.body);
@@ -79,7 +79,7 @@ class StudentController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const { id } = req.params;
@@ -87,7 +87,7 @@ class StudentController {
     const studentExists = await Student.findByPk(id);
 
     if (!studentExists) {
-      return res.status(400).json({ error: 'student not found' });
+      return res.status(400).json({ error: 'Aluno não encontrado' });
     }
 
     const { email } = req.body;
@@ -103,7 +103,7 @@ class StudentController {
       });
 
       if (emailAlreadyExists) {
-        return res.status(400).json({ error: 'email already exists' });
+        return res.status(400).json({ error: 'O email já existe' });
       }
     }
 
@@ -118,7 +118,7 @@ class StudentController {
     const studentExists = await Student.findByPk(id);
 
     if (!studentExists) {
-      return res.status(400).json({ error: 'student not found' });
+      return res.status(400).json({ error: 'Estudante não encontrado' });
     }
 
     studentExists.destroy();

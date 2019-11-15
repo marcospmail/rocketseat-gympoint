@@ -8,7 +8,7 @@ class SessionController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid admin token' });
+      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const { id } = req.query;
@@ -40,13 +40,13 @@ class SessionController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid admin token' });
+      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const { title, duration, price } = req.body;
@@ -54,7 +54,7 @@ class SessionController {
     const planAlreadyExists = await Plan.findOne({ where: { title } });
 
     if (planAlreadyExists) {
-      return res.status(400).json({ error: 'plan already exists' });
+      return res.status(400).json({ error: 'O plano já existe' });
     }
 
     const plan = await Plan.create({ title, duration, price });
@@ -76,18 +76,18 @@ class SessionController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid admin token' });
+      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const plan = await Plan.findByPk(req.params.id);
     if (!plan) {
-      return res.status(400).json({ error: 'plan not found' });
+      return res.status(400).json({ error: 'Plano não encontrado' });
     }
 
     const updatedPlan = await plan.update(req.body);
@@ -99,13 +99,13 @@ class SessionController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid admin token' });
+      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const plan = await Plan.findByPk(req.params.id);
 
     if (!plan) {
-      return res.status(400).json({ error: 'plan not found' });
+      return res.status(400).json({ error: 'Plano não encontrado' });
     }
 
     await plan.destroy();

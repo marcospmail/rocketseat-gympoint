@@ -31,7 +31,7 @@ class GymHelpOrderController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const { help_order_id } = req.params;
@@ -46,11 +46,13 @@ class GymHelpOrderController {
     });
 
     if (!helpOrder) {
-      return res.status(400).json({ error: 'question not found' });
+      return res
+        .status(400)
+        .json({ error: 'Pedido de auxílio não encontrado' });
     }
 
     if (helpOrder.answear) {
-      return res.status(400).json({ error: 'question already answeared' });
+      return res.status(400).json({ error: 'Pedido de auxílio já respondido' });
     }
 
     const { answear } = req.body;
@@ -70,7 +72,9 @@ class GymHelpOrderController {
     const helpOrder = await HelpOrder.findByPk(req.params.help_order_id);
 
     if (!helpOrder) {
-      return res.status(400).json({ error: 'help order not found' });
+      return res
+        .status(400)
+        .json({ error: 'Pedido de auxílio não encontrado' });
     }
 
     helpOrder.destroy();

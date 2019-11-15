@@ -17,7 +17,7 @@ class SessionController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const { email, password } = req.body;
@@ -25,11 +25,11 @@ class SessionController {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(400).json({ error: 'user not found' });
+      return res.status(400).json({ error: 'Usuário naõ encontrado' });
     }
 
     if (!(await user.checkPassword(password))) {
-      return res.status(400).json({ error: 'password doesnt match' });
+      return res.status(400).json({ error: 'Password inválido' });
     }
 
     const { id, name } = user;

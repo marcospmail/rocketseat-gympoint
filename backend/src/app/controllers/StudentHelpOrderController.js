@@ -9,7 +9,7 @@ class StudentHelpOrderController {
     const student = await Student.findByPk(student_id);
 
     if (!student) {
-      return res.status(400).json({ error: 'student not found' });
+      return res.status(400).json({ error: 'Estudante não encontrado' });
     }
 
     const helpOrders = await HelpOrder.findAll({ where: { student_id } });
@@ -29,14 +29,14 @@ class StudentHelpOrderController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const { student_id } = req.params;
     const student = await Student.findByPk(student_id);
 
     if (!student) {
-      return res.status(400).json({ error: 'student not found' });
+      return res.status(400).json({ error: 'Estudante não encontrado' });
     }
 
     const helpOrder = await HelpOrder.create({

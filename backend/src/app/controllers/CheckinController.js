@@ -9,7 +9,7 @@ class CheckinController {
     const { date } = req.query;
 
     if (!date) {
-      return res.status(400).json({ error: 'missing date' });
+      return res.status(400).json({ error: 'Falta o filtro da data' });
     }
 
     const { student_id } = req.params;
@@ -17,7 +17,7 @@ class CheckinController {
     const student = await Student.findByPk(student_id);
 
     if (!student) {
-      return res.status(400).json({ error: 'student not found' });
+      return res.status(400).json({ error: 'Aluno não encontrado' });
     }
 
     const searchDate = Number(date);
@@ -39,7 +39,7 @@ class CheckinController {
     const student = await Student.findByPk(student_id);
 
     if (!student) {
-      return res.status(400).json({ error: 'student not found' });
+      return res.status(400).json({ error: 'Aluno não encontrado' });
     }
 
     const today = new Date();
