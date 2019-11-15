@@ -23,7 +23,7 @@ export const Content = styled.div`
     border-right: 1px solid #eee;
 
     img {
-      width: 110px;
+      width: 140px;
     }
   }
 
