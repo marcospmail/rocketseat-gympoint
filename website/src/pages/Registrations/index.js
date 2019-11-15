@@ -8,7 +8,7 @@ import { MdAdd } from 'react-icons/md';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { Container, DataHeader, Data } from './styles';
+import { Container, DataHeader, Data, NoData } from './styles';
 
 export default function Registrations() {
   const [registrations, setRegistrations] = useState([]);
@@ -66,45 +66,51 @@ export default function Registrations() {
         </button>
       </DataHeader>
 
-      <Data>
-        <thead>
-          <tr>
-            <th>ALUNO</th>
-            <th>PLANO</th>
-            <th>INÍCIO</th>
-            <th>TÉRMINO</th>
-            <th>ATIVO</th>
-            <th aria-label="Título da coluna vazia" />
-          </tr>
-        </thead>
-        <tbody>
-          {registrations.map(registration => (
-            <tr key={registration.id}>
-              <td>{registration.student.name}</td>
-              <td>{registration.plan.title}</td>
-              <td>{registration.start_date}</td>
-              <td>{registration.end_date}</td>
-              <td>{registration.active ? 'Sim' : 'Não'}</td>
-              <td>
-                <button
-                  type="button"
-                  onClick={() =>
-                    history.push(`/registrations/${registration.id}/edit`)
-                  }
-                >
-                  editar
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDeleteRegistration(registration)}
-                >
-                  apagar
-                </button>
-              </td>
+      {registrations.length ? (
+        <Data>
+          <thead>
+            <tr>
+              <th>ALUNO</th>
+              <th>PLANO</th>
+              <th>INÍCIO</th>
+              <th>TÉRMINO</th>
+              <th>ATIVO</th>
+              <th aria-label="Título da coluna vazia" />
             </tr>
-          ))}
-        </tbody>
-      </Data>
+          </thead>
+          <tbody>
+            {registrations.map(registration => (
+              <tr key={registration.id}>
+                <td>{registration.student.name}</td>
+                <td>{registration.plan.title}</td>
+                <td>{registration.start_date}</td>
+                <td>{registration.end_date}</td>
+                <td>{registration.active ? 'Sim' : 'Não'}</td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      history.push(`/registrations/${registration.id}/edit`)
+                    }
+                  >
+                    editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteRegistration(registration)}
+                  >
+                    apagar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Data>
+      ) : (
+        <NoData>
+          <span>Nenhuma matrícula encontrada</span>
+        </NoData>
+      )}
     </Container>
   );
 }

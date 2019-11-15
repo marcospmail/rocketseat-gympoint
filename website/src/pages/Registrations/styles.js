@@ -50,6 +50,21 @@ export const DataHeader = styled.div`
   }
 `;
 
+export const NoData = styled.div`
+  margin-top: 20px;
+  width: 100%;
+  background: #fff;
+  border-radius: 4px;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span {
+    font-size: 16px;
+  }
+`;
+
 export const Data = styled.table`
   margin-top: 20px;
   width: 100%;

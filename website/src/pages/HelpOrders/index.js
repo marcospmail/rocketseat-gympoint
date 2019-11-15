@@ -7,7 +7,7 @@ import api from '~/services/api';
 
 import { validation } from '~/util/messages';
 
-import { Container, DataHeader, Data, AnswearModal } from './styles';
+import { Container, DataHeader, Data, NoData, AnswearModal } from './styles';
 
 const schema = Yup.object().shape({
   answear: Yup.string().required(validation.required),
@@ -86,29 +86,35 @@ export default function HelpOrders() {
         <strong>Pedidos de Auxílio</strong>
       </DataHeader>
 
-      <Data>
-        <thead>
-          <tr>
-            <th>ALUNO</th>
-            <th aria-label="Título da coluna vazia" />
-          </tr>
-        </thead>
-        <tbody>
-          {helpOrders.map(helpOrder => (
-            <tr key={helpOrder.id}>
-              <td>{helpOrder.student.name}</td>
-              <td>
-                <button
-                  type="button"
-                  onClick={() => handleAnswearClick(helpOrder)}
-                >
-                  responder
-                </button>
-              </td>
+      {helpOrders.length ? (
+        <Data>
+          <thead>
+            <tr>
+              <th>ALUNO</th>
+              <th aria-label="Título da coluna vazia" />
             </tr>
-          ))}
-        </tbody>
-      </Data>
+          </thead>
+          <tbody>
+            {helpOrders.map(helpOrder => (
+              <tr key={helpOrder.id}>
+                <td>{helpOrder.student.name}</td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => handleAnswearClick(helpOrder)}
+                  >
+                    responder
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Data>
+      ) : (
+        <NoData>
+          <span>Nenhum pedido de auxílio encontrado</span>
+        </NoData>
+      )}
     </Container>
   );
 }

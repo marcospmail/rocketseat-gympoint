@@ -6,7 +6,7 @@ import { MdAdd, MdSearch } from 'react-icons/md';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { Container, DataHeader, Data } from './styles';
+import { Container, DataHeader, Data, NoData } from './styles';
 
 export default function Students() {
   const [studentName, setStudentName] = useState();
@@ -64,39 +64,45 @@ export default function Students() {
         </span>
       </DataHeader>
 
-      <Data>
-        <thead>
-          <tr>
-            <th>NOME</th>
-            <th>E-MAIL</th>
-            <th>IDADE</th>
-            <th aria-label="Título da coluna vazia" />
-          </tr>
-        </thead>
-        <tbody>
-          {students.map(student => (
-            <tr key={student.id}>
-              <td>{student.name}</td>
-              <td>{student.email}</td>
-              <td>{student.age}</td>
-              <td>
-                <button
-                  type="button"
-                  onClick={() => history.push(`/students/${student.id}/edit`)}
-                >
-                  editar
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDeleteStudent(student)}
-                >
-                  apagar
-                </button>
-              </td>
+      {students.length ? (
+        <Data>
+          <thead>
+            <tr>
+              <th>NOME</th>
+              <th>E-MAIL</th>
+              <th>IDADE</th>
+              <th aria-label="Título da coluna vazia" />
             </tr>
-          ))}
-        </tbody>
-      </Data>
+          </thead>
+          <tbody>
+            {students.map(student => (
+              <tr key={student.id}>
+                <td>{student.name}</td>
+                <td>{student.email}</td>
+                <td>{student.age}</td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => history.push(`/students/${student.id}/edit`)}
+                  >
+                    editar
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteStudent(student)}
+                  >
+                    apagar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Data>
+      ) : (
+        <NoData>
+          <span>Nenhum aluno encontrado</span>
+        </NoData>
+      )}
     </Container>
   );
 }

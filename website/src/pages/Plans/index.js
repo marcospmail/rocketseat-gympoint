@@ -8,7 +8,7 @@ import history from '~/services/history';
 
 import { formatPrice } from '~/util/format';
 
-import { Container, DataHeader, Data } from './styles';
+import { Container, DataHeader, Data, NoData } from './styles';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
@@ -57,36 +57,42 @@ export default function Plans() {
         </button>
       </DataHeader>
 
-      <Data>
-        <thead>
-          <tr>
-            <th>TÍTULO</th>
-            <th>DURAÇÃO</th>
-            <th>VALOR P/ MÊS</th>
-            <th aria-label="Título da coluna vazia" />
-          </tr>
-        </thead>
-        <tbody>
-          {plans.map(plan => (
-            <tr key={plan.id}>
-              <td>{plan.title}</td>
-              <td>{plan.durationFormatted}</td>
-              <td>{plan.priceFormatted}</td>
-              <td>
-                <button
-                  type="button"
-                  onClick={() => history.push(`/plans/${plan.id}/edit`)}
-                >
-                  editar
-                </button>
-                <button type="button" onClick={() => handleDeletePlan(plan)}>
-                  apagar
-                </button>
-              </td>
+      {plans.length ? (
+        <Data>
+          <thead>
+            <tr>
+              <th>TÍTULO</th>
+              <th>DURAÇÃO</th>
+              <th>VALOR P/ MÊS</th>
+              <th aria-label="Título da coluna vazia" />
             </tr>
-          ))}
-        </tbody>
-      </Data>
+          </thead>
+          <tbody>
+            {plans.map(plan => (
+              <tr key={plan.id}>
+                <td>{plan.title}</td>
+                <td>{plan.durationFormatted}</td>
+                <td>{plan.priceFormatted}</td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() => history.push(`/plans/${plan.id}/edit`)}
+                  >
+                    editar
+                  </button>
+                  <button type="button" onClick={() => handleDeletePlan(plan)}>
+                    apagar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Data>
+      ) : (
+        <NoData>
+          <span>Nenhum plano encontrado</span>
+        </NoData>
+      )}
     </Container>
   );
 }
