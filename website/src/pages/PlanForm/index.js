@@ -16,19 +16,15 @@ import { validation } from '~/util/messages';
 import { Container, PageTop, Data } from './styles';
 
 const schema = Yup.object().shape({
-  name: Yup.string().required(validation.required),
-  email: Yup.string()
-    .email(validation.email)
-    .required(validation.required),
-  age: Yup.number()
+  title: Yup.string().required(validation.required),
+  duration: Yup.number()
     .positive(validation.positive)
     .typeError(validation.typeError)
     .required(validation.required),
-  weight: Yup.number()
+  price: Yup.number()
     .positive(validation.positive)
     .typeError(validation.typeError)
     .required(validation.required),
-  height: Yup.number().required(validation.required),
 });
 
 export default function PlanForm() {
