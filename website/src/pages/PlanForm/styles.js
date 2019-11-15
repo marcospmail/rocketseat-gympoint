@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Form } from '@rocketseat/unform';
 
-import { validationErrorSpan } from '~/styles/util';
+import { validationErrorSpan, actionButton, cancelButton } from '~/styles/util';
 
 export const Container = styled.div`
   max-width: 900px;
@@ -24,20 +24,14 @@ export const PageTop = styled.div`
     button {
       width: 112px;
       height: 36px;
-      border: 0;
-      border-radius: 4px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
 
       &:first-child {
-        background-color: #cccccc;
+        ${cancelButton}
         margin-right: 15px;
       }
 
       &:last-child {
-        background-color: #ee4d64;
+        ${actionButton}
       }
 
       span {

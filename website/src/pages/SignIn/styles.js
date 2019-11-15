@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { darken } from 'polished';
 
-import { validationErrorSpan } from '~/styles/util';
+import { validationErrorSpan, actionButton } from '~/styles/util';
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -61,17 +60,7 @@ export const Content = styled.div`
     button {
       margin: 15px 0 0;
       height: 45px;
-      background: #ee4d64;
-      font-weight: bold;
-      color: #fff;
-      border: 0;
-      border-radius: 4px;
-      font-size: 16px;
-      transition: background 0.2s;
-
-      &:hover {
-        background: ${darken(0.03, '#ee4d64')};
-      }
+      ${actionButton}
     }
 
     a {

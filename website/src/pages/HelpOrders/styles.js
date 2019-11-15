@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
 
-import { validationErrorSpan } from '~/styles/util';
+import { validationErrorSpan, actionButton } from '~/styles/util';
 
 export const Container = styled.div`
   max-width: 700px;
@@ -148,15 +148,8 @@ export const AnswearModal = styled(Modal).attrs({
     }
 
     button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      ${actionButton}
       height: 36px;
-      border-radius: 4px;
-      background: #ee4d64;
-      border: 0;
-      font-weight: bold;
-      color: #fff;
       margin-top: 21px;
     }
   }

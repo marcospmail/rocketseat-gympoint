@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   background: #fff;
@@ -42,12 +43,20 @@ export const Nav = styled.nav`
 
 export const NavItem = styled(Link)`
   text-decoration: none;
-  color: ${props =>
-    props.active === 'true' ? '#444444 !important' : '#999999 !important'};
+  color: ${props => (props.active === 'true' ? '#444444' : '#999999')};
   font-size: 15px;
   display: inline;
   font-weight: bold;
   padding-right: 20px;
+  transition: color 0.2s;
+
+  ${props =>
+    props.active === 'false' &&
+    css`
+      &:hover {
+        color: ${darken(0.1, '#999999')};
+      }
+    `}
 
   & + li {
     padding: 0 20px;

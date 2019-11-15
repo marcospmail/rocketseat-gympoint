@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { actionButton } from '~/styles/util';
+
 export const Container = styled.div`
   max-width: 900px;
   margin: 0 auto;
@@ -19,16 +21,9 @@ export const DataHeader = styled.div`
   }
 
   button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    ${actionButton}
     width: 142px;
     height: 36px;
-    border-radius: 4px;
-    background: #ee4d64;
-    border: 0;
-    font-weight: bold;
-    color: #fff;
 
     span {
       margin-left: 5px;
