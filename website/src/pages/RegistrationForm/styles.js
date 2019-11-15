@@ -59,7 +59,7 @@ export const Data = styled(Form)`
     font-weight: bold;
   }
 
-  input {
+  input.normal-input {
     height: 36px;
     border: 1px solid #dddddd;
     border-radius: 4px;
@@ -84,10 +84,6 @@ export const SecondRowForm = styled.div`
     &:last-child {
       margin-right: 0;
     }
-
-    /* input {
-      width: 100%;
-    } */
   }
 `;
 
@@ -99,6 +95,10 @@ export const StudentPicker = styled(MyAsyncSelect)`
 
     .react-asyncselect__value-container {
       height: 40px;
+
+      input {
+        /* height: auto; */
+      }
     }
   }
 `;

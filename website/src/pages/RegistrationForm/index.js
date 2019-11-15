@@ -200,15 +200,24 @@ export default function RegistrationForm() {
           </div>
           <div>
             <label>DATA DE INÍCIO</label>
-            <MyDatePicker name="start_date" onChange={handleStartDateChange} />
+            <MyDatePicker
+              className="normal-input"
+              name="start_date"
+              onChange={handleStartDateChange}
+            />
           </div>
           <div>
             <label>DATA DE TÉRMINO</label>
-            <MyDatePicker name="end_date" disabled />
+            <MyDatePicker className="normal-input" name="end_date" disabled />
           </div>
           <div>
             <label>PRECO TOTAL</label>
-            <MyCurrencyInput name="price" prefix="R$ " disabled />
+            <MyCurrencyInput
+              className="normal-input"
+              name="price"
+              prefix="R$ "
+              disabled
+            />
           </div>
         </SecondRowForm>
       </Data>
