@@ -8,7 +8,7 @@ import { MdAdd } from 'react-icons/md';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { Container, DataManager, Data } from './styles';
+import { Container, DataHeader, Data } from './styles';
 
 export default function Registrations() {
   const [registrations, setRegistrations] = useState([]);
@@ -55,7 +55,7 @@ export default function Registrations() {
 
   return (
     <Container>
-      <DataManager>
+      <DataHeader>
         <strong>Gerenciando matrículas</strong>
         <button
           type="button"
@@ -64,7 +64,7 @@ export default function Registrations() {
           <MdAdd color="#fff" size={20} />
           <span>CADASTRAR</span>
         </button>
-      </DataManager>
+      </DataHeader>
 
       <Data>
         <thead>

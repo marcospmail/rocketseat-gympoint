@@ -6,7 +6,7 @@ import { MdAdd, MdSearch } from 'react-icons/md';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { Container, DataManager, Data } from './styles';
+import { Container, DataHeader, Data } from './styles';
 
 export default function Students() {
   const [studentName, setStudentName] = useState();
@@ -47,7 +47,7 @@ export default function Students() {
 
   return (
     <Container>
-      <DataManager>
+      <DataHeader>
         <strong>Gerenciando alunos</strong>
         <button type="button" onClick={() => history.push('/students/new')}>
           <MdAdd color="#fff" size={20} />
@@ -62,7 +62,7 @@ export default function Students() {
             onChange={handleStudentNameChange}
           />
         </span>
-      </DataManager>
+      </DataHeader>
 
       <Data>
         <thead>

@@ -8,7 +8,7 @@ import history from '~/services/history';
 
 import { formatPrice } from '~/util/format';
 
-import { Container, DataManager, Data } from './styles';
+import { Container, DataHeader, Data } from './styles';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
@@ -49,13 +49,13 @@ export default function Plans() {
 
   return (
     <Container>
-      <DataManager>
+      <DataHeader>
         <strong>Gerenciando planos</strong>
         <button type="button" onClick={() => history.push('/plans/new')}>
           <MdAdd color="#fff" size={20} />
           <span>CADASTRAR</span>
         </button>
-      </DataManager>
+      </DataHeader>
 
       <Data>
         <thead>

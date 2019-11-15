@@ -5,7 +5,7 @@ export const Container = styled.div`
   margin: 0 auto;
 `;
 
-export const DataManager = styled.div`
+export const DataHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
