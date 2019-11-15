@@ -9,7 +9,7 @@ import Plans from '~/pages/Plans';
 import PlanForm from '~/pages/PlanForm';
 import Registrations from '~/pages/Registrations';
 import RegistrationsForm from '~/pages/RegistrationForm';
-import HelpOrders from '~/pages/Help-orders';
+import HelpOrders from '~/pages/HelpOrders';
 
 export default function Routes() {
   return (
