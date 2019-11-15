@@ -24,9 +24,7 @@ class GymHelpOrderController {
   async update(req, res) {
     const validateSchema = requestBody => {
       const schema = Yup.object().shape({
-        answear: Yup.string()
-          .required()
-          .min(10),
+        answear: Yup.string().required(),
       });
 
       return schema.isValid(requestBody);
