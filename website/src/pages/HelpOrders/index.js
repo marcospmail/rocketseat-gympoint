@@ -64,16 +64,12 @@ export default function HelpOrders() {
         helpOrder => helpOrder.id !== selectedHelpOrder.id
       );
 
-      setHelpOrders(newHelpOrders);
-
-      console.tron.log(newHelpOrders);
-
-      if (!newHelpOrders.length) {
-        const newPage = page - 1;
-        if (newPage >= 1) {
-          fetchHelpOrders(newPage);
-        }
+      let newPage = newHelpOrders.length ? page : page - 1;
+      if (newPage === 0) {
+        newPage = 1;
       }
+
+      fetchHelpOrders(newPage);
 
       setModalVisible(false);
     } catch (err) {
@@ -173,10 +169,10 @@ export default function HelpOrders() {
           </Paginator>
         </>
       ) : (
-        <NoData>
-          <span>Nenhum pedido de auxílio encontrado</span>
-        </NoData>
-      )}
+          <NoData>
+            <span>Nenhum pedido de auxílio encontrado</span>
+          </NoData>
+        )}
     </Container>
   );
 }

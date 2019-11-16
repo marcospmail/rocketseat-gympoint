@@ -45,14 +45,15 @@ export default function Plans() {
     if (window.confirm(`Tem certeza que deseja deletar o plano?`))  //eslint-disable-line
       try {
         await api.delete(`/plans/${id}`);
-        setPlans(plans.filter(plan => plan.id !== id));
 
-        if (plans.length) {
-          const newPage = page - 1;
-          if (newPage >= 1) {
-            fetchPlans(newPage);
-          }
+        const newPlans = plans.filter(plan => plan.id !== id);
+
+        let newPage = newPlans.length ? page : page - 1;
+        if (newPage === 0) {
+          newPage = 1;
         }
+
+        fetchPlans(newPage);
 
         toast.success('Plano removido');
       } catch (err) {

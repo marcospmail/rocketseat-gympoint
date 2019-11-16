@@ -50,9 +50,18 @@ export default function Registrations() {
     if (window.confirm(`Tem certeza que deseja deletar a matrícula ${name} ?`))  //eslint-disable-line
       try {
         await api.delete(`/registrations/${id}`);
-        setRegistrations(
-          registrations.filter(registration => registration.id !== id)
+
+        const newRegistrations = registrations.filter(
+          registration => registration.id !== id
         );
+
+        let newPage = newRegistrations.length ? page : page - 1;
+        if (newPage === 0) {
+          newPage = 1;
+        }
+
+        fetchRegistrations(newPage);
+
         toast.success('Matrícula removida');
       } catch (err) {
         const { error } = err.response.data;

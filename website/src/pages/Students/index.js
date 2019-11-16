@@ -40,7 +40,16 @@ export default function Students() {
     if (window.confirm(`Tem certeza que deseja deletar o usuário ${name} ?`))  //eslint-disable-line
       try {
         await api.delete(`/students/${id}`);
-        setStudents(students.filter(student => student.id !== id));
+
+        const newStudents = students.filter(student => student.id !== id);
+
+        let newPage = newStudents.length ? page : page - 1;
+        if (newPage === 0) {
+          newPage = 1;
+        }
+
+        fecthStudents(newPage);
+
         toast.success('Aluno removido');
       } catch (err) {
         const { error } = err.response.data;
