@@ -157,6 +157,7 @@ export default function RegistrationForm() {
       end_date: registration.start_date
         ? addMonths(registration.start_date, newPlan.duration)
         : null,
+      price: newPlan.price * newPlan.duration,
     });
   }
 
