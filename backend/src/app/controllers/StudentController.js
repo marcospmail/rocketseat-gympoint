@@ -12,25 +12,31 @@ class StudentController {
       return res.json(student);
     }
 
-    const limit = 5;
+    if (page) {
+      const limit = 5;
 
-    const where = q ? { name: { [Op.iLike]: `%${q}%` } } : {};
+      const where = q ? { name: { [Op.iLike]: `%${q}%` } } : {};
 
-    const studentsCount = await Student.count({ where });
+      const studentsCount = await Student.count({ where });
 
-    const lastPage = page * limit >= studentsCount;
+      const lastPage = page * limit >= studentsCount;
 
-    const queryLimitOffset = {
-      limit,
-      offset: (page - 1) * limit,
-    };
+      const queryLimitOffset = {
+        limit,
+        offset: (page - 1) * limit,
+      };
 
-    const students = await Student.findAll({
-      where,
-      ...queryLimitOffset,
-    });
+      const students = await Student.findAll({
+        where,
+        ...queryLimitOffset,
+      });
 
-    return res.json({ lastPage, content: students });
+      return res.json({ lastPage, content: students });
+    }
+
+    const students = await Student.findAll();
+
+    return res.json(students);
   }
 
   async store(req, res) {

@@ -18,18 +18,23 @@ class SessionController {
       return res.json(plan);
     }
 
-    const limit = 5;
+    if (page) {
+      const limit = 5;
 
-    const plansCount = await Plan.count();
-    const lastPage = page * limit >= plansCount;
-    const queryLimitOffset = {
-      limit,
-      offset: (page - 1) * limit,
-    };
+      const plansCount = await Plan.count();
+      const lastPage = page * limit >= plansCount;
+      const queryLimitOffset = {
+        limit,
+        offset: (page - 1) * limit,
+      };
 
-    const plans = await Plan.findAll(queryLimitOffset);
+      const plans = await Plan.findAll(queryLimitOffset);
 
-    return res.json({ lastPage, content: plans });
+      return res.json({ lastPage, content: plans });
+    }
+
+    const plans = await Plan.findAll();
+    return res.json(plans);
   }
 
   async store(req, res) {
