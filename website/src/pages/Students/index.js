@@ -36,8 +36,8 @@ export default function Students() {
     setStudentName(e.target.value);
   }
 
-  async function handleDeleteStudent({ id, name }) {
-    if (window.confirm(`Tem certeza que deseja deletar o usuário ${name} ?`))  //eslint-disable-line
+  async function handleDeleteStudent({ id }) {
+    if (window.confirm(`Tem certeza que deseja deletar o usuário?`))  //eslint-disable-line
       try {
         await api.delete(`/students/${id}`);
 

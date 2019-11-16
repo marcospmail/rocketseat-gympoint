@@ -46,8 +46,8 @@ export default function Registrations() {
     }
   }
 
-  async function handleDeleteRegistration({ id, name }) {
-    if (window.confirm(`Tem certeza que deseja deletar a matrícula ${name} ?`))  //eslint-disable-line
+  async function handleDeleteRegistration({ id }) {
+    if (window.confirm(`Tem certeza que deseja deletar a matrícula?`))  //eslint-disable-line
       try {
         await api.delete(`/registrations/${id}`);
 
@@ -156,10 +156,10 @@ export default function Registrations() {
           </Paginator>
         </>
       ) : (
-        <NoData>
-          <span>Nenhuma matrícula encontrada</span>
-        </NoData>
-      )}
+          <NoData>
+            <span>Nenhuma matrícula encontrada</span>
+          </NoData>
+        )}
     </Container>
   );
 }
