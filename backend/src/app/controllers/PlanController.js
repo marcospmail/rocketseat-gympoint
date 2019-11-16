@@ -11,16 +11,25 @@ class SessionController {
       return res.status(400).json({ error: 'Token inválido' });
     }
 
-    const { id } = req.query;
+    const { page, id } = req.query;
 
     if (id) {
       const plan = await Plan.findByPk(id);
       return res.json(plan);
     }
 
-    const plans = await Plan.findAll();
+    const limit = 5;
 
-    return res.json(plans);
+    const plansCount = await Plan.count();
+    const lastPage = page * limit >= plansCount;
+    const queryLimitOffset = {
+      limit,
+      offset: (page - 1) * limit,
+    };
+
+    const plans = await Plan.findAll(queryLimitOffset);
+
+    return res.json({ lastPage, content: plans });
   }
 
   async store(req, res) {
