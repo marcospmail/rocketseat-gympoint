@@ -180,17 +180,28 @@ class RegistrationController {
       return res.json(registration);
     }
 
-    const pageCondition = {};
-
     if (page) {
-      pageCondition.limit = 1;
-      pageCondition.offset = (page - 1) * 20;
+      const limit = 5;
+
+      const registrationsCount = await Registration.count();
+
+      const lastPage = page * limit >= registrationsCount;
+
+      const queryLimitOffset = {
+        limit,
+        offset: (page - 1) * limit,
+      };
+
+      const registrations = await Registration.findAll({
+        include,
+        ...queryLimitOffset,
+      });
+
+      return res.json({ lastPage, content: registrations });
     }
 
-    const registrations = await Registration.findAll({
-      include,
-      ...pageCondition,
-    });
+    const registrations = await Registration.findAll();
+
     return res.json(registrations);
   }
 
