@@ -137,10 +137,10 @@ export default function Students() {
           </Paginator>
         </>
       ) : (
-          <NoData>
-            <span>Nenhum aluno encontrado</span>
-          </NoData>
-        )}
+        <NoData>
+          <span>Nenhum aluno encontrado</span>
+        </NoData>
+      )}
     </Container>
   );
 }

@@ -8,21 +8,27 @@ import history from '~/services/history';
 
 import { formatPrice } from '~/util/format';
 
-import { Container, DataHeader, Data, NoData } from './styles';
+import { Container, DataHeader, Data, NoData, Paginator } from './styles';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
+  const [lastPage, setLastPage] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetchPlans();
-  }, []);
+    fetchPlans(1);
+  }, []); //eslint-disable-line
 
-  async function fetchPlans() {
+  async function fetchPlans(currentPage) {
     try {
-      const { data } = await api.get('plans');
+      const { data } = await api.get('plans', {
+        params: { page: currentPage },
+      });
 
+      setLastPage(data.lastPage);
+      setPage(currentPage);
       setPlans(
-        data.map(plan => ({
+        data.content.map(plan => ({
           ...plan,
           durationFormatted: `${plan.duration} ${
             plan.duration > 1 ? 'Meses' : 'Mês'
@@ -35,16 +41,34 @@ export default function Plans() {
     }
   }
 
-  async function handleDeletePlan({ id, name }) {
-    if (window.confirm(`Tem certeza que deseja deletar o plano ${name} ?`))  //eslint-disable-line
+  async function handleDeletePlan({ id }) {
+    if (window.confirm(`Tem certeza que deseja deletar o plano?`))  //eslint-disable-line
       try {
         await api.delete(`/plans/${id}`);
         setPlans(plans.filter(plan => plan.id !== id));
+
+        if (plans.length) {
+          const newPage = page - 1;
+          if (newPage >= 1) {
+            fetchPlans(newPage);
+          }
+        }
+
         toast.success('Plano removido');
       } catch (err) {
         const { error } = err.response.data;
         toast.error(error);
       }
+  }
+
+  function handlePreviousPageChange() {
+    const currentPage = page - 1;
+    fetchPlans(currentPage);
+  }
+
+  function handleNextPageChange() {
+    const currentPage = page + 1;
+    fetchPlans(currentPage);
   }
 
   return (
@@ -58,36 +82,62 @@ export default function Plans() {
       </DataHeader>
 
       {plans.length ? (
-        <Data>
-          <thead>
-            <tr>
-              <th>TÍTULO</th>
-              <th>DURAÇÃO</th>
-              <th>VALOR P/ MÊS</th>
-              <th aria-label="Título da coluna vazia" />
-            </tr>
-          </thead>
-          <tbody>
-            {plans.map(plan => (
-              <tr key={plan.id}>
-                <td>{plan.title}</td>
-                <td>{plan.durationFormatted}</td>
-                <td>{plan.priceFormatted}</td>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() => history.push(`/plans/${plan.id}/edit`)}
-                  >
-                    editar
-                  </button>
-                  <button type="button" onClick={() => handleDeletePlan(plan)}>
-                    apagar
-                  </button>
-                </td>
+        <>
+          <Data>
+            <thead>
+              <tr>
+                <th>TÍTULO</th>
+                <th>DURAÇÃO</th>
+                <th>VALOR P/ MÊS</th>
+                <th aria-label="Título da coluna vazia" />
               </tr>
-            ))}
-          </tbody>
-        </Data>
+            </thead>
+            <tbody>
+              {plans.map(plan => (
+                <tr key={plan.id}>
+                  <td>{plan.title}</td>
+                  <td>{plan.durationFormatted}</td>
+                  <td>{plan.priceFormatted}</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() => history.push(`/plans/${plan.id}/edit`)}
+                    >
+                      editar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeletePlan(plan)}
+                    >
+                      apagar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Data>
+
+          <Paginator>
+            <button
+              type="button"
+              disabled={page === 1}
+              onClick={() => {
+                handlePreviousPageChange();
+              }}
+            >
+              Anterior
+            </button>
+            <button
+              disabled={lastPage}
+              type="button"
+              onClick={() => {
+                handleNextPageChange();
+              }}
+            >
+              Próxima
+            </button>
+          </Paginator>
+        </>
       ) : (
         <NoData>
           <span>Nenhum plano encontrado</span>

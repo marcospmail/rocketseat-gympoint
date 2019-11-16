@@ -121,3 +121,29 @@ export const Data = styled.table`
     }
   }
 `;
+
+export const Paginator = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+
+  button {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background: #fff;
+    font-weight: bold;
+    color: #ee4d64;
+    font-size: 16px;
+    transition: background 0.2s;
+
+    &:disabled {
+      color: #ddd;
+    }
+
+    &:first-child {
+      margin-right: 10px;
+    }
+  }
+`;
