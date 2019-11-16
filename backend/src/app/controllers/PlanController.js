@@ -23,12 +23,11 @@ class SessionController {
 
       const plansCount = await Plan.count();
       const lastPage = page * limit >= plansCount;
-      const queryLimitOffset = {
+
+      const plans = await Plan.findAll({
         limit,
         offset: (page - 1) * limit,
-      };
-
-      const plans = await Plan.findAll(queryLimitOffset);
+      });
 
       return res.json({ lastPage, content: plans });
     }

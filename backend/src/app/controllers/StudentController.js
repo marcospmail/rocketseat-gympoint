@@ -21,14 +21,10 @@ class StudentController {
 
       const lastPage = page * limit >= studentsCount;
 
-      const queryLimitOffset = {
-        limit,
-        offset: (page - 1) * limit,
-      };
-
       const students = await Student.findAll({
         where,
-        ...queryLimitOffset,
+        limit,
+        offset: (page - 1) * limit,
       });
 
       return res.json({ lastPage, content: students });
