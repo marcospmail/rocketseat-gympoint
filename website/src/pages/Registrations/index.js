@@ -8,13 +8,15 @@ import { MdAdd } from 'react-icons/md';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { Container, DataHeader, Data, NoData } from './styles';
+import { Container, DataHeader, Data, NoData, Paginator } from './styles';
 
 export default function Registrations() {
   const [registrations, setRegistrations] = useState([]);
+  const [lastPage, setLastPage] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetchRegistrations();
+    fetchRegistrations(1);
   }, []); //eslint-disable-line
 
   function formatDate(date) {
@@ -23,16 +25,21 @@ export default function Registrations() {
     });
   }
 
-  async function fetchRegistrations() {
+  async function fetchRegistrations(currentPage) {
     try {
-      const { data } = await api.get('registrations');
+      const { data } = await api.get('registrations', {
+        params: { page: currentPage },
+      });
 
-      const newData = data.map(reg => ({
+      const newData = data.content.map(reg => ({
         ...reg,
         start_date: formatDate(reg.start_date),
         end_date: formatDate(reg.end_date),
+        page: currentPage,
       }));
 
+      setPage(currentPage);
+      setLastPage(data.lastPage);
       setRegistrations(newData);
     } catch (err) {
       toast.error(err.response.data.error);
@@ -53,6 +60,16 @@ export default function Registrations() {
       }
   }
 
+  function handlePreviousPageChange() {
+    const currentPage = page - 1;
+    fetchRegistrations(currentPage);
+  }
+
+  function handleNextPageChange() {
+    const currentPage = page + 1;
+    fetchRegistrations(currentPage);
+  }
+
   return (
     <Container>
       <DataHeader>
@@ -67,45 +84,68 @@ export default function Registrations() {
       </DataHeader>
 
       {registrations.length ? (
-        <Data>
-          <thead>
-            <tr>
-              <th>ALUNO</th>
-              <th>PLANO</th>
-              <th>INÍCIO</th>
-              <th>TÉRMINO</th>
-              <th>ATIVO</th>
-              <th aria-label="Título da coluna vazia" />
-            </tr>
-          </thead>
-          <tbody>
-            {registrations.map(registration => (
-              <tr key={registration.id}>
-                <td>{registration.student.name}</td>
-                <td>{registration.plan.title}</td>
-                <td>{registration.start_date}</td>
-                <td>{registration.end_date}</td>
-                <td>{registration.active ? 'Sim' : 'Não'}</td>
-                <td>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      history.push(`/registrations/${registration.id}/edit`)
-                    }
-                  >
-                    editar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteRegistration(registration)}
-                  >
-                    apagar
-                  </button>
-                </td>
+        <>
+          <Data>
+            <thead>
+              <tr>
+                <th>ALUNO</th>
+                <th>PLANO</th>
+                <th>INÍCIO</th>
+                <th>TÉRMINO</th>
+                <th>ATIVO</th>
+                <th aria-label="Título da coluna vazia" />
               </tr>
-            ))}
-          </tbody>
-        </Data>
+            </thead>
+            <tbody>
+              {registrations.map(registration => (
+                <tr key={registration.id}>
+                  <td>{registration.student.name}</td>
+                  <td>{registration.plan.title}</td>
+                  <td>{registration.start_date}</td>
+                  <td>{registration.end_date}</td>
+                  <td>{registration.active ? 'Sim' : 'Não'}</td>
+                  <td>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        history.push(`/registrations/${registration.id}/edit`)
+                      }
+                    >
+                      editar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteRegistration(registration)}
+                    >
+                      apagar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Data>
+
+          <Paginator>
+            <button
+              type="button"
+              disabled={page === 1}
+              onClick={() => {
+                handlePreviousPageChange();
+              }}
+            >
+              Anterior
+            </button>
+            <button
+              disabled={lastPage}
+              type="button"
+              onClick={() => {
+                handleNextPageChange();
+              }}
+            >
+              Próxima
+            </button>
+          </Paginator>
+        </>
       ) : (
         <NoData>
           <span>Nenhuma matrícula encontrada</span>
