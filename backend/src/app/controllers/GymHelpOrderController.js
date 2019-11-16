@@ -8,15 +8,33 @@ import Queue from '../../lib/Queue';
 
 class GymHelpOrderController {
   async index(req, res) {
+    const include = [
+      {
+        model: Student,
+        as: 'student',
+        attributes: ['id', 'name'],
+      },
+    ];
+
+    const { page } = req.query;
+
+    if (page) {
+      const limit = 5;
+
+      const plansCount = await HelpOrder.count({ where: { answear: null } });
+      const lastPage = page * limit >= plansCount;
+
+      const helpOrders = await HelpOrder.findAll({
+        where: { answear: null },
+        limit,
+        offset: (page - 1) * limit,
+        include,
+      });
+      return res.json({ lastPage, content: helpOrders });
+    }
+
     const helpOrders = await HelpOrder.findAll({
-      where: { answear: null },
-      include: [
-        {
-          model: Student,
-          as: 'student',
-          attributes: ['id', 'name'],
-        },
-      ],
+      include,
     });
     return res.json(helpOrders);
   }
