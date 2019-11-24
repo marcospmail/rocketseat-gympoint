@@ -22,10 +22,11 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'error',
-    "react/jsx-filename-extension": ["error", { extensions: [".js", ".jsx"] }],
-    "import/prefer-default-export": "off",
-    "no-console": ["error", { allow: ["tron"] }],
-    "react/jsx-props-no-spreading": 0
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+    'import/prefer-default-export': 'off',
+    'no-console': ['error', { allow: ['tron'] }],
+    'react/jsx-props-no-spreading': 0,
+    'no-param-reassign': 'off'
   },
   settings: {
     'import/resolver': {

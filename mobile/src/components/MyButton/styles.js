@@ -7,11 +7,9 @@ export const TButton = styled(RectButton)`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 46px;
   background: #ee4e62;
-
-  margin-top: 20px;
   border-radius: 4px;
+  height: 46px;
 `;
 
 export const TButtonText = styled.Text`
