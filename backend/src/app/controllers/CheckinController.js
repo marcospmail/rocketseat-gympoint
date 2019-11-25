@@ -6,12 +6,6 @@ import Student from '../models/Student';
 
 class CheckinController {
   async index(req, res) {
-    const { date } = req.query;
-
-    if (!date) {
-      return res.status(400).json({ error: 'Falta o filtro da data' });
-    }
-
     const { student_id } = req.params;
 
     const student = await Student.findByPk(student_id);
@@ -20,17 +14,12 @@ class CheckinController {
       return res.status(400).json({ error: 'Aluno não encontrado' });
     }
 
-    const searchDate = Number(date);
-
-    const currentWeekCheckins = await Checkin.findAll({
+    const checkins = await Checkin.findAll({
       where: { student_id },
-      date_created: {
-        [Op.between]: [startOfWeek(searchDate), endOfWeek(searchDate)],
-      },
-      attributes: ['created_at'],
+      attributes: ['id', 'created_at'],
     });
 
-    return res.json(currentWeekCheckins);
+    return res.json(checkins);
   }
 
   async store(req, res) {
