@@ -7,15 +7,11 @@ import api from '~/services/api';
 
 export function* signIn({ payload }) {
   try {
-    console.tron.log(payload);
-
     const { id } = payload;
 
     const response = yield call(api.get, `students?id=${id}`);
 
     const student = response.data;
-
-    console.tron.log(student);
 
     NavigationService.navigate('App');
 

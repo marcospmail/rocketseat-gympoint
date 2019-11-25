@@ -1,9 +1,15 @@
+import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import SignIn from '~/pages/SignIn';
 import Checkins from '~/pages/Checkins';
-import HelpOrders from '~/pages/HelpOrders';
+import HelpOrdersList from '~/pages/HelpOrders';
+import HelpOrderQuestion from '~/pages/HelpOrder';
+import HelpOrderAsk from '~/pages/HelpOrderAsk';
 
 export default (signedIn = false) =>
   createAppContainer(
@@ -13,19 +19,38 @@ export default (signedIn = false) =>
         App: {
           screen: createBottomTabNavigator(
             {
-              Checkins: {
-                screen: Checkins,
-                navigationOptions: {
-                  headerTransparent: false,
-                  headerTintColor: '#FFF',
-                  headerLeftContainerStyle: {
-                    marginLeft: 20,
+              Checkins,
+              HelpOrders: {
+                screen: createStackNavigator(
+                  {
+                    HelpOrdersList,
+                    HelpOrderQuestion,
+                    HelpOrderAsk,
                   },
+                  {
+                    defaultNavigationOptions: {
+                      headerTransparent: true,
+                      headerTintColor: '#FFF',
+                      headerLeftContainerStyle: {
+                        marginLeft: 20,
+                      },
+                    },
+                  }
+                ),
+                navigationOptions: {
+                  tabBarLabel: 'Pedir ajuda',
+                  tabBarIcon: ({ tintColor }) => (
+                    <Icon
+                      name="add-circle-outline"
+                      size={20}
+                      color={tintColor}
+                    />
+                  ),
                 },
               },
-              HelpOrders,
             },
             {
+              resetOnBlur: true,
               tabBarOptions: {
                 keyboardHidesTabBar: true,
                 activeTintColor: '#EE4E62',
