@@ -20,9 +20,7 @@ class StudentHelpOrderController {
   async store(req, res) {
     const validateSchema = requestBody => {
       const schema = Yup.object().shape({
-        question: Yup.string()
-          .required()
-          .min(10),
+        question: Yup.string().required(),
       });
 
       return schema.isValid(requestBody);
