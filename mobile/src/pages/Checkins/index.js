@@ -33,6 +33,20 @@ export default function Checkins() {
   const [checkins, setCheckins] = useState([]);
   const student = useSelector(state => state.student.student);
 
+  function removeDuplicates(list, attribute) {
+    return list.filter(
+      (item, pos) =>
+        list.map(checkin => checkin[attribute]).indexOf(item[attribute]) === pos
+    );
+  }
+
+  function formatDateRelative(date) {
+    return formatRelative(parseISO(date), new Date(), {
+      locale: pt,
+      addSuffix: true,
+    });
+  }
+
   async function fetchCheckins(newPage) {
     const { data } = await api.get(
       `students/${student.id}/checkins?page=${newPage}`
@@ -45,19 +59,13 @@ export default function Checkins() {
 
       const newData = data.map(checkin => ({
         ...checkin,
-        formattedDate: formatRelative(
-          parseISO(checkin.created_at),
-          new Date(),
-          {
-            locale: pt,
-            addSuffix: true,
-          }
-        ),
+        formattedDate: formatDateRelative(checkin.created_at),
       }));
       if (newPage === 1) {
         setCheckins(newData);
       } else {
-        setCheckins([...checkins, ...newData]);
+        const newCheckins = [...checkins, ...newData];
+        setCheckins(removeDuplicates(newCheckins, 'id'));
       }
     }
 
@@ -74,8 +82,14 @@ export default function Checkins() {
 
   async function handleCreateCheckin() {
     try {
-      await api.post(`/students/${student.id}/checkins`);
-      fetchCheckins();
+      const { data } = await api.post(`/students/${student.id}/checkins`);
+
+      const newCheckins = [
+        { ...data, formattedDate: formatDateRelative(data.created_at) },
+        ...checkins,
+      ];
+
+      setCheckins(newCheckins);
     } catch (err) {
       Alert.alert('Erro', err.response.data.error);
     }
