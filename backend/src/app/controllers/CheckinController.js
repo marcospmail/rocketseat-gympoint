@@ -28,6 +28,7 @@ class CheckinController {
       where: { student_id },
       attributes: ['id', 'created_at'],
       ...pageLimit,
+      order: [['id', 'DESC']],
     });
 
     return res.json(checkins);
