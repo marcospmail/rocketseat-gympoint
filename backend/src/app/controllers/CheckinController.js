@@ -75,7 +75,7 @@ class CheckinController {
       );
 
       return res.status(400).json({
-        error: `5 checkins per week limit reached, next available checkin is after ${formattedNextAvailableCheckin}`,
+        error: `Limite de 5 checkins por semana atingido, próximo checkin disponível em ${formattedNextAvailableCheckin}`,
       });
     }
 

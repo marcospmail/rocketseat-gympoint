@@ -26,13 +26,13 @@ class RegistrationController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid admin token' });
+      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const { student_id, plan_id, date } = req.body;
@@ -40,13 +40,13 @@ class RegistrationController {
     const student = await Student.findByPk(student_id);
 
     if (!student) {
-      return res.status(400).json({ error: 'student not found' });
+      return res.status(400).json({ error: 'Aluno não encontrado' });
     }
 
     const plan = await Plan.findByPk(plan_id);
 
     if (!plan) {
-      return res.status(400).json({ error: 'plan not found' });
+      return res.status(400).json({ error: 'Plano não encontrado' });
     }
 
     const parsedDate = parseISO(date);
@@ -86,13 +86,13 @@ class RegistrationController {
     };
 
     if (!(await validateSchema(req.body))) {
-      return res.status(400).json({ error: 'validation failed' });
+      return res.status(400).json({ error: 'Validação falhou' });
     }
 
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid admin token' });
+      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const { registration_id } = req.params;
@@ -100,7 +100,7 @@ class RegistrationController {
     const registration = await Registration.findByPk(registration_id);
 
     if (!registration) {
-      return res.status(400).json({ error: 'registration not found' });
+      return res.status(400).json({ error: 'Matrícula não encontrada' });
     }
 
     const { student_id, plan_id, date } = req.body;
@@ -109,7 +109,7 @@ class RegistrationController {
       const student = await Student.findByPk(student_id);
 
       if (!student) {
-        return res.status(400).json({ error: 'student not found' });
+        return res.status(400).json({ error: 'Aluno não encontrado' });
       }
 
       registration.student_id = student_id;
@@ -119,7 +119,7 @@ class RegistrationController {
       const plan = await Plan.findByPk(plan_id);
 
       if (!plan) {
-        return res.status(400).json({ error: 'plan not found' });
+        return res.status(400).json({ error: 'Plano não encontrado' });
       }
 
       const { price, duration } = plan;
@@ -159,7 +159,7 @@ class RegistrationController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid admin token' });
+      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const include = [
@@ -211,13 +211,13 @@ class RegistrationController {
     const loggedUser = await User.findByPk(req.userId);
 
     if (!loggedUser) {
-      return res.status(400).json({ error: 'invalid admin token' });
+      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const registration = await Registration.findByPk(registration_id);
 
     if (!registration) {
-      return res.status(400).json({ error: 'registration not found' });
+      return res.status(400).json({ error: 'Matrícula não encontrada' });
     }
 
     await registration.destroy();
