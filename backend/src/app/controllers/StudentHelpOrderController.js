@@ -12,7 +12,21 @@ class StudentHelpOrderController {
       return res.status(400).json({ error: 'Estudante não encontrado' });
     }
 
-    const helpOrders = await HelpOrder.findAll({ where: { student_id } });
+    const { page } = req.query;
+
+    let pageLimit = {};
+
+    if (page) {
+      pageLimit = {
+        offset: (page - 1) * 20,
+        limit: 20,
+      };
+    }
+
+    const helpOrders = await HelpOrder.findAll({
+      where: { student_id },
+      ...pageLimit,
+    });
 
     return res.json(helpOrders);
   }

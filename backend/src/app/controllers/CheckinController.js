@@ -1,4 +1,4 @@
-import { startOfWeek, endOfWeek, subDays, addDays, format } from 'date-fns';
+import { subDays, addDays, format } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { Op } from 'sequelize';
 import Checkin from '../models/Checkin';
@@ -14,9 +14,20 @@ class CheckinController {
       return res.status(400).json({ error: 'Aluno não encontrado' });
     }
 
+    const { page } = req.query;
+
+    let pageLimit = {};
+    if (page) {
+      pageLimit = {
+        offset: (page - 1) * 20,
+        limit: 20,
+      };
+    }
+
     const checkins = await Checkin.findAll({
       where: { student_id },
       attributes: ['id', 'created_at'],
+      ...pageLimit,
     });
 
     return res.json(checkins);
