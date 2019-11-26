@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
+import { View, Alert, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 import { parseISO, formatRelative } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -22,14 +22,28 @@ import {
 } from './styles';
 
 export default function Checkins() {
+  const [page, setPage] = useState(1);
+  const [scrollMomentum, setScrollMomentum] = useState(false);
+  const [showLoadingMoreIndicator, setShowLoadingMoreIndicator] = useState(
+    false
+  );
+  const [noMoreData, setNoMoreData] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [checkins, setCheckins] = useState([]);
   const student = useSelector(state => state.student.student);
 
-  async function fetchCheckins() {
-    const { data } = await api.get(`students/${student.id}/checkins`);
+  async function fetchCheckins(newPage) {
+    const { data } = await api.get(
+      `students/${student.id}/checkins?page=${newPage}`
+    );
 
-    setCheckins(
-      data.map(checkin => ({
+    if (!data.length) {
+      setNoMoreData(true);
+    } else {
+      setNoMoreData(false);
+
+      const newData = data.map(checkin => ({
         ...checkin,
         formattedDate: formatRelative(
           parseISO(checkin.created_at),
@@ -39,12 +53,23 @@ export default function Checkins() {
             addSuffix: true,
           }
         ),
-      }))
-    );
+      }));
+      if (newPage === 1) {
+        setCheckins(newData);
+      } else {
+        setCheckins([...checkins, ...newData]);
+      }
+    }
+
+    setLoadingMore(false);
+    setRefreshing(false);
+    setShowLoadingMoreIndicator(false);
+
+    setPage(newPage);
   }
 
   useEffect(() => {
-    fetchCheckins();
+    fetchCheckins(page);
   }, []);
 
   async function handleCreateCheckin() {
@@ -56,6 +81,30 @@ export default function Checkins() {
     }
   }
 
+  async function handleLoadMore() {
+    if (scrollMomentum) {
+      setScrollMomentum(false);
+      setLoadingMore(true);
+      const newPage = page + 1;
+      await fetchCheckins(newPage);
+    }
+  }
+
+  async function onRefresh() {
+    setRefreshing(true);
+    fetchCheckins(1);
+  }
+
+  function renderFooter() {
+    return (
+      showLoadingMoreIndicator && (
+        <View style={{ marginTop: 10 }}>
+          <ActivityIndicator size={22} />
+        </View>
+      )
+    );
+  }
+
   return (
     <>
       <Container>
@@ -65,8 +114,23 @@ export default function Checkins() {
           <MyButton onPress={handleCreateCheckin}>Novo check-in</MyButton>
 
           <CheckinList
+            onRefresh={onRefresh}
+            refreshing={refreshing}
+            onEndReachedThreshold={0.1}
+            onEndReached={() => {
+              if (!loadingMore && !refreshing) {
+                handleLoadMore();
+              }
+            }}
+            onMomentumScrollBegin={() => {
+              setScrollMomentum(true);
+              if (!noMoreData) {
+                setShowLoadingMoreIndicator(true);
+              }
+            }}
             data={checkins}
             keyExtractor={item => String(item.id)}
+            ListFooterComponent={renderFooter}
             renderItem={({ item }) => (
               <Checkin>
                 <CheckinNumber>{`Checkin #${item.id}`}</CheckinNumber>

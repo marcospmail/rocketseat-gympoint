@@ -8,7 +8,7 @@ import { Container, Form, FormInput, SubmitButton, Logo } from './styles';
 
 export default function SignIn() {
   const dispatch = useDispatch();
-  const [studentId, setStudentId] = useState();
+  const [studentId, setStudentId] = useState('');
 
   function handleSubmit() {
     dispatch(signInRequest(studentId));

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
 import { parseISO, formatRelative } from 'date-fns';
@@ -24,30 +25,79 @@ import {
 } from './styles';
 
 function HelpOrders({ navigation, isFocused }) {
+  const [page, setPage] = useState(1);
+  const [scrollMomentum, setScrollMomentum] = useState(false);
+  const [showLoadingMoreIndicator, setShowLoadingMoreIndicator] = useState(
+    false
+  );
+  const [noMoreData, setNoMoreData] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [helpOrders, setHelpOrders] = useState([]);
   const student = useSelector(state => state.student.student);
 
-  useEffect(() => {
-    async function fetchCheckins() {
-      const { data } = await api.get(`students/${student.id}/help-orders`);
+  async function fetchHelpOrders(newPage) {
+    const { data } = await api.get(
+      `students/${student.id}/help-orders?page=${newPage}`
+    );
 
-      setHelpOrders(
-        data.map(helpOrder => ({
-          ...helpOrder,
-          formattedDate: formatRelative(
-            parseISO(helpOrder.createdAt),
-            new Date(),
-            {
-              locale: pt,
-              addSuffix: true,
-            }
-          ),
-        }))
-      );
+    if (!data.length) {
+      setNoMoreData(true);
+    } else {
+      setNoMoreData(false);
+
+      const newData = data.map(helpOrder => ({
+        ...helpOrder,
+        formattedDate: formatRelative(
+          parseISO(helpOrder.createdAt),
+          new Date(),
+          {
+            locale: pt,
+            addSuffix: true,
+          }
+        ),
+      }));
+
+      if (newPage === 1) {
+        setHelpOrders(newData);
+      } else {
+        setHelpOrders([...helpOrders, ...newData]);
+      }
+
+      setPage(newPage);
     }
+    setLoadingMore(false);
+    setRefreshing(false);
+    setShowLoadingMoreIndicator(false);
+  }
 
-    fetchCheckins();
+  useEffect(() => {
+    fetchHelpOrders(1);
   }, [isFocused]);
+
+  async function handleLoadMore() {
+    if (scrollMomentum && !noMoreData) {
+      setScrollMomentum(false);
+      setLoadingMore(true);
+      const newPage = page + 1;
+      await fetchHelpOrders(newPage);
+    }
+  }
+
+  async function onRefresh() {
+    setRefreshing(true);
+    fetchHelpOrders(1);
+  }
+
+  function renderFooter() {
+    return (
+      showLoadingMoreIndicator && (
+        <View style={{ marginTop: 10 }}>
+          <ActivityIndicator size={22} />
+        </View>
+      )
+    );
+  }
 
   return (
     <>
@@ -60,8 +110,23 @@ function HelpOrders({ navigation, isFocused }) {
           </MyButton>
 
           <HelpOrderList
+            onRefresh={onRefresh}
+            refreshing={refreshing}
+            onEndReachedThreshold={0.1}
+            onEndReached={() => {
+              if (!loadingMore && !refreshing) {
+                handleLoadMore();
+              }
+            }}
+            onMomentumScrollBegin={() => {
+              setScrollMomentum(true);
+              if (!noMoreData) {
+                setShowLoadingMoreIndicator(true);
+              }
+            }}
             data={helpOrders}
             keyExtractor={item => String(item.id)}
+            ListFooterComponent={renderFooter}
             renderItem={({ item }) => (
               <HelpOrder
                 onPress={() =>
