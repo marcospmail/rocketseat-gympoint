@@ -9,6 +9,11 @@ class StudentController {
 
     if (id) {
       const student = await Student.findByPk(id);
+
+      if (!student) {
+        return res.status(400).json({ error: 'Estudante não encontrado' });
+      }
+
       return res.json(student);
     }
 
