@@ -27,10 +27,7 @@ export default function HelpOrderAsk({ navigation }) {
         },
       ]);
     } catch (err) {
-      Alert.alert(
-        'Erro',
-        'Ocorreu uma falha ao registrar seu pedido de auxílio'
-      );
+      Alert.alert('Erro', err.response.data.error);
     }
   }
 

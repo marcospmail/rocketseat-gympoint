@@ -17,10 +17,7 @@ export function* signIn({ payload }) {
 
     yield put(signInSuccess(student));
   } catch (err) {
-    Alert.alert(
-      'Falha na autenticação',
-      'Houve um erro no login, verifique seus dados'
-    );
+    Alert.alert('Falha na autenticação', err.response.data.error);
 
     yield put(signFailure());
   }

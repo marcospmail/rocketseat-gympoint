@@ -77,7 +77,7 @@ export default function Checkins() {
       await api.post(`/students/${student.id}/checkins`);
       fetchCheckins();
     } catch (err) {
-      Alert.alert('Erro', 'Ocorreu uma falha ao registrar o checkin');
+      Alert.alert('Erro', err.response.data.error);
     }
   }
 
