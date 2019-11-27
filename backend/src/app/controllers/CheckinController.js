@@ -28,7 +28,7 @@ class CheckinController {
       where: { student_id },
       attributes: ['id', 'created_at'],
       ...pageLimit,
-      order: [['id', 'DESC']],
+      order: [['created_at', 'DESC']],
     });
 
     return res.json(checkins);
@@ -63,7 +63,7 @@ class CheckinController {
       });
 
       const nextAvailableCheckin = addDays(
-        firstCheckinOfLastFiveCheckins.createdAt,
+        firstCheckinOfLastFiveCheckins.created_at,
         7
       );
 

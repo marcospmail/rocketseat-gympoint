@@ -19,7 +19,7 @@ class HelpOrderAnswearMails {
     );
 
     const questionDate = format(
-      parseISO(helpOrder.createdAt),
+      parseISO(helpOrder.created_at),
       "dd/MM/yyyy' às 'HH:mm",
       {
         locale: pt,
