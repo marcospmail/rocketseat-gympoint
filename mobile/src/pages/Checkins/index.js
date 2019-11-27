@@ -33,6 +33,10 @@ export default function Checkins() {
   const [checkins, setCheckins] = useState([]);
   const student = useSelector(state => state.student.student);
 
+  useEffect(() => {
+    fetchCheckins(page);
+  }, []);
+
   function removeDuplicates(list, attribute) {
     return list.filter(
       (item, pos) =>
@@ -53,6 +57,10 @@ export default function Checkins() {
     );
 
     if (!data.length) {
+      if (newPage === 1) {
+        setCheckins([]);
+      }
+
       setNoMoreData(true);
     } else {
       setNoMoreData(false);
@@ -75,10 +83,6 @@ export default function Checkins() {
 
     setPage(newPage);
   }
-
-  useEffect(() => {
-    fetchCheckins(page);
-  }, []);
 
   async function handleCreateCheckin() {
     try {

@@ -49,7 +49,7 @@ function HelpOrders({ navigation, isFocused }) {
       const newData = data.map(helpOrder => ({
         ...helpOrder,
         formattedDate: formatRelative(
-          parseISO(helpOrder.createdAt),
+          parseISO(helpOrder.created_at),
           new Date(),
           {
             locale: pt,
