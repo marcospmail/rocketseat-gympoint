@@ -15,6 +15,14 @@ export const Logo = styled.Image`
   height: 80px;
 `;
 
+export const LogoText = styled.Text`
+  color: #ee4d64;
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: bold;
+  margin-top: 10px;
+`;
+
 export const Form = styled.View`
   align-self: stretch;
   margin-top: 20px;

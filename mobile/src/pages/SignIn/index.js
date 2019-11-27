@@ -4,7 +4,14 @@ import logo from '~/assets/logo.png';
 
 import { signInRequest } from '~/store/modules/auth/actions';
 
-import { Container, Form, FormInput, SubmitButton, Logo } from './styles';
+import {
+  Container,
+  Form,
+  FormInput,
+  SubmitButton,
+  Logo,
+  LogoText,
+} from './styles';
 
 export default function SignIn() {
   const dispatch = useDispatch();
@@ -17,6 +24,7 @@ export default function SignIn() {
   return (
     <Container>
       <Logo source={logo} />
+      <LogoText>GYMPOINT</LogoText>
 
       <Form>
         <FormInput
