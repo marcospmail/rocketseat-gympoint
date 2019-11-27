@@ -149,9 +149,10 @@ export default function Checkins() {
             data={checkins}
             keyExtractor={item => String(item.id)}
             ListFooterComponent={renderFooter}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <Checkin>
-                <CheckinNumber>{`Checkin #${item.id}`}</CheckinNumber>
+                <CheckinNumber>{`Checkin #${checkins.length -
+                  index}`}</CheckinNumber>
                 <CheckinDate>{item.formattedDate}</CheckinDate>
               </Checkin>
             )}
