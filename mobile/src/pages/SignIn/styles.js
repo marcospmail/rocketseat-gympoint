@@ -8,11 +8,12 @@ export const Container = styled.View`
   align-items: center;
   justify-content: center;
   padding: 0 25px;
+  background: #fff;
 `;
 
 export const Logo = styled.Image`
-  width: 123px;
-  height: 80px;
+  width: 80px;
+  height: 41px;
 `;
 
 export const LogoText = styled.Text`

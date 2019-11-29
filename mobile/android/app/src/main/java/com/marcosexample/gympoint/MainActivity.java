@@ -1,4 +1,4 @@
-package com.gympoint_mobile;
+package com.marcosexample.gympoint;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
