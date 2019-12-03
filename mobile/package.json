@@ -58,11 +58,5 @@
   },
   "jest": {
     "preset": "react-native"
-  },
-  "resolutions": {
-    "@react-native-community/cli": "2.9.0",
-    "@react-native-community/cli-platform-android": "2.9.0",
-    "@react-native-community/cli-platform-ios": "2.9.0",
-    "@react-native-community/cli-tools": "2.8.3"
   }
 }
