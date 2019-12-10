@@ -15,23 +15,23 @@ export const Content = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  nav {
-    display: flex;
-    align-items: center;
-    height: 32px;
-    margin-right: 20px;
-    padding-right: 20px;
-    border-right: 1px solid #eee;
-
-    img {
-      width: 140px;
-    }
-  }
-
   aside {
     justify-self: flex-end;
     display: flex;
     align-items: center;
+  }
+`;
+
+export const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  height: 32px;
+  margin-right: 20px;
+  padding-right: 20px;
+  border-right: 1px solid #eee;
+
+  img {
+    width: 140px;
   }
 `;
 
@@ -67,9 +67,6 @@ export const Profile = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-left: 20px;
-  padding-left: 20px;
-  border-left: 1px solid #eee;
 
   strong {
     color: #666666;

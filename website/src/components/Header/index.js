@@ -5,7 +5,7 @@ import { signOut } from '~/store/modules/auth/actions';
 
 import { items } from './navigation';
 
-import { Container, Content, Nav, NavItem, Profile } from './styles';
+import { Container, Content, Logo, Nav, NavItem, Profile } from './styles';
 
 import logo from '~/assets/logo-header.png';
 
@@ -21,9 +21,9 @@ export default function Header() {
   return (
     <Container>
       <Content>
-        <nav>
+        <Logo>
           <img src={logo} alt="GYMPoint" />
-        </nav>
+        </Logo>
 
         <Nav>
           {Object.keys(items).map(key => {
