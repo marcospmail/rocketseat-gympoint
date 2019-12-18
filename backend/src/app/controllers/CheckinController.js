@@ -24,7 +24,7 @@ class CheckinController {
       };
     }
 
-    const checkins = await Checkin.findAll({
+    const checkins = await Checkin.findAndCountAll({
       where: { student_id },
       attributes: ['id', 'created_at'],
       ...pageLimit,
