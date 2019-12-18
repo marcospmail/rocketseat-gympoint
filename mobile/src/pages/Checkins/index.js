@@ -31,6 +31,7 @@ export default function Checkins() {
   const [refreshing, setRefreshing] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [checkins, setCheckins] = useState([]);
+  const [totalRowCount, setTotalRowCount] = useState(0);
   const student = useSelector(state => state.student.student);
 
   useEffect(() => {
@@ -56,7 +57,9 @@ export default function Checkins() {
       `students/${student.id}/checkins?page=${newPage}`
     );
 
-    if (!data.length) {
+    setTotalRowCount(data.count);
+
+    if (!data.rows.length) {
       if (newPage === 1) {
         setCheckins([]);
       }
@@ -65,7 +68,7 @@ export default function Checkins() {
     } else {
       setNoMoreData(false);
 
-      const newData = data.map(checkin => ({
+      const newData = data.rows.map(checkin => ({
         ...checkin,
         formattedDate: formatDateRelative(checkin.created_at),
       }));
@@ -94,6 +97,7 @@ export default function Checkins() {
       ];
 
       setCheckins(newCheckins);
+      setTotalRowCount(totalRowCount + 1);
     } catch (err) {
       Alert.alert('Erro', err.response.data.error);
     }
@@ -151,7 +155,7 @@ export default function Checkins() {
             ListFooterComponent={renderFooter}
             renderItem={({ item, index }) => (
               <Checkin>
-                <CheckinNumber>{`Checkin #${checkins.length -
+                <CheckinNumber>{`Checkin #${totalRowCount -
                   index}`}</CheckinNumber>
                 <CheckinDate>{item.formattedDate}</CheckinDate>
               </Checkin>
