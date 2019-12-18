@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { signOut } from '~/store/modules/auth/actions';
 
-import { items } from './navigation';
+import { items } from '~/routes/navigation';
 
 import { Container, Content, Logo, Nav, NavItem, Profile } from './styles';
 

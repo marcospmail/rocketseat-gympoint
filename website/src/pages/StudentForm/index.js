@@ -12,7 +12,7 @@ import history from '~/services/history';
 import api from '~/services/api';
 
 import { validation } from '~/util/messages';
-import { items } from '~/components/Header/navigation';
+import { items } from '~/routes/navigation';
 
 import { Container, PageTop, Data } from './styles';
 

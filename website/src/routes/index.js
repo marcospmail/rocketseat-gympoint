@@ -11,7 +11,7 @@ import Registrations from '~/pages/Registrations';
 import RegistrationsForm from '~/pages/RegistrationForm';
 import HelpOrders from '~/pages/HelpOrders';
 
-import { items } from '~/components/Header/navigation';
+import { items } from '~/routes/navigation';
 
 export default function Routes() {
   return (

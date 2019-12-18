@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-
 import PropTypes from 'prop-types';
 
 import DefaultLayout from '~/pages/_layouts/default';
+import { items } from '~/routes/navigation';
 
 import { setActiveNavItem } from '~/store/modules/navitem/actions';
 
@@ -22,7 +22,7 @@ export default function RouteWrapper({
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/students" />;
+    return <Redirect to={items[Object.keys(items)[0]].route} />;
   }
 
   const Layout = signed ? DefaultLayout : undefined;
@@ -50,10 +50,10 @@ RouteWrapper.propTypes = {
   isPrivate: PropTypes.bool,
   component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     .isRequired,
-  activeNavItem: PropTypes.string,
+  navItem: PropTypes.string,
 };
 
 RouteWrapper.defaultProps = {
   isPrivate: false,
-  activeNavItem: null,
+  navItem: null,
 };
