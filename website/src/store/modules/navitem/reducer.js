@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-import { items } from '~/components/Header/navigation';
+import { items } from '~/routes/navigation';
 
 const INITIAL_STATE = {
   navItem: items.students.name,
