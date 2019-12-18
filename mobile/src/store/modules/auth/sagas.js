@@ -13,9 +13,9 @@ export function* signIn({ payload }) {
 
     const student = response.data;
 
-    NavigationService.navigate('App');
-
     yield put(signInSuccess(student));
+
+    NavigationService.navigate('App');
   } catch (err) {
     Alert.alert('Falha na autenticação', err.response.data.error);
 
