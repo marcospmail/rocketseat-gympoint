@@ -52,11 +52,19 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "jest": "^24.9.0",
+    "metro": "0.56.0",
+    "metro-core": "0.56.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "^1.19.1",
     "react-test-renderer": "16.9.0"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "resolutions": {
+    "@react-native-community/cli": "2.9.0",
+    "@react-native-community/cli-platform-android": "2.9.0",
+    "@react-native-community/cli-platform-ios": "2.9.0",
+    "@react-native-community/cli-tools": "2.8.3"
   }
 }
