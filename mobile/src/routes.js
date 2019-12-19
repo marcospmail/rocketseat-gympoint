@@ -2,6 +2,7 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
+import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -10,6 +11,14 @@ import Checkins from '~/pages/Checkins';
 import HelpOrdersList from '~/pages/HelpOrders';
 import HelpOrderQuestion from '~/pages/HelpOrder';
 import HelpOrderAsk from '~/pages/HelpOrderAsk';
+
+const tabBarIcon = ({ tintColor }) => (
+  <Icon name="add-circle-outline" size={20} color={tintColor} />
+);
+
+tabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired,
+};
 
 export default (signedIn = false) =>
   createAppContainer(
@@ -39,13 +48,7 @@ export default (signedIn = false) =>
                 ),
                 navigationOptions: {
                   tabBarLabel: 'Pedir ajuda',
-                  tabBarIcon: ({ tintColor }) => (
-                    <Icon
-                      name="add-circle-outline"
-                      size={20}
-                      color={tintColor}
-                    />
-                  ),
+                  tabBarIcon,
                 },
               },
             },
