@@ -1,12 +1,14 @@
-<h3 align="center">
+<h2 align="center">
   Instruções 
-</h3>
+</h2>
 
 ### Executar
 ```js
 yarn install
 ```
-### Criar banco 'gympoint' no postgres
+
+### Criar banco `gympoint` no postgres
+
 ### Executar
 ```js
 yarn sequelize db:migrate
