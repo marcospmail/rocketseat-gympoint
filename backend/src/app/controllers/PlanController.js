@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 import Plan from '../models/Plan';
 
-class SessionController {
+class PlanController {
   async index(req, res) {
     const { page, id } = req.query;
 
@@ -102,4 +102,4 @@ class SessionController {
   }
 }
 
-export default new SessionController();
+export default new PlanController();
