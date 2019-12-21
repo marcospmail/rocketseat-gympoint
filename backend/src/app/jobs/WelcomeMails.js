@@ -10,21 +10,13 @@ class WelcomeMail {
   async handle({ data }) {
     const { registration, student, plan } = data;
 
-    const startDate = format(
-      parseISO(registration.start_date),
-      "'dia' dd 'de' MMMM' de ' yyyy",
-      {
+    const formatDate = date =>
+      format(parseISO(date), "'dia' dd 'de' MMMM' de ' yyyy", {
         locale: pt,
-      }
-    );
+      });
 
-    const endDate = format(
-      parseISO(registration.end_date),
-      "'dia' dd 'de' MMMM' de ' yyyy",
-      {
-        locale: pt,
-      }
-    );
+    const startDate = formatDate(registration.start_date);
+    const endDate = formatDate(registration.end_date);
 
     await Mail.sendMail({
       to: `${student.name} <${student.email}>`,
