@@ -1,5 +1,6 @@
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import { formatPrice } from '../../util/PriceFormat';
 import Mail from '../../lib/Mail';
 
 class WelcomeMail {
@@ -18,6 +19,8 @@ class WelcomeMail {
     const startDate = formatDate(registration.start_date);
     const endDate = formatDate(registration.end_date);
 
+    const price = formatPrice(registration.price);
+
     await Mail.sendMail({
       to: `${student.name} <${student.email}>`,
       subject: 'Matrícula plano - GYMPoint',
@@ -27,7 +30,7 @@ class WelcomeMail {
         plan_title: plan.title,
         plan_start_date: startDate,
         plan_end_date: endDate,
-        plan_total_price: registration.price,
+        plan_total_price: price,
       },
     });
   }
