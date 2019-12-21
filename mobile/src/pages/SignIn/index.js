@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Alert } from 'react-native';
 import logo from '~/assets/logo.png';
 
 import { signInRequest } from '~/store/modules/auth/actions';
@@ -18,6 +19,11 @@ export default function SignIn() {
   const [studentId, setStudentId] = useState('');
 
   function handleSubmit() {
+    if (!studentId) {
+      Alert.alert('Aviso', 'Necessário informar o ID do estudante');
+      return;
+    }
+
     dispatch(signInRequest(studentId));
   }
 
