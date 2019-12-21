@@ -29,12 +29,6 @@ class RegistrationController {
       return res.status(400).json({ error: 'Validação falhou' });
     }
 
-    const loggedUser = await User.findByPk(req.userId);
-
-    if (!loggedUser) {
-      return res.status(400).json({ error: 'Token inválido' });
-    }
-
     const { student_id, plan_id, date } = req.body;
 
     const student = await Student.findByPk(student_id);
@@ -87,12 +81,6 @@ class RegistrationController {
 
     if (!(await validateSchema(req.body))) {
       return res.status(400).json({ error: 'Validação falhou' });
-    }
-
-    const loggedUser = await User.findByPk(req.userId);
-
-    if (!loggedUser) {
-      return res.status(400).json({ error: 'Token inválido' });
     }
 
     const { registration_id } = req.params;
@@ -156,12 +144,6 @@ class RegistrationController {
   async index(req, res) {
     const { id, page } = req.query;
 
-    const loggedUser = await User.findByPk(req.userId);
-
-    if (!loggedUser) {
-      return res.status(400).json({ error: 'Token inválido' });
-    }
-
     const include = [
       {
         model: Student,
@@ -207,12 +189,6 @@ class RegistrationController {
 
   async delete(req, res) {
     const { registration_id } = req.params;
-
-    const loggedUser = await User.findByPk(req.userId);
-
-    if (!loggedUser) {
-      return res.status(400).json({ error: 'Token inválido' });
-    }
 
     const registration = await Registration.findByPk(registration_id);
 

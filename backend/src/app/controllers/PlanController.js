@@ -1,16 +1,9 @@
 import * as Yup from 'yup';
 
 import Plan from '../models/Plan';
-import User from '../models/User';
 
 class SessionController {
   async index(req, res) {
-    const loggedUser = await User.findByPk(req.userId);
-
-    if (!loggedUser) {
-      return res.status(400).json({ error: 'Token inválido' });
-    }
-
     const { page, id } = req.query;
 
     if (id) {
@@ -56,12 +49,6 @@ class SessionController {
       return res.status(400).json({ error: 'Validação falhou' });
     }
 
-    const loggedUser = await User.findByPk(req.userId);
-
-    if (!loggedUser) {
-      return res.status(400).json({ error: 'Token inválido' });
-    }
-
     const { title, duration, price } = req.body;
 
     const planAlreadyExists = await Plan.findOne({ where: { title } });
@@ -92,12 +79,6 @@ class SessionController {
       return res.status(400).json({ error: 'Validação falhou' });
     }
 
-    const loggedUser = await User.findByPk(req.userId);
-
-    if (!loggedUser) {
-      return res.status(400).json({ error: 'Token inválido' });
-    }
-
     const plan = await Plan.findByPk(req.params.id);
     if (!plan) {
       return res.status(400).json({ error: 'Plano não encontrado' });
@@ -109,12 +90,6 @@ class SessionController {
   }
 
   async delete(req, res) {
-    const loggedUser = await User.findByPk(req.userId);
-
-    if (!loggedUser) {
-      return res.status(400).json({ error: 'Token inválido' });
-    }
-
     const plan = await Plan.findByPk(req.params.id);
 
     if (!plan) {
