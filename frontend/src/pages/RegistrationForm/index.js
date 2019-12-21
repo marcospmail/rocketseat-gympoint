@@ -146,7 +146,9 @@ export default function RegistrationForm() {
     setRegistration({
       ...registration,
       start_date: newDate,
-      end_date: addMonths(newDate, registration.plan.duration),
+      end_date: registration.plan
+        ? addMonths(newDate, registration.plan.duration)
+        : null,
     });
   }
 
