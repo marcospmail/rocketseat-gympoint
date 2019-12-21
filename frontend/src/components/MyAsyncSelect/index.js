@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 import { useField } from '@rocketseat/unform';
 
-export default function MyAsyncSelector({ name, loadOptions, ...rest }) {
+export default function MyAsyncSelector({
+  name,
+  loadOptions,
+  noOptionsMessage,
+  ...rest
+}) {
   const ref = useRef();
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [value, setValue] = useState(defaultValue);
@@ -36,6 +41,10 @@ export default function MyAsyncSelector({ name, loadOptions, ...rest }) {
         className="react-asyncselect-container"
         classNamePrefix="react-asyncselect"
         placeholder="Selecione..."
+        loadingMessage={() => 'Carregando...'}
+        noOptionsMessage={() =>
+          noOptionsMessage || 'Nenhum registro encontrado'
+        }
         {...rest}
       />
 
@@ -44,7 +53,12 @@ export default function MyAsyncSelector({ name, loadOptions, ...rest }) {
   );
 }
 
+MyAsyncSelector.defaultProps = {
+  noOptionsMessage: null,
+};
+
 MyAsyncSelector.propTypes = {
   name: PropTypes.string.isRequired,
   loadOptions: PropTypes.func.isRequired,
+  noOptionsMessage: PropTypes.string,
 };

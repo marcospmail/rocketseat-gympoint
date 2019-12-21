@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 
 import { useField } from '@rocketseat/unform';
 
-export default function MySelect({ name, options, onChange, ...rest }) {
+export default function MySelect({
+  name,
+  options,
+  onChange,
+  noOptionsMessage,
+  ...rest
+}) {
   const ref = useRef();
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [value, setValue] = useState(defaultValue);
@@ -40,6 +46,10 @@ export default function MySelect({ name, options, onChange, ...rest }) {
         classNamePrefix="react-select"
         isSearchable={false}
         placeholder="Selecione..."
+        loadingMessage={() => 'Carregando...'}
+        noOptionsMessage={() =>
+          noOptionsMessage || 'Nenhum registro encontrado'
+        }
         {...rest}
       />
 
@@ -50,10 +60,12 @@ export default function MySelect({ name, options, onChange, ...rest }) {
 
 MySelect.defaultProps = {
   onChange: null,
+  noOptionsMessage: null,
 };
 
 MySelect.propTypes = {
   name: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func,
+  noOptionsMessage: PropTypes.string,
 };
