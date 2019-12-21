@@ -20,7 +20,7 @@ yarn sequelize db:seed:all
 
 ### Usuário do seed
 `
-admin@gympoint.com
+admin@gympoint.com\
 123456
 `
 
