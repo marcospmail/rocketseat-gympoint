@@ -1,8 +1,6 @@
 import * as Yup from 'yup';
-import { Op } from 'sequelize';
 import { startOfHour, addMonths, parseISO } from 'date-fns';
 import Registration from '../models/Registration';
-import User from '../models/User';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
 import Queue from '../../lib/Queue';
@@ -130,7 +128,6 @@ class RegistrationController {
       const endDate = addMonths(parsedDate, duration);
       const registrationPrice = duration * price;
 
-      registration.plan_id = plan_id;
       registration.start_date = date;
       registration.end_date = endDate;
       registration.price = registrationPrice;
