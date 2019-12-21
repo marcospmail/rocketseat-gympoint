@@ -35,6 +35,7 @@ export default function MyAsyncSelector({ name, loadOptions, ...rest }) {
         getOptionLabel={option => option.name}
         className="react-asyncselect-container"
         classNamePrefix="react-asyncselect"
+        placeholder="Selecione..."
         {...rest}
       />
 

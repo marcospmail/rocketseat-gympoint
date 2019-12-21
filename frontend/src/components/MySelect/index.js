@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { useField } from '@rocketseat/unform';
 
-export default function MySelector({ name, options, onChange, ...rest }) {
+export default function MySelect({ name, options, onChange, ...rest }) {
   const ref = useRef();
   const { fieldName, registerField, defaultValue, error } = useField(name);
   const [value, setValue] = useState(defaultValue);
@@ -39,6 +39,7 @@ export default function MySelector({ name, options, onChange, ...rest }) {
         className="react-select-container"
         classNamePrefix="react-select"
         isSearchable={false}
+        placeholder="Selecione..."
         {...rest}
       />
 
@@ -47,11 +48,11 @@ export default function MySelector({ name, options, onChange, ...rest }) {
   );
 }
 
-MySelector.defaultProps = {
+MySelect.defaultProps = {
   onChange: null,
 };
 
-MySelector.propTypes = {
+MySelect.propTypes = {
   name: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
   onChange: PropTypes.func,
