@@ -28,7 +28,7 @@ export default function Signin() {
     <Wrapper>
       <Content>
         <Logo>
-          <img src={logo} alt="GYMPoint" />
+          <img src={logo} alt="GYMPoint " />
           <span>GYMPOINT</span>
         </Logo>
 
