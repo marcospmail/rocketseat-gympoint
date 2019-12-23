@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 
 import HelpOrderAnswearMails from '../jobs/HelpOrderAnswearMails';
 
@@ -21,11 +22,23 @@ class GymHelpOrderController {
     if (page) {
       const limit = 5;
 
-      const plansCount = await HelpOrder.count({ where: { answear: null } });
+      const plansCount = await HelpOrder.count({
+        where: {
+          answear: null,
+          student_id: {
+            [Op.ne]: null,
+          },
+        },
+      });
       const lastPage = page * limit >= plansCount;
 
       const helpOrders = await HelpOrder.findAll({
-        where: { answear: null },
+        where: {
+          answear: null,
+          student_id: {
+            [Op.ne]: null,
+          },
+        },
         limit,
         offset: (page - 1) * limit,
         include,
