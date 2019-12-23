@@ -19,11 +19,6 @@ export const Content = styled.div`
   padding: 30px;
   border-radius: 4px;
 
-  > img {
-    width: 153px;
-    height: 100px;
-  }
-
   form {
     display: flex;
     flex-direction: column;
@@ -78,5 +73,25 @@ export const Content = styled.div`
         opacity: 1;
       }
     }
+  }
+`;
+
+export const Logo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+
+  img {
+    width: 100px;
+  }
+
+  span {
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 35px;
+    color: #ee4d64;
   }
 `;

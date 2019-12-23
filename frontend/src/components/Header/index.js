@@ -7,7 +7,7 @@ import { items } from '~/routes/navigation';
 
 import { Container, Content, Logo, Nav, NavItem, Profile } from './styles';
 
-import logo from '~/assets/logo-header.png';
+import logo from '~/assets/logo.svg';
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ export default function Header() {
       <Content>
         <Logo>
           <img src={logo} alt="GYMPoint" />
+          <span>GYMPOINT</span>
         </Logo>
 
         <Nav>

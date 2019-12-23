@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 
 import { signInRequest } from '~/store/modules/auth/actions';
 
-import { Wrapper, Content } from './styles';
+import { Wrapper, Content, Logo } from './styles';
 
 import logo from '~/assets/logo.svg';
 
@@ -27,7 +27,10 @@ export default function Signin() {
   return (
     <Wrapper>
       <Content>
-        <img src={logo} alt="GYMPoint" />
+        <Logo>
+          <img src={logo} alt="GYMPoint" />
+          <span>GYMPOINT</span>
+        </Logo>
 
         <Form schema={schema} onSubmit={handleSubmit}>
           <strong>SEU E-MAIL</strong>

@@ -31,7 +31,15 @@ export const Logo = styled.div`
   border-right: 1px solid #eee;
 
   img {
-    width: 140px;
+    width: 45px;
+  }
+
+  span {
+    color: #ee4d64;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+    margin-left: 12px;
   }
 `;
 
