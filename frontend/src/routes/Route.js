@@ -22,10 +22,11 @@ export default function RouteWrapper({
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to={items[Object.keys(items)[0]].route} />;
+    const firstNavItem = items[Object.keys(items)[0]].route;
+    return <Redirect to={firstNavItem} />;
   }
 
-  const Layout = signed ? DefaultLayout : undefined;
+  const Layout = signed ? DefaultLayout : null;
 
   return (
     <Route
