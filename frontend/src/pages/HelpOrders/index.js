@@ -24,7 +24,7 @@ export default function HelpOrders() {
   const [helpOrders, setHelpOrders] = useState([]);
   const [selectedHelpOrder, setSelectedHelOrder] = useState();
   const [modalVisible, setModalVisible] = useState(false);
-  const [lastPage, setLastPage] = useState(false);
+  const [lastPage, setLastPage] = useState(true);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -146,33 +146,18 @@ export default function HelpOrders() {
             </tbody>
           </Data>
 
-          <Paginator>
-            <button
-              type="button"
-              disabled={page === 1}
-              onClick={() => {
-                handlePreviousPageChange();
-              }}
-            >
-              Anterior
-            </button>
-
-            <button
-              disabled={lastPage}
-              type="button"
-              onClick={() => {
-                handleNextPageChange();
-              }}
-            >
-              Próxima
-            </button>
-          </Paginator>
+          <Paginator
+            lastPage={lastPage}
+            firstPage={page === 1}
+            handlePreviousPageChange={handlePreviousPageChange}
+            handleNextPageChange={handleNextPageChange}
+          />
         </>
       ) : (
-          <NoData>
-            <span>Nenhum pedido de auxílio encontrado</span>
-          </NoData>
-        )}
+        <NoData>
+          <span>Nenhum pedido de auxílio encontrado</span>
+        </NoData>
+      )}
     </Container>
   );
 }

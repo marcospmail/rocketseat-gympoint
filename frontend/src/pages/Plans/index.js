@@ -12,7 +12,7 @@ import { Container, DataHeader, Data, NoData, Paginator } from './styles';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
-  const [lastPage, setLastPage] = useState(false);
+  const [lastPage, setLastPage] = useState(true);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -118,26 +118,12 @@ export default function Plans() {
             </tbody>
           </Data>
 
-          <Paginator>
-            <button
-              type="button"
-              disabled={page === 1}
-              onClick={() => {
-                handlePreviousPageChange();
-              }}
-            >
-              Anterior
-            </button>
-            <button
-              disabled={lastPage}
-              type="button"
-              onClick={() => {
-                handleNextPageChange();
-              }}
-            >
-              Próxima
-            </button>
-          </Paginator>
+          <Paginator
+            lastPage={lastPage}
+            firstPage={page === 1}
+            handlePreviousPageChange={handlePreviousPageChange}
+            handleNextPageChange={handleNextPageChange}
+          />
         </>
       ) : (
         <NoData>
