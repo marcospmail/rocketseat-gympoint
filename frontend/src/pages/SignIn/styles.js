@@ -61,6 +61,11 @@ export const Content = styled.div`
       margin: 15px 0 0;
       height: 45px;
       ${actionButton}
+
+      &:disabled {
+        background-color: #ddd;
+        cursor: default;
+      }
     }
 
     a {
