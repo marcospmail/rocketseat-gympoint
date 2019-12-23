@@ -5,6 +5,8 @@ import history from '~/services/history';
 import { signInSuccess, signFailure } from './actions';
 import api from '~/services/api';
 
+import { items } from '~/routes/navigation';
+
 export function* signIn({ payload }) {
   try {
     const { email, password } = payload;
@@ -20,7 +22,7 @@ export function* signIn({ payload }) {
 
     yield put(signInSuccess(token, user));
 
-    history.push('/students');
+    history.push(items.students.route);
   } catch (err) {
     toast.error(err.response.data.error);
     yield put(signFailure());
