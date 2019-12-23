@@ -24,7 +24,7 @@ export function* signIn({ payload }) {
 
     history.push(items.students.route);
   } catch (err) {
-    toast.error(err.response.data.error);
+    toast.error(err ? 'Falha ao validar usuário' : err.response.data.error);
     yield put(signFailure());
   }
 }
