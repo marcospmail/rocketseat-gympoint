@@ -108,8 +108,16 @@ export default function Registrations() {
             <tbody>
               {registrations.map(registration => (
                 <tr key={registration.id}>
-                  <td>{registration.student.name}</td>
-                  <td>{registration.plan.title}</td>
+                  <td>
+                    {registration.student
+                      ? registration.student.name
+                      : '[Aluno excluído]'}
+                  </td>
+                  <td>
+                    {registration.plan
+                      ? registration.plan.title
+                      : '[Plano excluído]'}
+                  </td>
                   <td>{registration.start_date}</td>
                   <td>{registration.end_date}</td>
                   <td>{registration.active ? 'Sim' : 'Não'}</td>
@@ -156,10 +164,10 @@ export default function Registrations() {
           </Paginator>
         </>
       ) : (
-          <NoData>
-            <span>Nenhuma matrícula encontrada</span>
-          </NoData>
-        )}
+        <NoData>
+          <span>Nenhuma matrícula encontrada</span>
+        </NoData>
+      )}
     </Container>
   );
 }
