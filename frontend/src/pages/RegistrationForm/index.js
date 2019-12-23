@@ -94,31 +94,31 @@ export default function RegistrationForm() {
     }
   }
 
-  function fixHttpData(data) {
-    data = {
+  function buildApiObject(data) {
+    const apiObj = {
       ...data,
       student_id: data.student.id,
       plan_id: data.plan.id,
       date: data.start_date,
     };
-    delete data.student;
-    delete data.plan;
-    delete data.start_date;
-    delete data.price;
-    delete data.end_date;
+    delete apiObj.student;
+    delete apiObj.plan;
+    delete apiObj.start_date;
+    delete apiObj.price;
+    delete apiObj.end_date;
 
-    return data;
+    return apiObj;
   }
 
   async function insertRegistration(data) {
-    data = fixHttpData(data);
+    data = buildApiObject(data);
 
     await api.post('registrations', data);
     toast.success('Cadastro realizado');
   }
 
   async function updateRegistration(data) {
-    data = fixHttpData(data);
+    data = buildApiObject(data);
 
     await api.put(`registrations/${registration.id}`, data);
     toast.success('Cadastro alterado');
