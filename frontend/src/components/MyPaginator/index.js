@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { MPaginator } from './styles';
 
 export default function MyPaginator({
-  firstPage,
   lastPage,
   page,
   handlePreviousPageChange,
@@ -15,13 +14,15 @@ export default function MyPaginator({
     <MPaginator {...rest}>
       <button
         type="button"
-        disabled={firstPage}
+        disabled={page === 1}
         onClick={() => {
           handlePreviousPageChange();
         }}
       >
         Anterior
       </button>
+
+      <span>{page}</span>
 
       <button
         disabled={lastPage}
@@ -40,7 +41,6 @@ MyPaginator.defaultProps = {
   page: '',
 };
 MyPaginator.propTypes = {
-  firstPage: PropTypes.bool.isRequired,
   lastPage: PropTypes.bool.isRequired,
   page: PropTypes.string,
   handlePreviousPageChange: PropTypes.func.isRequired,

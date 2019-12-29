@@ -144,7 +144,7 @@ export default function Registrations() {
 
           <Paginator
             lastPage={lastPage}
-            firstPage={page === 1}
+            page={page}
             handlePreviousPageChange={handlePreviousPageChange}
             handleNextPageChange={handleNextPageChange}
           />

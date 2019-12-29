@@ -5,6 +5,11 @@ export const MPaginator = styled.div`
   align-items: center;
   justify-content: center;
 
+  span {
+    margin: 0 10px;
+    font-weight: bold;
+  }
+
   button {
     padding: 10px;
     border-radius: 4px;
@@ -18,10 +23,6 @@ export const MPaginator = styled.div`
     &:disabled {
       color: #ddd;
       cursor: default;
-    }
-
-    &:first-child {
-      margin-right: 10px;
     }
 
     &:not(:disabled):hover {

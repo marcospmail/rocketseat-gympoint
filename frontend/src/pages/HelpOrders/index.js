@@ -148,7 +148,7 @@ export default function HelpOrders() {
 
           <Paginator
             lastPage={lastPage}
-            firstPage={page === 1}
+            page={page}
             handlePreviousPageChange={handlePreviousPageChange}
             handleNextPageChange={handleNextPageChange}
           />
