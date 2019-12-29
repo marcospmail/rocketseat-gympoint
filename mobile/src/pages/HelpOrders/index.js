@@ -36,8 +36,6 @@ function HelpOrders({ navigation, isFocused }) {
   const [helpOrders, setHelpOrders] = useState([]);
   const student = useSelector(state => state.student.student);
 
-  let isMounted = false;
-
   async function fetchHelpOrders(newPage) {
     const { data } = await api.get(
       `students/${student.id}/help-orders?page=${newPage}`
@@ -72,19 +70,8 @@ function HelpOrders({ navigation, isFocused }) {
     setRefreshing(false);
     setShowLoadingMoreIndicator(false);
   }
-
   useEffect(() => {
-    isMounted = true;
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isMounted) {
-      fetchHelpOrders(1);
-    }
+    fetchHelpOrders(1);
   }, [isFocused]);
 
   async function handleLoadMore() {
