@@ -70,17 +70,16 @@ function HelpOrders({ navigation, isFocused }) {
     setRefreshing(false);
     setShowLoadingMoreIndicator(false);
   }
+
   useEffect(() => {
     fetchHelpOrders(1);
   }, [isFocused]);
 
   async function handleLoadMore() {
-    if (scrollMomentum && !noMoreData) {
-      setScrollMomentum(false);
-      setLoadingMore(true);
-      const newPage = page + 1;
-      await fetchHelpOrders(newPage);
-    }
+    setScrollMomentum(false);
+    setLoadingMore(true);
+    const newPage = page + 1;
+    await fetchHelpOrders(newPage);
   }
 
   async function onRefresh() {
@@ -90,11 +89,9 @@ function HelpOrders({ navigation, isFocused }) {
 
   function renderFooter() {
     return (
-      showLoadingMoreIndicator && (
-        <View style={{ marginTop: 10 }}>
-          <ActivityIndicator size={22} />
-        </View>
-      )
+      <View style={{ marginTop: 10 }}>
+        <ActivityIndicator size={22} />
+      </View>
     );
   }
 
@@ -113,7 +110,12 @@ function HelpOrders({ navigation, isFocused }) {
             refreshing={refreshing}
             onEndReachedThreshold={0.1}
             onEndReached={() => {
-              if (!loadingMore && !refreshing) {
+              if (
+                !loadingMore &&
+                !refreshing &&
+                scrollMomentum &&
+                !noMoreData
+              ) {
                 handleLoadMore();
               }
             }}
@@ -125,7 +127,7 @@ function HelpOrders({ navigation, isFocused }) {
             }}
             data={helpOrders}
             keyExtractor={item => String(item.id)}
-            ListFooterComponent={renderFooter}
+            ListFooterComponent={showLoadingMoreIndicator && renderFooter}
             renderItem={({ item }) => (
               <HelpOrder
                 onPress={() =>

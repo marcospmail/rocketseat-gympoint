@@ -104,12 +104,10 @@ export default function Checkins() {
   }
 
   async function handleLoadMore() {
-    if (scrollMomentum) {
-      setScrollMomentum(false);
-      setLoadingMore(true);
-      const newPage = page + 1;
-      await fetchCheckins(newPage);
-    }
+    setScrollMomentum(false);
+    setLoadingMore(true);
+    const newPage = page + 1;
+    await fetchCheckins(newPage);
   }
 
   async function onRefresh() {
@@ -119,11 +117,9 @@ export default function Checkins() {
 
   function renderFooter() {
     return (
-      showLoadingMoreIndicator && (
-        <View style={{ marginTop: 10 }}>
-          <ActivityIndicator size={22} />
-        </View>
-      )
+      <View style={{ marginTop: 10 }}>
+        <ActivityIndicator size={22} />
+      </View>
     );
   }
 
@@ -140,7 +136,12 @@ export default function Checkins() {
             refreshing={refreshing}
             onEndReachedThreshold={0.1}
             onEndReached={() => {
-              if (!loadingMore && !refreshing) {
+              if (
+                !loadingMore &&
+                !refreshing &&
+                scrollMomentum &&
+                !noMoreData
+              ) {
                 handleLoadMore();
               }
             }}
@@ -152,7 +153,7 @@ export default function Checkins() {
             }}
             data={checkins}
             keyExtractor={item => String(item.id)}
-            ListFooterComponent={renderFooter}
+            ListFooterComponent={showLoadingMoreIndicator && renderFooter}
             renderItem={({ item, index }) => (
               <Checkin>
                 <CheckinNumber>{`Checkin #${totalRowCount -
