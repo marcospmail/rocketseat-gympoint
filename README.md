@@ -2,21 +2,23 @@
   Instruções para RocketSeat
 </h2>
 
-### Executar
+### 1. Executar
 ```
 yarn install
 ```
 
-### Criar banco `gympoint` no postgres
+### 2. Criar banco `gympoint` no postgres
 
-### Executar
+### 3. Executar
 ```
 yarn sequelize db:migrate
 ```
-### Rodar 
+### 4. Executar 
 ```
 yarn sequelize db:seed:all
 ```
+
+---
 
 ### Usuário do seed
 ```
@@ -25,3 +27,11 @@ admin@gympoint.com
 ```
 
 ### Os estudantes não possuem seed, necessário criá-los no site
+
+---
+
+<h2 align="center">
+  Observações
+</h2>
+
+### Testado apenas no android
