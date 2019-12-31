@@ -5,17 +5,7 @@ import Student from '../models/Student';
 
 class StudentController {
   async index(req, res) {
-    const { id, q, page } = req.query;
-
-    if (id) {
-      const student = await Student.findByPk(id);
-
-      if (!student) {
-        return res.status(400).json({ error: 'Aluno não encontrado' });
-      }
-
-      return res.json(student);
-    }
+    const { q, page } = req.query;
 
     let pageLimit = {};
 
@@ -25,14 +15,14 @@ class StudentController {
       pageLimit = {
         offset: (page - 1) * limit,
         limit,
-      }
+      };
     }
 
     const where = q ? { name: { [Op.iLike]: `%${q}%` } } : {};
 
     const students = await Student.findAndCountAll({
       where,
-      ...pageLimit
+      ...pageLimit,
     });
 
     const total = students.count;
@@ -41,6 +31,17 @@ class StudentController {
     return res.json({ lastPage, total, content: students.rows });
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const student = await Student.findByPk(id);
+
+    if (!student) {
+      return res.status(400).json({ error: 'Aluno não encontrado' });
+    }
+
+    return res.json(student);
+  }
 
   async store(req, res) {
     const validateSchema = requestBody => {

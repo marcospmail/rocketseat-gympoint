@@ -28,12 +28,13 @@ class StudentHelpOrderController {
     const helpOrders = await HelpOrder.findAndCountAll({
       where: { student_id },
       ...pageLimit,
+      order: [['created_at', 'DESC']],
     });
 
     const total = helpOrders.count;
     const lastPage = page ? page * pageLimit.limit >= total : true;
 
-    return res.json({total, lastPage, content: helpOrders.rows});
+    return res.json({ total, lastPage, content: helpOrders.rows });
   }
 
   async store(req, res) {

@@ -7,9 +7,8 @@ import Queue from '../../lib/Queue';
 import WelcomeMail from '../jobs/WelcomeMails';
 
 class RegistrationController {
-
   async index(req, res) {
-    const { id, page } = req.query;
+    const { page } = req.query;
 
     const include = [
       {
@@ -23,11 +22,6 @@ class RegistrationController {
         attributes: ['id', 'title', 'duration'],
       },
     ];
-
-    if (id) {
-      const registration = await Registration.findByPk(id, { include });
-      return res.json(registration);
-    }
 
     let pageLimit = {};
 
@@ -49,6 +43,26 @@ class RegistrationController {
     const lastPage = page ? page * pageLimit.limit >= total : true;
 
     return res.json({ total, lastPage, content: registrations.rows });
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    const include = [
+      {
+        model: Student,
+        as: 'student',
+        attributes: ['id', 'name'],
+      },
+      {
+        model: Plan,
+        as: 'plan',
+        attributes: ['id', 'title', 'duration'],
+      },
+    ];
+
+    const registration = await Registration.findByPk(id, { include });
+    return res.json(registration);
   }
 
   async store(req, res) {
@@ -181,7 +195,6 @@ class RegistrationController {
 
     return res.json(registration);
   }
-
 
   async delete(req, res) {
     const { registration_id } = req.params;

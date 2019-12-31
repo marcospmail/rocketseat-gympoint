@@ -35,9 +35,7 @@ export default function PlanForm() {
   useEffect(() => {
     async function loadPlan() {
       try {
-        const { data } = await api.get('plans', {
-          params: { id },
-        });
+        const { data } = await api.get(`plans/${id}`);
 
         setPlan({
           ...data,

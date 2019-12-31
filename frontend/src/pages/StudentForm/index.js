@@ -40,9 +40,7 @@ export default function StudentForm() {
   useEffect(() => {
     async function loadStudent() {
       try {
-        const { data } = await api.get('students', {
-          params: { id },
-        });
+        const { data } = await api.get(`students/${id}`);
 
         setStudent(data);
       } catch (err) {

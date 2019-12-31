@@ -154,10 +154,10 @@ export default function HelpOrders() {
           />
         </>
       ) : (
-          <NoData>
-            <span>Nenhum pedido de auxílio encontrado</span>
-          </NoData>
-        )}
+        <NoData>
+          <span>Nenhum pedido de auxílio encontrado</span>
+        </NoData>
+      )}
     </Container>
   );
 }

@@ -19,7 +19,7 @@ class GymHelpOrderController {
       pageLimit = {
         offset: (page - 1) * limit,
         limit,
-      }
+      };
     }
 
     const helpOrders = await HelpOrder.findAndCountAll({
@@ -27,7 +27,7 @@ class GymHelpOrderController {
         answear: null,
         student_id: {
           [Op.ne]: null,
-        }
+        },
       },
       include: [
         {

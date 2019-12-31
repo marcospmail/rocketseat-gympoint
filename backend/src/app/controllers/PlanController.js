@@ -4,12 +4,7 @@ import Plan from '../models/Plan';
 
 class PlanController {
   async index(req, res) {
-    const { page, id } = req.query;
-
-    if (id) {
-      const plan = await Plan.findByPk(id);
-      return res.json(plan);
-    }
+    const { page } = req.query;
 
     let pageLimit = {};
 
@@ -23,13 +18,20 @@ class PlanController {
     }
 
     const plans = await Plan.findAndCountAll({
-      ...pageLimit
+      ...pageLimit,
     });
 
     const total = plans.count;
     const lastPage = page ? page * pageLimit.limit >= total : true;
 
     return res.json({ total, lastPage, content: plans.rows });
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+
+    const plan = await Plan.findByPk(id);
+    return res.json(plan);
   }
 
   async store(req, res) {

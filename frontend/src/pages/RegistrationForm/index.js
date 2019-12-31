@@ -72,9 +72,7 @@ export default function RegistrationForm() {
   }
 
   function fetchRegistration() {
-    return api.get('registrations', {
-      params: { id },
-    });
+    return api.get(`registrations/${id}`);
   }
 
   function isNewRegistration() {
