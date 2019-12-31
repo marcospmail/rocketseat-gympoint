@@ -81,7 +81,7 @@ class CheckinController {
         }
       );
 
-      return res.status(400).json({
+      return res.status(403).json({
         error: `Limite de 5 checkins por semana atingido, próximo checkin disponível em ${formattedNextAvailableCheckin}`,
       });
     }
