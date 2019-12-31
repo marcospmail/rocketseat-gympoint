@@ -9,11 +9,13 @@ yarn install
 
 ### 2. Criar banco `gympoint` no postgres
 
-### 3. Executar
+### 3. Configurar arquivo .env
+
+### 4. Executar
 ```
 yarn sequelize db:migrate
 ```
-### 4. Executar 
+### 5. Executar 
 ```
 yarn sequelize db:seed:all
 ```
