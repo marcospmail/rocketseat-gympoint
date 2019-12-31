@@ -17,18 +17,23 @@ class StudentHelpOrderController {
     let pageLimit = {};
 
     if (page) {
+      const limit = 20;
+
       pageLimit = {
-        offset: (page - 1) * 20,
-        limit: 20,
+        offset: (page - 1) * limit,
+        limit,
       };
     }
 
-    const helpOrders = await HelpOrder.findAll({
+    const helpOrders = await HelpOrder.findAndCountAll({
       where: { student_id },
       ...pageLimit,
     });
 
-    return res.json(helpOrders);
+    const total = helpOrders.count;
+    const lastPage = page ? page * pageLimit.limit >= total : true;
+
+    return res.json({total, lastPage, content: helpOrders.rows});
   }
 
   async store(req, res) {

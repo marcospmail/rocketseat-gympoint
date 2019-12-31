@@ -57,9 +57,9 @@ export default function Checkins() {
       `students/${student.id}/checkins?page=${newPage}`
     );
 
-    setTotalRowCount(data.count);
+    setTotalRowCount(data.total);
 
-    if (!data.rows.length) {
+    if (!data.content.length) {
       if (newPage === 1) {
         setCheckins([]);
       }
@@ -68,7 +68,7 @@ export default function Checkins() {
     } else {
       setNoMoreData(false);
 
-      const newData = data.rows.map(checkin => ({
+      const newData = data.content.map(checkin => ({
         ...checkin,
         formattedDate: formatDateRelative(checkin.created_at),
       }));

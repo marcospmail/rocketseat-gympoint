@@ -17,10 +17,13 @@ class CheckinController {
     const { page } = req.query;
 
     let pageLimit = {};
+    
     if (page) {
+      const limit = 20;
+
       pageLimit = {
-        offset: (page - 1) * 20,
-        limit: 20,
+        offset: (page - 1) * limit,
+        limit,
       };
     }
 
@@ -31,7 +34,10 @@ class CheckinController {
       order: [['created_at', 'DESC']],
     });
 
-    return res.json(checkins);
+    const total = checkins.count;
+    const lastPage = page ? page * pageLimit.limit >= total : true;
+
+    return res.json({total, lastPage, content: checkins.rows});
   }
 
   async store(req, res) {

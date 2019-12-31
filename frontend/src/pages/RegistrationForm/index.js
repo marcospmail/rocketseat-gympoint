@@ -47,7 +47,7 @@ export default function RegistrationForm() {
         const plansData = (await fetchPlansPromise).data;
         const registrationData = (await fetchRegistrationPromise).data;
 
-        setPlans(plansData);
+        setPlans(plansData.content);
 
         setRegistration({
           ...registrationData,
@@ -56,7 +56,7 @@ export default function RegistrationForm() {
         });
       } else {
         const { data } = await fetchPlans();
-        setPlans(data);
+        setPlans(data.content);
       }
     }
 
@@ -133,7 +133,7 @@ export default function RegistrationForm() {
   const loadStudentOptions = async inputValue => {
     async function loadStudents() {
       const { data } = await fetchStudents();
-      return data;
+      return data.content;
     }
     const data = await loadStudents();
 

@@ -41,12 +41,12 @@ function HelpOrders({ navigation, isFocused }) {
       `students/${student.id}/help-orders?page=${newPage}`
     );
 
-    if (!data.length) {
+    if (!data.content.length) {
       setNoMoreData(true);
     } else {
       setNoMoreData(false);
 
-      const newData = data.map(helpOrder => ({
+      const newData = data.content.map(helpOrder => ({
         ...helpOrder,
         formattedDate: formatRelative(
           parseISO(helpOrder.created_at),

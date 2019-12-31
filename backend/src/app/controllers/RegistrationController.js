@@ -7,6 +7,50 @@ import Queue from '../../lib/Queue';
 import WelcomeMail from '../jobs/WelcomeMails';
 
 class RegistrationController {
+
+  async index(req, res) {
+    const { id, page } = req.query;
+
+    const include = [
+      {
+        model: Student,
+        as: 'student',
+        attributes: ['id', 'name'],
+      },
+      {
+        model: Plan,
+        as: 'plan',
+        attributes: ['id', 'title', 'duration'],
+      },
+    ];
+
+    if (id) {
+      const registration = await Registration.findByPk(id, { include });
+      return res.json(registration);
+    }
+
+    let pageLimit = {};
+
+    if (page) {
+      const limit = 5;
+
+      pageLimit = {
+        offset: (page - 1) * limit,
+        limit,
+      };
+    }
+
+    const registrations = await Registration.findAndCountAll({
+      include,
+      ...pageLimit,
+    });
+
+    const total = registrations.count;
+    const lastPage = page ? page * pageLimit.limit >= total : true;
+
+    return res.json({ total, lastPage, content: registrations.rows });
+  }
+
   async store(req, res) {
     const validateSchema = requestBody => {
       const schema = Yup.object().shape({
@@ -138,51 +182,6 @@ class RegistrationController {
     return res.json(registration);
   }
 
-  async index(req, res) {
-    const { id, page } = req.query;
-
-    const include = [
-      {
-        model: Student,
-        as: 'student',
-        attributes: ['id', 'name'],
-      },
-      {
-        model: Plan,
-        as: 'plan',
-        attributes: ['id', 'title', 'duration'],
-      },
-    ];
-
-    if (id) {
-      const registration = await Registration.findByPk(id, { include });
-      return res.json(registration);
-    }
-
-    if (page) {
-      const limit = 5;
-
-      const registrationsCount = await Registration.count();
-
-      const lastPage = page * limit >= registrationsCount;
-
-      const queryLimitOffset = {
-        limit,
-        offset: (page - 1) * limit,
-      };
-
-      const registrations = await Registration.findAll({
-        include,
-        ...queryLimitOffset,
-      });
-
-      return res.json({ lastPage, content: registrations });
-    }
-
-    const registrations = await Registration.findAll();
-
-    return res.json(registrations);
-  }
 
   async delete(req, res) {
     const { registration_id } = req.params;

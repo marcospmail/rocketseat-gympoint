@@ -11,22 +11,25 @@ class PlanController {
       return res.json(plan);
     }
 
+    let pageLimit = {};
+
     if (page) {
       const limit = 5;
 
-      const plansCount = await Plan.count();
-      const lastPage = page * limit >= plansCount;
-
-      const plans = await Plan.findAll({
-        limit,
+      pageLimit = {
         offset: (page - 1) * limit,
-      });
-
-      return res.json({ lastPage, content: plans });
+        limit,
+      };
     }
 
-    const plans = await Plan.findAll();
-    return res.json(plans);
+    const plans = await Plan.findAndCountAll({
+      ...pageLimit
+    });
+
+    const total = plans.count;
+    const lastPage = page ? page * pageLimit.limit >= total : true;
+
+    return res.json({ total, lastPage, content: plans.rows });
   }
 
   async store(req, res) {
