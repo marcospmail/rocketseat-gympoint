@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert, ActivityIndicator } from 'react-native';
+import { View, Alert, ActivityIndicator, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { parseISO, formatRelative } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -19,6 +19,8 @@ import {
   Checkin,
   CheckinNumber,
   CheckinDate,
+  NoData,
+  NoDataText,
 } from './styles';
 
 export default function Checkins() {
@@ -38,6 +40,12 @@ export default function Checkins() {
     fetchCheckins(page);
   }, []);
 
+  useEffect(() => {
+    if (refreshing) {
+      fetchCheckins(1);
+    }
+  }, [refreshing]);
+
   function removeDuplicates(list, attribute) {
     return list.filter(
       (item, pos) =>
@@ -53,38 +61,30 @@ export default function Checkins() {
   }
 
   async function fetchCheckins(newPage) {
-    const { data } = await api.get(
-      `students/${student.id}/checkins?page=${newPage}`
-    );
+    const { data } = await api.get(`students/${student.id}/checkins`, {
+      params: { page: newPage },
+    });
 
     setTotalRowCount(data.total);
+    setNoMoreData(data.lastPage);
 
-    if (!data.content.length) {
-      if (newPage === 1) {
-        setCheckins([]);
-      }
+    const newData = data.content.map(checkin => ({
+      ...checkin,
+      formattedDate: formatDateRelative(checkin.created_at),
+    }));
 
-      setNoMoreData(true);
+    if (newPage === 1) {
+      setCheckins(newData);
     } else {
-      setNoMoreData(false);
-
-      const newData = data.content.map(checkin => ({
-        ...checkin,
-        formattedDate: formatDateRelative(checkin.created_at),
-      }));
-      if (newPage === 1) {
-        setCheckins(newData);
-      } else {
-        const newCheckins = [...checkins, ...newData];
-        setCheckins(removeDuplicates(newCheckins, 'id'));
-      }
+      const newCheckins = [...checkins, ...newData];
+      setCheckins(removeDuplicates(newCheckins, 'id'));
     }
+
+    setPage(newPage);
 
     setLoadingMore(false);
     setRefreshing(false);
     setShowLoadingMoreIndicator(false);
-
-    setPage(newPage);
   }
 
   async function handleCreateCheckin() {
@@ -112,7 +112,6 @@ export default function Checkins() {
 
   async function onRefresh() {
     setRefreshing(true);
-    fetchCheckins(1);
   }
 
   function renderFooter() {
@@ -131,37 +130,47 @@ export default function Checkins() {
         <Content>
           <MyButton onPress={handleCreateCheckin}>Novo check-in</MyButton>
 
-          <CheckinList
-            onRefresh={onRefresh}
-            refreshing={refreshing}
-            onEndReachedThreshold={0.1}
-            onEndReached={() => {
-              if (
-                !loadingMore &&
-                !refreshing &&
-                scrollMomentum &&
-                !noMoreData
-              ) {
-                handleLoadMore();
+          {checkins.length ? (
+            <CheckinList
+              onRefresh={onRefresh}
+              refreshing={refreshing}
+              onEndReachedThreshold={0.1}
+              onEndReached={() => {
+                if (
+                  !loadingMore &&
+                  !refreshing &&
+                  scrollMomentum &&
+                  !noMoreData
+                ) {
+                  handleLoadMore();
+                }
+              }}
+              onMomentumScrollBegin={() => {
+                setScrollMomentum(true);
+                if (!noMoreData) {
+                  setShowLoadingMoreIndicator(true);
+                }
+              }}
+              data={checkins}
+              keyExtractor={item => String(item.id)}
+              ListFooterComponent={showLoadingMoreIndicator && renderFooter}
+              renderItem={({ item, index }) => (
+                <Checkin>
+                  <CheckinNumber>{`Checkin #${totalRowCount -
+                    index}`}</CheckinNumber>
+                  <CheckinDate>{item.formattedDate}</CheckinDate>
+                </Checkin>
+              )}
+            />
+          ) : (
+            <NoData
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-            }}
-            onMomentumScrollBegin={() => {
-              setScrollMomentum(true);
-              if (!noMoreData) {
-                setShowLoadingMoreIndicator(true);
-              }
-            }}
-            data={checkins}
-            keyExtractor={item => String(item.id)}
-            ListFooterComponent={showLoadingMoreIndicator && renderFooter}
-            renderItem={({ item, index }) => (
-              <Checkin>
-                <CheckinNumber>{`Checkin #${totalRowCount -
-                  index}`}</CheckinNumber>
-                <CheckinDate>{item.formattedDate}</CheckinDate>
-              </Checkin>
-            )}
-          />
+            >
+              <NoDataText>Nada encontrado</NoDataText>
+            </NoData>
+          )}
         </Content>
       </Container>
     </>

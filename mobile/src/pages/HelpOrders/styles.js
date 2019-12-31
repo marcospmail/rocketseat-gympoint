@@ -7,11 +7,11 @@ export const Container = styled.SafeAreaView`
 
 export const Content = styled.View`
   padding: 20px;
+  flex: 1;
 `;
 
 export const HelpOrderList = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
-  contentContainerStyle: { paddingBottom: 80 },
 })`
   margin-top: 10px;
 `;
@@ -49,4 +49,17 @@ export const HelpOrderQuestion = styled.Text`
   margin-top: 16px;
   line-height: 16px;
   font-size: 14px;
+`;
+
+export const NoData = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+})``;
+
+export const NoDataText = styled.Text`
+  font-weight: bold;
+  color: #999999;
 `;

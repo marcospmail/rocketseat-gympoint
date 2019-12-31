@@ -17,7 +17,7 @@ class CheckinController {
     const { page } = req.query;
 
     let pageLimit = {};
-    
+
     if (page) {
       const limit = 20;
 
@@ -37,7 +37,7 @@ class CheckinController {
     const total = checkins.count;
     const lastPage = page ? page * pageLimit.limit >= total : true;
 
-    return res.json({total, lastPage, content: checkins.rows});
+    return res.json({ total, lastPage, content: checkins.rows });
   }
 
   async store(req, res) {

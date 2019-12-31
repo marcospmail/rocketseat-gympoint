@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, RefreshControl } from 'react-native';
 import { useSelector } from 'react-redux';
 import { withNavigationFocus } from 'react-navigation';
 import { parseISO, formatRelative } from 'date-fns';
@@ -22,6 +22,8 @@ import {
   HelpOrderAnswered,
   HelpOrderDate,
   HelpOrderQuestion,
+  NoData,
+  NoDataText,
 } from './styles';
 
 function HelpOrders({ navigation, isFocused }) {
@@ -34,42 +36,46 @@ function HelpOrders({ navigation, isFocused }) {
   const [refreshing, setRefreshing] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [helpOrders, setHelpOrders] = useState([]);
+
   const student = useSelector(state => state.student.student);
 
   async function fetchHelpOrders(newPage) {
-    const { data } = await api.get(
-      `students/${student.id}/help-orders?page=${newPage}`
-    );
+    const { data } = await api.get(`students/${student.id}/help-orders`, {
+      params: { page: newPage },
+    });
 
-    if (!data.content.length) {
-      setNoMoreData(true);
+    setNoMoreData(data.lastPage);
+
+    const newData = data.content.map(helpOrder => ({
+      ...helpOrder,
+      formattedDate: formatRelative(
+        parseISO(helpOrder.created_at),
+        new Date(),
+        {
+          locale: pt,
+          addSuffix: true,
+        }
+      ),
+    }));
+
+    if (newPage === 1) {
+      setHelpOrders(newData);
     } else {
-      setNoMoreData(false);
-
-      const newData = data.content.map(helpOrder => ({
-        ...helpOrder,
-        formattedDate: formatRelative(
-          parseISO(helpOrder.created_at),
-          new Date(),
-          {
-            locale: pt,
-            addSuffix: true,
-          }
-        ),
-      }));
-
-      if (newPage === 1) {
-        setHelpOrders(newData);
-      } else {
-        setHelpOrders([...helpOrders, ...newData]);
-      }
-
-      setPage(newPage);
+      setHelpOrders([...helpOrders, ...newData]);
     }
+
+    setPage(newPage);
+
     setLoadingMore(false);
     setRefreshing(false);
     setShowLoadingMoreIndicator(false);
   }
+
+  useEffect(() => {
+    if (refreshing) {
+      fetchHelpOrders(1);
+    }
+  }, [refreshing]);
 
   useEffect(() => {
     fetchHelpOrders(1);
@@ -84,7 +90,6 @@ function HelpOrders({ navigation, isFocused }) {
 
   async function onRefresh() {
     setRefreshing(true);
-    fetchHelpOrders(1);
   }
 
   function renderFooter() {
@@ -105,50 +110,60 @@ function HelpOrders({ navigation, isFocused }) {
             Novo pedido de auxílio
           </MyButton>
 
-          <HelpOrderList
-            onRefresh={onRefresh}
-            refreshing={refreshing}
-            onEndReachedThreshold={0.1}
-            onEndReached={() => {
-              if (
-                !loadingMore &&
-                !refreshing &&
-                scrollMomentum &&
-                !noMoreData
-              ) {
-                handleLoadMore();
-              }
-            }}
-            onMomentumScrollBegin={() => {
-              setScrollMomentum(true);
-              if (!noMoreData) {
-                setShowLoadingMoreIndicator(true);
-              }
-            }}
-            data={helpOrders}
-            keyExtractor={item => String(item.id)}
-            ListFooterComponent={showLoadingMoreIndicator && renderFooter}
-            renderItem={({ item }) => (
-              <HelpOrder
-                onPress={() =>
-                  navigation.navigate('HelpOrderQuestion', { item })
+          {helpOrders.length ? (
+            <HelpOrderList
+              onRefresh={onRefresh}
+              refreshing={refreshing}
+              onEndReachedThreshold={0.1}
+              onEndReached={() => {
+                if (
+                  !loadingMore &&
+                  !refreshing &&
+                  scrollMomentum &&
+                  !noMoreData
+                ) {
+                  handleLoadMore();
                 }
-              >
-                <HelpOrderHeader>
-                  <Icon
-                    name="check-circle"
-                    color={item.answear ? '#42CB59' : '#999999'}
-                    size={16}
-                  />
-                  <HelpOrderAnswered answered={item.answear}>
-                    {item.answear ? 'Respondido' : 'Sem resposta'}
-                  </HelpOrderAnswered>
-                  <HelpOrderDate>{item.formattedDate}</HelpOrderDate>
-                </HelpOrderHeader>
-                <HelpOrderQuestion>{item.question}</HelpOrderQuestion>
-              </HelpOrder>
-            )}
-          />
+              }}
+              onMomentumScrollBegin={() => {
+                setScrollMomentum(true);
+                if (!noMoreData) {
+                  setShowLoadingMoreIndicator(true);
+                }
+              }}
+              data={helpOrders}
+              keyExtractor={item => String(item.id)}
+              ListFooterComponent={showLoadingMoreIndicator && renderFooter}
+              renderItem={({ item }) => (
+                <HelpOrder
+                  onPress={() =>
+                    navigation.navigate('HelpOrderQuestion', { item })
+                  }
+                >
+                  <HelpOrderHeader>
+                    <Icon
+                      name="check-circle"
+                      color={item.answear ? '#42CB59' : '#999999'}
+                      size={16}
+                    />
+                    <HelpOrderAnswered answered={item.answear}>
+                      {item.answear ? 'Respondido' : 'Sem resposta'}
+                    </HelpOrderAnswered>
+                    <HelpOrderDate>{item.formattedDate}</HelpOrderDate>
+                  </HelpOrderHeader>
+                  <HelpOrderQuestion>{item.question}</HelpOrderQuestion>
+                </HelpOrder>
+              )}
+            />
+          ) : (
+            <NoData
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            >
+              <NoDataText>Nada encontrado</NoDataText>
+            </NoData>
+          )}
         </Content>
       </Container>
     </>
