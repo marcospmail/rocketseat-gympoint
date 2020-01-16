@@ -37,3 +37,8 @@ admin@gympoint.com
 </h2>
 
 ### Testado apenas no android
+
+---
+
+### Demo:
+[(<img src=".github/demo.gif">)](https://youtu.be/Gky5hLUktpM)
