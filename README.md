@@ -41,4 +41,4 @@ admin@gympoint.com
 ---
 
 ### Demo:
-[(<img src=".github/demo.gif">)](https://youtu.be/Gky5hLUktpM)
+[<img src=".github/demo.gif">](https://youtu.be/Gky5hLUktpM)
