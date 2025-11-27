@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.3",
-    "axios": "^0.21.1",
+    "axios": "^1.7.4",
     "date-fns": "^2.0.0-beta.5",
     "immer": "^9.0.6",
     "prop-types": "^15.7.2",
@@ -20,7 +20,7 @@
     "react-native-code-push": "^5.7.0",
     "react-native-gesture-handler": "^1.5.1",
     "react-native-onesignal": "^3.5.0",
-    "react-native-reanimated": "^1.4.0",
+    "react-native-reanimated": "^2.10.0",
     "react-native-screens": "^1.0.0-alpha.23",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.10",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
-    "@babel/runtime": "^7.6.2",
+    "@babel/runtime": "^7.26.10",
     "@react-native-community/eslint-config": "^0.0.5",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
